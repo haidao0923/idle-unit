@@ -137,18 +137,22 @@ public class Unit
         }
         return false;
     }
-    public void SetLevel(int amount) {
+    public void SetLevel(int amount, Transform transform = null) {
         level = amount;
         levelCap = (int) rarity * (capsAbsorbed + 1);
         AdjustCurrentStat();
-        //ResetCurrentStat() and ClearStatus()?
+        if (transform != null) {
+            ResetCurrentStat();
+            ClearStatus(transform);
+            transform.Find("Health Bar").GetComponent<Slider>().value = (float) this.stat.currentHealth / this.stat.health;
+        }
         if (level >= levelCap) {
             maxExp = 0;
         } else {
             maxExp = level * EXP_SCALE;
         }
     }
-    public bool GainExp(int amount) {
+    public bool GainExp(int amount, Transform transform = null) {
         exp += amount;
         levelCap = (int) rarity * (capsAbsorbed + 1);
         maxExp = level * EXP_SCALE;
@@ -161,9 +165,9 @@ public class Unit
             }
             int tempTotalExp = (EXP_SCALE + tempLevel * EXP_SCALE) / 2 * tempLevel;
             if (tempLevel + 1 > levelCap) {
-                SetLevel(levelCap);
+                SetLevel(levelCap, transform);
             } else {
-                SetLevel(tempLevel + 1);
+                SetLevel(tempLevel + 1, transform);
 
             }
             exp = currentTotalExp - tempTotalExp;
@@ -184,9 +188,28 @@ public class Unit
         stat.currentMagic = stat.magic;
         stat.currentDefense = stat.defense;
         stat.currentAgility = stat.agility;
+
+        stat.healthModifier = 0;
+        stat.strengthModifier = 0;
+        stat.magicModifier = 0;
+        stat.defenseModifier = 0;
+        stat.agilityModifier = 0;
     }
     public void ResetAgility() {
         stat.currentAgility = stat.agility;
+    }
+    public void Heal(Transform defendingUnitTransform, Unit attackingUnit, Skill skill, int amount = 0) {
+        int healAmount = amount;
+        if (healAmount == 0) {
+            healAmount = GetEffectiveDamage(attackingUnit, skill);
+        }
+        TakeDamage(defendingUnitTransform, damage: -healAmount);
+        SetStatus(skill.status, defendingUnitTransform, healAmount);
+        defendingUnitTransform.Find("Aura").GetComponent<Image>().color = new Color32(0, 255, 12, 255);
+        defendingUnitTransform.Find("Aura/Text").GetComponent<Text>().text = "Heal\n" + healAmount.ToString();
+        defendingUnitTransform.Find("Aura/Text").GetComponent<Text>().color = new Color32(0, 255, 12, 255);
+        defendingUnitTransform.GetComponent<Animator>().SetFloat("boostSpeed", skill.extraEffect);
+        defendingUnitTransform.GetComponent<Animator>().Play("Boost");
     }
     public void TakeDamage(Transform defendingUnitTransform, Unit attackingUnit = null, Skill skill = null, int damage = 0) {
         int damageTaken = damage;
@@ -201,12 +224,15 @@ public class Unit
                 SetDamageText(defendingUnitTransform, damageTaken.ToString(), new Color32(236, 211, 0, 255));
             }
         }
-        this.stat.currentHealth -= damageTaken;
-        Debug.Log("Current Health: " + this.stat.currentHealth + " - " + (float) this.stat.currentHealth / this.stat.health);
-        Debug.Log("Max Health: " + this.stat.health + " - Damage Taken: " + damageTaken);
-        defendingUnitTransform.Find("Health Bar").GetComponent<Slider>().value = (float) this.stat.currentHealth / this.stat.health;
-        if (this.stat.currentHealth <= 0) {
-            defendingUnitTransform.GetComponent<Animator>().SetBool("isDead", true);
+        if (damageTaken != 0) {
+            this.stat.currentHealth -= damageTaken;
+            if (stat.currentHealth > stat.health) {
+                stat.currentHealth = stat.health;
+            }
+            defendingUnitTransform.Find("Health Bar").GetComponent<Slider>().value = (float) this.stat.currentHealth / this.stat.health;
+            if (this.stat.currentHealth <= 0) {
+                defendingUnitTransform.GetComponent<Animator>().SetBool("isDead", true);
+            }
         }
     }
     int GetEffectiveDamage(Unit attackingUnit, Skill skill) {
@@ -268,11 +294,49 @@ public class Unit
             this.stat.status += "freeze, ";
             this.stat.currentAgility = 0;
         }
-        if (status.ToLower().Contains("stun") && !this.stat.StatusContains("stun") && (Random.Range(0, 4) >= 0)) {
+        if (status.ToLower().Contains("stun") && !this.stat.StatusContains("stun") && (Random.Range(0, 4) == 0)) {
             unitTransform.Find("Image").GetComponent<Image>().color = new Color32(255,255,0,255);
             this.stat.status += "stun, ";
             this.stat.currentAgility /= 3;
-            this.stat.agilityModifier = (int)(-(this.stat.agility * 2/3f));
+            this.stat.agilityModifier -= (int)(this.stat.agility * 2/3f);
+        }
+        if (status.ToLower().Contains("purify") && !this.stat.StatusContains("purify") && (Random.Range(0, 4) > 0)) {
+            if (this.stat.StatusContains("freeze")) {
+                this.stat.currentAgility += this.stat.agility;
+            }
+            if (this.stat.StatusContains("stun")) {
+                this.stat.currentAgility *= 3;
+            }
+            ResetCurrentStat();
+            ClearStatus(unitTransform);
+        }
+    }
+    public void BoostStats(int amount, string status) {
+        if (status == "") {
+            return;
+        }
+        if (status.ToLower().Contains("hlt")) {
+            this.stat.health += amount;
+            this.stat.healthModifier += amount;
+            if (this.stat.currentHealth > this.stat.health) {
+                this.stat.currentHealth = this.stat.health;
+            }
+        }
+        if (status.ToLower().Contains("str")) {
+            this.stat.currentStrength += amount;
+            this.stat.strengthModifier += amount;
+        }
+        if (status.ToLower().Contains("mag")) {
+            this.stat.currentMagic += amount;
+            this.stat.magicModifier += amount;
+        }
+        if (status.ToLower().Contains("def")) {
+            this.stat.currentDefense += amount;
+            this.stat.defenseModifier += amount;
+        }
+        if (status.ToLower().Contains("agi")) {
+            this.stat.currentAgility += amount;
+            this.stat.agilityModifier += amount;
         }
     }
     public void ClearStatus(Transform unitTransform) {
@@ -284,15 +348,69 @@ public class Unit
         int tempDamage = this.stat.statusDamage / 2;
         TakeDamage(defendingUnitTransform, damage: tempDamage);
         SetDamageText(defendingUnitTransform, tempDamage.ToString(), new Color32(236, 211, 0, 255));
-        defendingUnitTransform.GetComponent<Animator>().speed = 1;
         defendingUnitTransform.GetComponent<Animator>().Play("Burn");
     }
     public void TakePoisonDamage(Transform defendingUnitTransform) {
         int tempDamage = this.stat.statusDamage / 10;
         TakeDamage(defendingUnitTransform, damage: tempDamage);
         SetDamageText(defendingUnitTransform, tempDamage.ToString(), new Color32(236, 211, 0, 255));
-        defendingUnitTransform.GetComponent<Animator>().speed = 1;
         defendingUnitTransform.GetComponent<Animator>().Play("Poison");
+    }
+    public void EnableDodge(Transform defendingUnitTransform, Skill skill) {
+        if (stat.dodgePercent < skill.skillPower) {
+            stat.dodgePercent = skill.skillPower;
+        }
+        defendingUnitTransform.Find("Aura").GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+        defendingUnitTransform.Find("Aura/Text").GetComponent<Text>().text = "Enable Dodge";
+        defendingUnitTransform.Find("Aura/Text").GetComponent<Text>().color = new Color32(255, 255, 255, 255);
+        defendingUnitTransform.GetComponent<Animator>().Play("Boost");
+    }
+    public void EnableProtection(Transform defendingUnitTransform) {
+        stat.protectionCount += 1;
+        defendingUnitTransform.Find("Protection/Text").GetComponent<Text>().text = stat.protectionCount.ToString();
+        defendingUnitTransform.Find("Protection").gameObject.SetActive(true);
+        defendingUnitTransform.Find("Protection").GetComponent<Animation>().Play();
+    }
+    public void DodgeDamage(Transform defendingUnitTransform, int animationSpeed) {
+        int tempDamage = 0;
+        TakeDamage(defendingUnitTransform, damage: tempDamage);
+        SetDamageText(defendingUnitTransform, tempDamage.ToString(), new Color32(236, 211, 0, 255));
+        defendingUnitTransform.GetComponent<Animator>().SetFloat("dodgeSpeed", animationSpeed);
+        defendingUnitTransform.GetComponent<Animator>().Play("Dodge");
+    }
+    public void TriggerProtection(Transform defendingUnitTransform) {
+        int tempDamage = 0;
+        TakeDamage(defendingUnitTransform, damage: tempDamage);
+        SetDamageText(defendingUnitTransform, tempDamage.ToString(), new Color32(236, 211, 0, 255));
+        stat.protectionCount -= 1;
+        defendingUnitTransform.Find("Protection/Text").GetComponent<Text>().text = stat.protectionCount.ToString();
+        if (stat.protectionCount <= 0) {
+            defendingUnitTransform.Find("Protection").gameObject.SetActive(false);
+        }
+    }
+    public void Boost(Transform defendingUnitTransform, Unit attackingUnit, Skill skill, int amount = 0) {
+        int boostAmount = amount;
+        if (boostAmount == 0) {
+            boostAmount = GetEffectiveDamage(attackingUnit, skill);
+        }
+        BoostStats(boostAmount, skill.status);
+        defendingUnitTransform.Find("Aura").GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+        defendingUnitTransform.Find("Aura/Text").GetComponent<Text>().text = skill.status + "\nUp";
+        defendingUnitTransform.Find("Aura/Text").GetComponent<Text>().color = new Color32(255, 255, 255, 255);
+        defendingUnitTransform.GetComponent<Animator>().SetFloat("boostSpeed", skill.extraEffect);
+        defendingUnitTransform.GetComponent<Animator>().Play("Boost");
+    }
+    public void Debuff(Transform defendingUnitTransform, Unit attackingUnit, Skill skill, int amount = 0) {
+        int boostAmount = amount;
+        if (boostAmount == 0) {
+            boostAmount = GetEffectiveDamage(attackingUnit, skill);
+        }
+        BoostStats(-boostAmount, skill.status);
+        defendingUnitTransform.Find("Aura").GetComponent<Image>().color = new Color32(255, 0, 0, 255);
+        defendingUnitTransform.Find("Aura/Text").GetComponent<Text>().text = skill.status + "\nDown";
+        defendingUnitTransform.Find("Aura/Text").GetComponent<Text>().color = new Color32(255, 0, 0, 255);
+        defendingUnitTransform.GetComponent<Animator>().SetFloat("boostSpeed", skill.extraEffect);
+        defendingUnitTransform.GetComponent<Animator>().Play("Boost");
     }
 
     public class Stat {
@@ -322,7 +440,7 @@ public class Unit
         public int agilityModifier;
         public string status;
         public int statusDamage;
-        public int dodgePercent;
+        public int protectionCount, dodgePercent;
 
         public Stat(int baseHealth, int baseStrength, int baseMagic, int baseDefense, int baseAgility) {
             this.baseHealth = baseHealth;
@@ -341,6 +459,10 @@ public class Unit
                 return true;
             }
             return false;
+        }
+        override public string ToString() {
+            return string.Format("Health: {0}; Strength: {1}; Magic: {2}; Defense: {3}; Agility: {4}\nHealthC: {5}; StrengthC: {6}; MagicC: {7}; DefenseC: {8}; AgilityC: {9}\nHealthM: {10}; StrengthM: {11}; MagicM: {12}; DefenseM: {13}; AgilityM: {14}",
+                health, strength, magic, defense, agility, currentHealth, currentStrength, currentMagic, currentDefense, currentAgility, healthModifier, strengthModifier, magicModifier, defenseModifier, agilityModifier);
         }
     }
 }

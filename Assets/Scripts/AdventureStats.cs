@@ -9,7 +9,7 @@ public class AdventureStats : MonoBehaviour
         int minionPoint = 50 * minionWaveCount;
         int restPoint = 25 * restWaveCount;
         int elitePoint = 150 * eliteWaveCount;
-        int bossPoint = 100 * bossWaveCount;
+        int bossPoint = 250 * bossWaveCount;
         int subtotalPoint = minionPoint + restPoint + elitePoint + bossPoint;
         int victoryBonus = 0;
         if (currentWave > adventure.waveCount) {
@@ -23,7 +23,7 @@ public class AdventureStats : MonoBehaviour
         }
         int totalScore = (int) (subtotalPoint * (1 + victoryBonus / 100f));
         transform.Find("Border/Background/Point Background").GetChild(0).GetComponent<Text>().text =
-        string.Format("Minion Victories: 50 x {0} = {1}\n\nRest Visited: 25 x {2} = {3}\n\nElite Victories: 150 x {4} = {5}\n\nBoss Victories: 100 x {6} = {7}\n\nSubtotal Point: {8}\n\nVictory Bonus: {9}%\n\nTotal Point: {10}",
+        string.Format("Minion Victories: 50 x {0} = {1}\n\nRest Visited: 25 x {2} = {3}\n\nElite Victories: 150 x {4} = {5}\n\nBoss Victories: 250 x {6} = {7}\n\nSubtotal Point: {8}\n\nVictory Bonus: {9}%\n\nTotal Point: {10}",
         minionWaveCount, minionPoint, restWaveCount, restPoint, eliteWaveCount, elitePoint, bossWaveCount, bossPoint, subtotalPoint, victoryBonus, totalScore);
 
         adventure.currentPoint += totalScore;
@@ -41,5 +41,9 @@ public class AdventureStats : MonoBehaviour
                 break;
             }
         }
+    }
+
+    void OnDisable() {
+        GameObject.Find("Canvas/FormationScreen/FormationBackground/Traveling Merchant").SetActive(true);
     }
 }

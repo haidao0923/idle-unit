@@ -26,7 +26,10 @@ public class UnitDatabase : MonoBehaviour
         units[13] = new Unit("Thunder Moth", Rarity.COMMON, Element.THUNDER, new Unit.Stat(1000,1000,1000,1000,1000), sprites[13]);
         units[14] = new Unit("Witch", Rarity.COMMON, Element.THUNDER, new Unit.Stat(1000,1000,1000,1000,1000), sprites[14]);
 
-        units[4].setSkill(1, new Skill("Rock Smash", SkillType.AOE_ATTACK, StatType.STR, 10, 5));
+        units[0].setSkill(2, new Skill("Attack Alot", SkillType.ATTACK, StatType.STR, skillPower: 40, 6, status: "poison, freeze"));
+        units[7].setSkill(2, new Skill("Attack Adjacent", SkillType.ATTACK_ADJACENT, StatType.STR, 50, 4, "burn, poison"));
+        units[9].setSkill(2, new Skill("Protect", SkillType.AOE_PROTECTION, extraEffect: 1));
+        units[10].setSkill(2, new Skill("AOE Dodge", SkillType.AOE_DODGE, skillPower: 10));
     }
 
 }

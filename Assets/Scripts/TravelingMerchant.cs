@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class TravelingMerchant : MonoBehaviour
 {
-    int[] merchantUnlock = {2000, 5000, 10000, 25000, 45000};
-    Adventure currentAdventure;
+    int[] merchantUnlock = {3, 6, 9, 12, 15};
     Player player;
     Transform merchant, closedShopTransform; Text merchantDisplay, coinDisplay, storeCreditDisplay;
     Transform buttons, youLose, youGain;
@@ -30,12 +29,10 @@ public class TravelingMerchant : MonoBehaviour
     }
 
     void OnEnable() {
-        Adventure temp = GameObject.FindGameObjectWithTag("GameController").GetComponent<AdventureDatabase>().adventures[0];
-        temp.currentPoint = 50000;
-        OpenShop(temp);
+        OpenShop();
     }
-    void OpenShop(Adventure adventure) {
-        currentAdventure = adventure;
+    void OpenShop() {
+        player.UpdateFormationDisplay();
         merchantIndex = -1;
         negotiatedCount = 0;
         NextMerchantButton();
@@ -46,9 +43,9 @@ public class TravelingMerchant : MonoBehaviour
             closedShopTransform.gameObject.SetActive(true);
             closedShopTransform.GetChild(1).GetComponent<Text>().text = "You have met all merchants for this adventure run.";
             return;
-        } else if (merchantUnlock[merchantIndex] > currentAdventure.currentPoint) {
+        } else if (merchantUnlock[merchantIndex] > Adventure.clearedAdventures) {
             closedShopTransform.gameObject.SetActive(true);
-            closedShopTransform.GetChild(1).GetComponent<Text>().text = "Reach " + merchantUnlock[merchantIndex] + " points in the current adventure to unlock the next merchant.";
+            closedShopTransform.GetChild(1).GetComponent<Text>().text = "Complete " + merchantUnlock[merchantIndex] + " different adventures to unlock the next merchant.";
             return;
         } else if (player.inventory.Count <= 10) {
             closedShopTransform.gameObject.SetActive(true);

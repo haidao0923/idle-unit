@@ -40,7 +40,7 @@ public class ChooseAdventure : MonoBehaviour
         slot.GetChild(0).GetComponent<Image>().sprite = adventure.sprite;
         slot.GetChild(1).GetChild(0).GetComponent<Text>().text = adventure.name;
         slot.GetChild(2).GetChild(0).GetComponent<Text>().text = adventure.currentPoint.ToString();
-        if (index == 0 || adventures[index - 1].currentPoint >= 1000) {
+        if (Adventure.clearedAdventures >= index) {
             slot.GetChild(3).gameObject.SetActive(false);
             slot.GetComponent<Button>().onClick.RemoveAllListeners();
             slot.GetComponent<Button>().onClick.AddListener(() => OnSlotClick(slot.GetSiblingIndex()));
