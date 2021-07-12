@@ -2381,11 +2381,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6668760326951960757, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3751,11 +3751,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 401518589183932525, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_IsActive
@@ -5659,7 +5659,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5673,7 +5673,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 374034921}
   m_OnClick:
     m_PersistentCalls:
@@ -5690,10 +5690,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1809575648}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1809575651}
+        m_TargetAssemblyTypeName: BattleScreen, Assembly-CSharp
+        m_MethodName: WatchAd
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7783,11 +7783,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1492465318, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_RootOrder
@@ -11815,11 +11815,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1492465318, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_RootOrder
@@ -15162,11 +15162,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1492465318, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_RootOrder
@@ -15834,10 +15834,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1809575648}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1809575651}
+        m_TargetAssemblyTypeName: BattleScreen, Assembly-CSharp
+        m_MethodName: UsePhoenixFeather
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -16166,11 +16166,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6668760326951960759, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_Sprite
@@ -22866,7 +22866,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Watch Ad
+  m_Text: Currently On Cooldown
 --- !u!222 &1390740143
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23932,7 +23932,7 @@ RectTransform:
   m_Children:
   - {fileID: 1336709822}
   m_Father: {fileID: 1809575649}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -26571,11 +26571,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 401518589183932525, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_IsActive
@@ -27271,7 +27271,7 @@ GameObject:
   - component: {fileID: 1577648682}
   - component: {fileID: 1577648681}
   m_Layer: 5
-  m_Name: Continue?
+  m_Name: Revive Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27290,7 +27290,7 @@ RectTransform:
   m_Children:
   - {fileID: 617091056}
   m_Father: {fileID: 1809575649}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.12, y: 0.12}
   m_AnchorMax: {x: 0.88, y: 0.88}
@@ -27909,8 +27909,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: You can revive your party once every 4 hour by watching an ad or use a
-    Phoenix's Feather at any time.
+  m_Text: 'You can revive your formation once per adventure by watching an ad (Cooldown:
+    4h) or by using 1 Phoenix''s Feather.'
 --- !u!222 &1632342581
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -28737,10 +28737,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1809575648}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1809575651}
+        m_TargetAssemblyTypeName: BattleScreen, Assembly-CSharp
+        m_MethodName: AcceptDefeat
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -28875,11 +28875,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6668760326951960759, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_Sprite
@@ -30116,6 +30116,7 @@ MonoBehaviour:
   miscSprites:
   - {fileID: 21300000, guid: b2ed4256b9f43d24db3ff8c2bea8addc, type: 3}
   - {fileID: 21300000, guid: 6693cf36c04f0e443accf7fc44461a60, type: 3}
+  - {fileID: 21300000, guid: 9d84ba16a25bf5c48864ce9576981a7b, type: 3}
 --- !u!1 &1770962625
 GameObject:
   m_ObjectHideFlags: 0
@@ -30819,13 +30820,14 @@ GameObject:
   - component: {fileID: 1809575649}
   - component: {fileID: 1809575650}
   - component: {fileID: 1809575651}
+  - component: {fileID: 1809575652}
   m_Layer: 5
   m_Name: BattleScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1809575649
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30844,8 +30846,8 @@ RectTransform:
   - {fileID: 2134498264}
   - {fileID: 305030919}
   - {fileID: 2055232616}
-  - {fileID: 1433779313}
   - {fileID: 1577648680}
+  - {fileID: 1433779313}
   m_Father: {fileID: 574553827}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -30884,6 +30886,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isActing: 0
   isSummoning: 0
+--- !u!114 &1809575652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809575648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e342c9e916a6de4984798719376de03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1811001385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33069,11 +33083,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1492465318, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_RootOrder
@@ -36324,11 +36338,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1033505532, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1492465318, guid: 7c9898106ec2bfb4d9bef38f07931df0, type: 3}
       propertyPath: m_RootOrder
