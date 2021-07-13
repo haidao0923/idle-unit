@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Adventure
 {
+    public int id;
     public string name;
     public int waveCount;
     public int[] minionsId;
@@ -19,9 +20,10 @@ public class Adventure
     public bool[] receivedRewards = new bool[12];
 
 
-    public Adventure(string name, int waveCount, int[] minionsId, int minMinionLevel, int maxMinionLevel,
+    public Adventure(int id, string name, int waveCount, int[] minionsId, int minMinionLevel, int maxMinionLevel,
                      int[] eliteFormation, int[] eliteFormationLevel, int[] bossFormation, int[] bossFormationLevel,
                     Sprite sprite, Reward[] rewards = null) {
+        this.id = id;
         this.name = name;
         this.waveCount = waveCount;
         this.minionsId = minionsId;

@@ -4,14 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class SaveAndLoad : MonoBehaviour
 {
     public static SaveAndLoad data;
     public bool isLoading;
-    SavedData savedData;
     public Player player;
+    private int key = 369;
+    string persistentDataPath;
+    public SavedData savedData = new SavedData();
+
 
     void Awake()
     {
@@ -24,6 +28,7 @@ public class SaveAndLoad : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        persistentDataPath = Application.dataPath + Path.AltDirectorySeparatorChar + "SaveData.json";
         savedData = new SavedData();
         Load();
     }
@@ -58,6 +63,7 @@ public class SaveAndLoad : MonoBehaviour
                 savedData.consumables.Add(new SavedConsumableData(element.Key, i, element.Value[i].quantity));
             }
         }
+        Save();
     }
     public void LoadConsumable(SavedData loadedData) {
         foreach (SavedConsumableData consumable in loadedData.consumables) {
@@ -65,30 +71,33 @@ public class SaveAndLoad : MonoBehaviour
         }
     }
     public void Save() {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Open(Application.persistentDataPath + "/V1.dat", FileMode.Create);
+        string json = JsonUtility.ToJson(savedData);
+        SecureHelper.SaveHash(json);
+        Debug.Log(json);
 
-        bf.Serialize(file, savedData);
-        file.Close();
-        Debug.Log("Saved");
+        StreamWriter writer = new StreamWriter(persistentDataPath);
+        writer.Write(SecureHelper.EncryptDecrypt(json, key));
+        writer.Close();
     }
 
-    public void Load()
-    {
+    public void Load() {
         isLoading = true;
-        if (File.Exists(Application.persistentDataPath + "/V1.dat"))
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/V1.dat", FileMode.Open);
-            SavedData loadedData = (SavedData)bf.Deserialize(file);
+        if (File.Exists(persistentDataPath)) {
 
-            LoadInventoryAndFormation(loadedData);
-            LoadConsumable(loadedData);
+            StreamReader reader = new StreamReader(persistentDataPath);
+            string json = reader.ReadToEnd();
+            json = SecureHelper.EncryptDecrypt(json, key);
+            reader.Close();
 
+            SavedData data = new SavedData();
+            if (SecureHelper.VerifyHash(json)) {
+                data = JsonUtility.FromJson<SavedData>(json);
+            }
+            savedData = data;
+            Debug.Log(data.ToString());
 
-            file.Close();
-            //if versionNumber is greater than or equal to current version number, then load data for new content
-            Debug.Log("Loaded");
+            LoadInventoryAndFormation(data);
+            LoadConsumable(data);
         }
         isLoading = false;
     }

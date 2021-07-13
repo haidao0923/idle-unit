@@ -48,7 +48,10 @@ public class BattleScreen : MonoBehaviour
         currentWave += 1; // Increment Wave Count
         if (currentWave > currentAdventure.waveCount) {
             // Win
-            currentAdventure.cleared = true;
+            if (!currentAdventure.cleared) {
+                currentAdventure.cleared = true;
+                Adventure.clearedAdventures += 1;
+            }
             EndBattleScreen();
             return;
         }
@@ -281,7 +284,7 @@ public class BattleScreen : MonoBehaviour
             }
         }
         waveDisplay.text = "Wave\n" + currentWave + "/" + currentAdventure.waveCount + "\n" + waveType.ToString();
-        DisplayBanner(advanceBanner, string.Format("Wave {0} - {1}", currentWave, waveType.ToString()));
+        string transitionText = string.Format("Wave {0} - {1}", currentWave, waveType.ToString());
         for (int i = 0; i < 10; i++) {
             enemySide.formation[i] = null;
         }
@@ -297,7 +300,7 @@ public class BattleScreen : MonoBehaviour
                 }
                 break;
             case WaveType.Rest:
-                // Display Rest Reward (waveDisplay.text += "\nWhile resting, your party found")
+                RestEffect(ref transitionText);
                 break;
             case WaveType.Elite:
                 for (int i = 0; i < currentAdventure.eliteFormation.Length; i++) {
@@ -314,6 +317,62 @@ public class BattleScreen : MonoBehaviour
                         enemySide.formation[i] = null;
                     } else {
                         enemySide.formation[i] = new Unit(UnitDatabase.units[currentAdventure.bossFormation[i]], currentAdventure.bossFormationLevel[i]);
+                    }
+                }
+                break;
+        }
+        DisplayBanner(advanceBanner, transitionText);
+    }
+    void RestEffect(ref string transitionText) {
+        int random = Random.Range(0, 6);
+        switch(random) {
+            case 0:
+                int coinGained = Random.Range(1, 11) * 50;
+                ConsumableDatabase.consumables["Misc"][0].quantity += coinGained;
+                transitionText += "\nYour formation found " + coinGained + " coins";
+                break;
+            case 1:
+                transitionText += "\nYour formation was afflicted with random status effects";
+                for (int i = 0; i < playerSide.activeFormation.Length; i++) {
+                    if (playerSide.activeFormation[i] != null && playerSide.activeFormation[i].stat.currentHealth > 0) {
+                        Unit unit = playerSide.activeFormation[i];
+                        unit.SetStatus("burn, poison, freeze, stun", skillEffect.GetUnitTransform(UnitType.PLAYER, i), unit.stat.health / 5);
+                    }
+                }
+                break;
+            case 2:
+                transitionText += "\nYour formation regained their health";
+                for (int i = 0; i < playerSide.activeFormation.Length; i++) {
+                    if (playerSide.activeFormation[i] != null && playerSide.activeFormation[i].stat.currentHealth > 0) {
+                        Unit unit = playerSide.activeFormation[i];
+                        unit.Heal(skillEffect.GetUnitTransform(UnitType.PLAYER, i), null, new Skill("None", SkillType.HEAL), unit.stat.health);
+                    }
+                }
+                break;
+            case 3:
+                transitionText += "\nYour formation became stronger";
+                for (int i = 0; i < playerSide.activeFormation.Length; i++) {
+                    if (playerSide.activeFormation[i] != null && playerSide.activeFormation[i].stat.currentHealth > 0) {
+                        Unit unit = playerSide.activeFormation[i];
+                        unit.Boost(skillEffect.GetUnitTransform(UnitType.PLAYER, i), null, new Skill("None", SkillType.BOOST, status: "HLT, STR, MAG, DEF, AGI"), unit.stat.currentMagic / 4);
+                    }
+                }
+                break;
+            case 4:
+                transitionText += "\nYour formation became weaker";
+                for (int i = 0; i < playerSide.activeFormation.Length; i++) {
+                    if (playerSide.activeFormation[i] != null && playerSide.activeFormation[i].stat.currentHealth > 0) {
+                        Unit unit = playerSide.activeFormation[i];
+                        unit.Debuff(skillEffect.GetUnitTransform(UnitType.PLAYER, i), null, new Skill("None", SkillType.BOOST, status: "HLT, STR, MAG, DEF, AGI"), unit.stat.currentMagic / 4);
+                    }
+                }
+                break;
+            case 5:
+                transitionText += "\nYour formation was blessed with protection";
+                for (int i = 0; i < playerSide.activeFormation.Length; i++) {
+                    if (playerSide.activeFormation[i] != null && playerSide.activeFormation[i].stat.currentHealth > 0) {
+                        Unit unit = playerSide.activeFormation[i];
+                        unit.EnableProtection(skillEffect.GetUnitTransform(UnitType.PLAYER, i));
                     }
                 }
                 break;
@@ -355,6 +414,11 @@ public class BattleScreen : MonoBehaviour
         int healthModifierDifference = actingUnit.unit.stat.healthModifier - actingUnit.unit.stat.healthModifier / 3;
 
         actingUnit.unit.stat.health -= healthModifierDifference;
+        if (actingUnit.unit.stat.currentHealth > actingUnit.unit.stat.health) {
+            actingUnit.unit.stat.currentHealth = actingUnit.unit.stat.health;
+        } else if (healthModifierDifference < 0) {
+            actingUnit.unit.stat.currentHealth -= healthModifierDifference;
+        }
         actingUnit.unit.stat.currentStrength = actingUnit.unit.stat.strength + actingUnit.unit.stat.strengthModifier;
         actingUnit.unit.stat.currentMagic = actingUnit.unit.stat.magic + actingUnit.unit.stat.magicModifier;
         actingUnit.unit.stat.currentDefense = actingUnit.unit.stat.defense + actingUnit.unit.stat.defenseModifier;
@@ -371,6 +435,7 @@ public class BattleScreen : MonoBehaviour
         }
         actingUnit.unit.ClearStatus(actingUnit.transform);
     }
+
 }
 
 public enum WaveType {

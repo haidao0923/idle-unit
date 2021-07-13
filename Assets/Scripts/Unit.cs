@@ -317,16 +317,18 @@ public class Unit
             ClearStatus(unitTransform);
         }
     }
-    public void BoostStats(int amount, string status) {
+    public void BoostStats(Transform defendingUnitTransform, int amount, string status) {
         if (status == "") {
             return;
         }
         if (status.ToLower().Contains("hlt")) {
+            int tempAmount = amount;
             this.stat.health += amount;
             this.stat.healthModifier += amount;
             if (this.stat.currentHealth > this.stat.health) {
-                this.stat.currentHealth = this.stat.health;
+                tempAmount = this.stat.health - this.stat.currentHealth;
             }
+            TakeDamage(defendingUnitTransform, damage: -tempAmount);
         }
         if (status.ToLower().Contains("str")) {
             this.stat.currentStrength += amount;
@@ -399,7 +401,7 @@ public class Unit
         if (boostAmount == 0) {
             boostAmount = GetEffectiveDamage(attackingUnit, skill);
         }
-        BoostStats(boostAmount, skill.status);
+        BoostStats(defendingUnitTransform, boostAmount, skill.status);
         defendingUnitTransform.Find("Aura").GetComponent<Image>().color = new Color32(255, 255, 255, 255);
         defendingUnitTransform.Find("Aura/Text").GetComponent<Text>().text = skill.status + "\nUp";
         defendingUnitTransform.Find("Aura/Text").GetComponent<Text>().color = new Color32(255, 255, 255, 255);
@@ -411,7 +413,7 @@ public class Unit
         if (boostAmount == 0) {
             boostAmount = GetEffectiveDamage(attackingUnit, skill);
         }
-        BoostStats(-boostAmount, skill.status);
+        BoostStats(defendingUnitTransform, -boostAmount, skill.status);
         defendingUnitTransform.Find("Aura").GetComponent<Image>().color = new Color32(255, 0, 0, 255);
         defendingUnitTransform.Find("Aura/Text").GetComponent<Text>().text = skill.status + "\nDown";
         defendingUnitTransform.Find("Aura/Text").GetComponent<Text>().color = new Color32(255, 0, 0, 255);

@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
             ConsumableDatabase.consumables["Cap"][0].quantity = 10;
             ConsumableDatabase.consumables["Potion"][0].quantity = 10;
         }
+        for (int i = 0; i < formation.Length; i++) {
+            Debug.Log(formation[i]);
+        }
         UpdateFormationDisplay();
     }
 

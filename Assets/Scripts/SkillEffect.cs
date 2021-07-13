@@ -49,7 +49,7 @@ public class SkillEffect : MonoBehaviour
         }
         return targetUnit;
     }
-    Transform GetUnitTransform(UnitType unitType, int index) {
+    public Transform GetUnitTransform(UnitType unitType, int index) {
         if (unitType == UnitType.PLAYER) {
             return transform.GetChild(playerSide.transformIndex).GetChild(index);
         } else {
