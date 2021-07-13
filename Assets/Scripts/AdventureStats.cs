@@ -31,12 +31,10 @@ public class AdventureStats : MonoBehaviour
         transform.Find("Border/Background/Get Reward").gameObject.SetActive(false);
         Text rewardText = transform.Find("Border/Background/Get Reward").GetChild(1).GetComponent<Text>();
         for (int i = 0; i < adventure.receivedRewards.Length; i++) {
-            if (adventure.currentPoint >= Adventure.pointTable[i]) {
-                if (!adventure.receivedRewards[i]) {
-                    adventure.rewards[i].GetReward();
-                    rewardText.text = "You gained reward for " + Adventure.pointTable[i] + " point:\n" + adventure.rewards[i].description;
-                    transform.Find("Border/Background/Get Reward").gameObject.SetActive(true);
-                }
+            if (adventure.currentPoint >= Adventure.pointTable[i] && !adventure.receivedRewards[i]) {
+                adventure.rewards[i].GetReward();
+                rewardText.text = "You gained reward for " + Adventure.pointTable[i] + " point:\n" + adventure.rewards[i].description;
+                transform.Find("Border/Background/Get Reward").gameObject.SetActive(true);
             } else {
                 break;
             }

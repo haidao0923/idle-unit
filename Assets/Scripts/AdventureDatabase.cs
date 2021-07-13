@@ -9,7 +9,7 @@ public class AdventureDatabase : MonoBehaviour
 
     void Awake()
     {
-        adventures[0] = new Adventure("Haunted Forest 1", 10, new int[] {0, 1, 2}, 30, 50,
+        adventures[0] = new Adventure("Haunted Forest 1", 10, new int[] {0, 1, 2}, -5, -3,
         new int[] {0,0,1,0,0}, new int[] {0,0,2,0,0}, new int[] {2,2,3,2,2}, new int[] {1,1,3,1,1}, sprites[0],
         new Reward[] {new Reward(RewardType.COIN, 1000), new Reward(RewardType.COIN, 5000), new Reward(RewardType.COIN, 10000),
         new Reward(RewardType.COIN, 15000), new Reward(RewardType.COIN, 20000), new Reward(RewardType.COIN, 25000),

@@ -149,7 +149,7 @@ public class BattleScreen : MonoBehaviour
             DisplayBanner(skillDisplay, actingUnit.currentSkill.name);
             actingUnit.transform.GetComponent<Animator>().Play("Grow");
             //Call Skill Action
-            skillEffect.StartSkillAction(actingUnit.currentSkill.skillType, actingUnit);
+            skillEffect.StartSkillAction(actingUnit.currentSkill.skillType, actingUnit, playerSide, enemySide);
             yield return new WaitForSeconds(2.5f);
             RemoveStatusEffectAfterActing();
             yield return null;
@@ -253,7 +253,7 @@ public class BattleScreen : MonoBehaviour
                 player.inventory[player.formation[i]].exp = playerSide.formation[i].exp;
             }
         }
-        //Save
+        SaveAndLoad.data.SaveInventory();
     }
     void DisableBothSideTransform() {
         foreach (Transform child in transform.GetChild(1)) {
@@ -277,7 +277,7 @@ public class BattleScreen : MonoBehaviour
             if (random == 3) {
                 waveType = WaveType.Elite;
             } else {
-                waveType = WaveType.Minion;
+                waveType = WaveType.Rest;
             }
         }
         waveDisplay.text = "Wave\n" + currentWave + "/" + currentAdventure.waveCount + "\n" + waveType.ToString();

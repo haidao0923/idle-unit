@@ -163,6 +163,7 @@ public class UnitView : MonoBehaviour
         ConsumableDatabase.consumables["Cap"][capIndex].quantity -= 1;
         UpdateDisplay();
         player.UpdateFormationDisplay(formationIndex);
+        SaveAndLoad.data.SaveInventory();
     }
 
     void UsePotion(int potionIndex) {
@@ -170,5 +171,6 @@ public class UnitView : MonoBehaviour
         ConsumableDatabase.consumables["Potion"][potionIndex].quantity -= 1;
         UpdateDisplay();
         player.UpdateFormationDisplay(formationIndex);
+        SaveAndLoad.data.SaveInventory();
     }
 }

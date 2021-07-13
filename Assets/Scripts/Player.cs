@@ -6,22 +6,17 @@ public class Player : MonoBehaviour
 {
     GameObject formationObject;
     public List<Unit> inventory = new List<Unit>();
-    private List<int> strippedInventory = new List<int>();
-    public int[] formation = new int[10];
+    public int[] formation = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
     void Awake()
     {
         formationObject = GameObject.Find("Canvas/FormationScreen/FormationBackground");
-        for (int i = 0; i < formation.Length; i++) {
-            formation[i] = -1;
+        if (inventory.Count == 0) {
+            AddToInventory(9,7,10,6,0,1,2,2,3,4,5,81,12,12,11,23,2,4,6,8,1,3,6,5,4,12,11,23,2,4,6,8,1,3,6,5,4,2,4);
+            ConsumableDatabase.consumables["Stone"][0].quantity = 10;
+            ConsumableDatabase.consumables["Cap"][0].quantity = 10;
+            ConsumableDatabase.consumables["Potion"][0].quantity = 10;
         }
-        AddToInventory(9,7,10,6,0,1,2,2,3,4,5,81,12,12,11,23,2,4,6,8,1,3,6,5,4,12,11,23,2,4,6,8,1,3,6,5,4,2,4);
-        AddToFormation(1, 0);
-        AddToFormation(0, 1);
-        AddToFormation(3, 2);
-        AddToFormation(9, 3);
-        ConsumableDatabase.consumables["Stone"][0].quantity = 10;
-        ConsumableDatabase.consumables["Cap"][0].quantity = 10;
-        ConsumableDatabase.consumables["Potion"][0].quantity = 10;
+        UpdateFormationDisplay();
     }
 
     void Update()
@@ -33,9 +28,9 @@ public class Player : MonoBehaviour
         for (int i = 0; i < units.Length; i++) {
             if (units[i] < UnitDatabase.units.Length) {
                 inventory.Add(new Unit(UnitDatabase.units[units[i]]));
-                strippedInventory.Add(units[i]);
             }
         }
+        SaveAndLoad.data.SaveInventory();
     }
     public void AddToInventory(List<int> list) {
         foreach (int element in list) {
@@ -48,23 +43,25 @@ public class Player : MonoBehaviour
         for (int i = 0; i < indices.Length; i++) {
             if (indices[i] < inventory.Count) {
                 inventory.RemoveAt(indices[i]);
-                strippedInventory.RemoveAt(indices[i]);
                 if (IndexInFormation(indices[i], true) != -1) {
                     RemoveFromFormation(IndexInFormation(indices[i]));
                 }
             }
         }
+        SaveAndLoad.data.SaveInventory();
     }
     public void AddToFormation(int formationSlot, int inventoryId) {
         if (formationSlot >= 0 && formationSlot < 10 && inventoryId >= 0 && inventoryId < inventory.Count) {
             formation[formationSlot] = inventoryId;
             UpdateFormationDisplay(formationSlot);
+            SaveAndLoad.data.SaveFormation();
         }
     }
     public void RemoveFromFormation(int formationSlot) {
         if (formationSlot >= 0 && formationSlot < 10) {
             formation[formationSlot] = -1;
             UpdateFormationDisplay(formationSlot);
+            SaveAndLoad.data.SaveFormation();
         }
     }
 

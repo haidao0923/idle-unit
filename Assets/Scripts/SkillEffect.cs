@@ -15,12 +15,6 @@ public class SkillEffect : MonoBehaviour
         }
     }
 
-    void Awake() {
-        playerSide = GetComponent<BattleScreen>().playerSide;
-        enemySide = GetComponent<BattleScreen>().enemySide;
-        actingUnit = GetComponent<BattleScreen>().actingUnit;
-    }
-
     Dictionary<int, TargetUnit> GetPotentialTargets(TargetType targetType) {
         Dictionary<int, TargetUnit> targetUnit = new Dictionary<int, TargetUnit>();
         Unit[] tempFormation = new Unit[5];
@@ -73,7 +67,10 @@ public class SkillEffect : MonoBehaviour
         }
         return false;
     }
-    public void StartSkillAction(SkillType skillType, ActingUnit parameterUnit) {
+    public void StartSkillAction(SkillType skillType, ActingUnit parameterUnit, SideSpecificStatus playerSide, SideSpecificStatus enemySide) {
+        actingUnit = parameterUnit;
+        this.playerSide = playerSide;
+        this.enemySide = enemySide;
         Debug.Log(actingUnit.currentSkill.skillType.ToString());
         switch (actingUnit.currentSkill.skillType) {
             case SkillType.ATTACK:

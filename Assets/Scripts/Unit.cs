@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Unit
 {
+    public int id;
     public string name;
     public Rarity rarity;
     public Element element;
@@ -15,7 +16,8 @@ public class Unit
     public Skill secondSkill;
     public Skill thirdSkill;
 
-    public Unit(string name, Rarity rarity, Element element, Stat stat, Sprite sprite, int level = 1) {
+    public Unit(int id, string name, Rarity rarity, Element element, Stat stat, Sprite sprite, int level = 1) {
+        this.id = id;
         this.name = name;
         this.rarity = rarity;
         this.element = element;
@@ -25,7 +27,7 @@ public class Unit
         this.ResetCurrentStat();
         this.setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 100, 1));
     }
-    public Unit(Unit other) : this(other.name, other.rarity, other.element, other.stat, other.sprite, other.level) {
+    public Unit(Unit other) : this(other.id, other.name, other.rarity, other.element, other.stat, other.sprite, other.level) {
         firstSkill = other.firstSkill;
         secondSkill = other.secondSkill;
         thirdSkill = other.thirdSkill;
@@ -196,7 +198,11 @@ public class Unit
         stat.agilityModifier = 0;
     }
     public void ResetAgility() {
-        stat.currentAgility = stat.agility;
+        if (!stat.StatusContains("freeze")) {
+            stat.currentAgility = stat.agility;
+        } else {
+            stat.currentAgility = 0;
+        }
     }
     public void Heal(Transform defendingUnitTransform, Unit attackingUnit, Skill skill, int amount = 0) {
         int healAmount = amount;
