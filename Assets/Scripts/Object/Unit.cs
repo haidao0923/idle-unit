@@ -52,10 +52,13 @@ public class Unit
     }
 
     public Skill getSkill() {
+        if (stat.StatusContains("silence")) {
+            return firstSkill;
+        }
         int random = Random.Range(0,100);
         if (random >= 85 && thirdSkill != null) {
             return thirdSkill;
-        } else if (random >= 60 && secondSkill != null) {
+        } else if (random >= 60 && random <= 90 && secondSkill != null) {
             return secondSkill;
         } else {
             return firstSkill;
@@ -207,7 +210,7 @@ public class Unit
     public void Heal(Transform defendingUnitTransform, Unit attackingUnit, Skill skill, int amount = 0) {
         int healAmount = amount;
         if (healAmount == 0) {
-            healAmount = GetEffectiveDamage(attackingUnit, skill);
+            healAmount = GetEffectiveDamage(defendingUnitTransform, attackingUnit, skill);
         }
         TakeDamage(defendingUnitTransform, damage: -healAmount);
         SetStatus(skill.status, defendingUnitTransform, healAmount);
@@ -220,7 +223,7 @@ public class Unit
     public void TakeDamage(Transform defendingUnitTransform, Unit attackingUnit = null, Skill skill = null, int damage = 0) {
         int damageTaken = damage;
         if (attackingUnit != null) {
-            damageTaken = GetEffectiveDamage(attackingUnit, skill);
+            damageTaken = GetEffectiveDamage(defendingUnitTransform, attackingUnit, skill);
             SetStatus(skill.status, defendingUnitTransform, damageTaken);
             if (attackingUnit.HasElementalAdvantage(this)) {
                 SetDamageText(defendingUnitTransform, damageTaken.ToString(), new Color32(236, 24, 0, 255));
@@ -241,7 +244,7 @@ public class Unit
             }
         }
     }
-    int GetEffectiveDamage(Unit attackingUnit, Skill skill) {
+    int GetEffectiveDamage(Transform defendingUnitTransform, Unit attackingUnit, Skill skill) {
         float damage = 0;
         switch (skill.statType) {
             case StatType.HLT:
@@ -274,6 +277,14 @@ public class Unit
         if (damage <= 0) {
             damage = Random.Range(1, 51);
         }
+        if (stat.isVulnerable) {
+            damage *= 2;
+            stat.isVulnerable = false;
+            defendingUnitTransform.Find("Image").GetComponent<Image>().color = new Color32(255,255,255,255);
+        }
+        if (attackingUnit.stat.StatusContains("weaken")) {
+            damage *= .75f;
+        }
         return (int) damage;
     }
     void SetDamageText(Transform unitTransform, string text, Color32 color) {
@@ -291,7 +302,7 @@ public class Unit
             this.stat.statusDamage += damage;
         }
         if (status.ToLower().Contains("poison") && !this.stat.StatusContains("poison") && (Random.Range(0, 4) == 0)) {
-            unitTransform.Find("Image").GetComponent<Image>().color = new Color32(255,0,255,255);
+            unitTransform.Find("Image").GetComponent<Image>().color = new Color32(29,186,58,255);
             this.stat.status += "poison, ";
             this.stat.statusDamage += damage;
         }
@@ -305,6 +316,24 @@ public class Unit
             this.stat.status += "stun, ";
             this.stat.currentAgility /= 3;
             this.stat.agilityModifier -= (int)(this.stat.agility * 2/3f);
+        }
+        if (status.ToLower().Contains("vulnerable") && !this.stat.StatusContains("vulnerable") && (Random.Range(0,4) == 0)) {
+            unitTransform.Find("Image").GetComponent<Image>().color = new Color32(255,0,0,255);
+            this.stat.status += "vulnerable, ";
+            this.stat.isVulnerable = true;
+        }
+        if (status.ToLower().Contains("weaken") && !this.stat.StatusContains("weaken") && (Random.Range(0,4) == 0)) {
+            unitTransform.Find("Image").GetComponent<Image>().color = new Color32(155,0,255,255);
+            this.stat.status += "weaken, ";
+            this.stat.isWeaken = true;
+        }
+        if (status.ToLower().Contains("charm") && !this.stat.StatusContains("charm") && (Random.Range(0,4) == 0)) {
+            unitTransform.Find("Image").GetComponent<Image>().color = new Color32(255,117,234,255);
+            this.stat.status += "charm, ";
+        }
+        if (status.ToLower().Contains("silence") && !this.stat.StatusContains("silence") && (Random.Range(0,4) == 0)) {
+            unitTransform.Find("Image").GetComponent<Image>().color = new Color32(104,104,104,255);
+            this.stat.status += "silence, ";
         }
         if (status.ToLower().Contains("purify") && !this.stat.StatusContains("purify") && (Random.Range(0, 4) > 0)) {
             if (this.stat.StatusContains("freeze")) {
@@ -399,7 +428,7 @@ public class Unit
     public void Boost(Transform defendingUnitTransform, Unit attackingUnit, Skill skill, int amount = 0) {
         int boostAmount = amount;
         if (boostAmount == 0) {
-            boostAmount = GetEffectiveDamage(attackingUnit, skill);
+            boostAmount = GetEffectiveDamage(defendingUnitTransform, attackingUnit, skill);
         }
         BoostStats(defendingUnitTransform, boostAmount, skill.status);
         defendingUnitTransform.Find("Aura").GetComponent<Image>().color = new Color32(255, 255, 255, 255);
@@ -411,7 +440,7 @@ public class Unit
     public void Debuff(Transform defendingUnitTransform, Unit attackingUnit, Skill skill, int amount = 0) {
         int boostAmount = amount;
         if (boostAmount == 0) {
-            boostAmount = GetEffectiveDamage(attackingUnit, skill);
+            boostAmount = GetEffectiveDamage(defendingUnitTransform, attackingUnit, skill);
         }
         BoostStats(defendingUnitTransform, -boostAmount, skill.status);
         defendingUnitTransform.Find("Aura").GetComponent<Image>().color = new Color32(255, 0, 0, 255);
@@ -446,9 +475,11 @@ public class Unit
         public int magicModifier;
         public int defenseModifier;
         public int agilityModifier;
+
         public string status;
         public int statusDamage;
         public int protectionCount, dodgePercent;
+        public bool isWeaken, isVulnerable;
 
         public Stat(int baseHealth, int baseStrength, int baseMagic, int baseDefense, int baseAgility) {
             this.baseHealth = baseHealth;

@@ -12,9 +12,23 @@ public class Adventure
     public int[] eliteFormation, eliteFormationLevel;
     public int[] bossFormation, bossFormationLevel;
     public Sprite sprite;
-    public int currentPoint;
+    private int _currentPoint;
+    public int currentPoint {
+        get => _currentPoint;
+        set {
+            _currentPoint = value;
+            SaveAndLoad.data.SaveAdventure();
+        }
+    }
     public bool cleared;
-    public static int clearedAdventures;
+    private static int _clearedAdventures;
+    public static int clearedAdventures {
+        get => _clearedAdventures;
+        set {
+            _clearedAdventures = value;
+            SaveAndLoad.data.SaveAdventure();
+        }
+    }
     public static int[] pointTable = {1000, 3000, 6000, 9000, 12000, 16000, 22000, 28000, 35000, 50000, 75000, 100000};
     public Reward[] rewards = new Reward[12];
     public bool[] receivedRewards = new bool[12];

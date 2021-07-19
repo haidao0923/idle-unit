@@ -6,6 +6,7 @@ public class SkillEffect : MonoBehaviour
 {
     ActingUnit actingUnit;
     SideSpecificStatus playerSide, enemySide;
+    TargetType targetUnitType;
     public class TargetUnit {
         public Unit unit;
         public Transform transform;
@@ -20,7 +21,7 @@ public class SkillEffect : MonoBehaviour
         Unit[] tempFormation = new Unit[5];
         UnitType targetUnitType = UnitType.PLAYER;
         switch (targetType) {
-            case TargetType.BUFF:
+            case TargetType.ALLY:
                 if (actingUnit.unitType == UnitType.PLAYER) {
                     tempFormation = playerSide.activeFormation;
                     targetUnitType = UnitType.PLAYER;
@@ -29,7 +30,7 @@ public class SkillEffect : MonoBehaviour
                     targetUnitType = UnitType.ENEMY;
                 }
                 break;
-            case TargetType.DEBUFF:
+            case TargetType.ENEMY:
                 if (actingUnit.unitType == UnitType.PLAYER) {
                     tempFormation = enemySide.activeFormation;
                     targetUnitType = UnitType.ENEMY;
@@ -72,54 +73,62 @@ public class SkillEffect : MonoBehaviour
         this.playerSide = playerSide;
         this.enemySide = enemySide;
         Debug.Log(actingUnit.currentSkill.skillType.ToString());
+        targetUnitType = actingUnit.currentSkill.targetType;
+        if (actingUnit.unit.stat.StatusContains("charm")) {
+            if (targetUnitType == TargetType.ALLY || targetUnitType == TargetType.SELF) {
+                targetUnitType = TargetType.ENEMY;
+            } else {
+                targetUnitType = TargetType.ALLY;
+            }
+        }
         switch (actingUnit.currentSkill.skillType) {
             case SkillType.ATTACK:
-                StartCoroutine(Attack(TargetType.DEBUFF));
+                StartCoroutine(Attack());
                 break;
             case SkillType.ATTACK_ADJACENT:
-                StartCoroutine(Attack_Adjacent(TargetType.DEBUFF));
+                StartCoroutine(Attack_Adjacent());
                 break;
             case SkillType.AOE_ATTACK:
-                StartCoroutine(AOE_Attack(TargetType.DEBUFF));
+                StartCoroutine(AOE_Attack());
                 break;
             case SkillType.BOOST:
                 if (actingUnit.currentSkill.extraEffect == 1) {
-                    StartCoroutine(Boost(TargetType.SELF));
+                    StartCoroutine(Boost());
                 } else {
-                    StartCoroutine(Boost(TargetType.BUFF));
+                    StartCoroutine(Boost());
                 }
                 break;
             case SkillType.AOE_BOOST:
-                StartCoroutine(AOE_Boost(TargetType.BUFF));
+                StartCoroutine(AOE_Boost());
                 break;
             case SkillType.DEBUFF:
-                StartCoroutine(Debuff(TargetType.DEBUFF));
+                StartCoroutine(Debuff());
                 break;
             case SkillType.AOE_DEBUFF:
-                StartCoroutine(AOE_Debuff(TargetType.DEBUFF));
+                StartCoroutine(AOE_Debuff());
                 break;
             case SkillType.DODGE:
-                StartCoroutine(Dodge(TargetType.SELF));
+                StartCoroutine(Dodge());
                 break;
             case SkillType.AOE_DODGE:
-                StartCoroutine(AOE_Dodge(TargetType.BUFF));
+                StartCoroutine(AOE_Dodge());
                 break;
             case SkillType.HEAL:
-                StartCoroutine(Heal(TargetType.BUFF));
+                StartCoroutine(Heal());
                 break;
             case SkillType.AOE_HEAL:
-                StartCoroutine(AOE_Heal(TargetType.BUFF));
+                StartCoroutine(AOE_Heal());
                 break;
             case SkillType.PROTECTION:
-                StartCoroutine(Protection(TargetType.BUFF));
+                StartCoroutine(Protection());
                 break;
             case SkillType.AOE_PROTECTION:
-                StartCoroutine(AOE_Protection(TargetType.BUFF));
+                StartCoroutine(AOE_Protection());
                 break;
         }
     }
-    public IEnumerator Attack(TargetType targetType) {
-        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetType);
+    public IEnumerator Attack() {
+        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetUnitType);
         List<int> targetUnitIndex = new List<int>(targetUnit.Keys);
         // Pick a random unit from possible units and attack it/play animation
         for (int i = 0; i < actingUnit.currentSkill.extraEffect && targetUnit.Count > 0; i++) {
@@ -134,8 +143,8 @@ public class SkillEffect : MonoBehaviour
         }
         yield return null;
     }
-    public IEnumerator Attack_Adjacent(TargetType targetType) {
-        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetType);
+    public IEnumerator Attack_Adjacent() {
+        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetUnitType);
         List<int> targetUnitIndex = new List<int>(targetUnit.Keys);
         // Pick a random unit from possible units and attack it/play animation
         for (int i = 0; i < actingUnit.currentSkill.extraEffect && targetUnit.Count > 0; i++) {
@@ -164,8 +173,8 @@ public class SkillEffect : MonoBehaviour
         }
         yield return null;
     }
-    public IEnumerator AOE_Attack(TargetType targetType) {
-        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetType);
+    public IEnumerator AOE_Attack() {
+        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetUnitType);
         List<int> targetUnitIndex = new List<int>(targetUnit.Keys);
         for (int i = 0; i < actingUnit.currentSkill.extraEffect && targetUnit.Count > 0; i++) {
             foreach (TargetUnit element in targetUnit.Values) {
@@ -196,8 +205,8 @@ public class SkillEffect : MonoBehaviour
         transform.GetComponent<Animator>().SetFloat("attackSpeed", actingUnit.currentSkill.extraEffect * speedMultiplier);
         transform.GetComponent<Animator>().Play("Attack");
     }
-    public IEnumerator Boost(TargetType targetType) {
-        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetType);
+    public IEnumerator Boost() {
+        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetUnitType);
         List<int> targetUnitIndex = new List<int>(targetUnit.Keys);
         for (int i = 0; i < actingUnit.currentSkill.extraEffect && targetUnit.Count > 0; i++) {
             int index = targetUnitIndex[Random.Range(0, targetUnitIndex.Count)];
@@ -210,8 +219,8 @@ public class SkillEffect : MonoBehaviour
         }
         yield return null;
     }
-    public IEnumerator AOE_Boost(TargetType targetType) {
-        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetType);
+    public IEnumerator AOE_Boost() {
+        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetUnitType);
         for (int i = 0; i < actingUnit.currentSkill.extraEffect && targetUnit.Count > 0; i++) {
             foreach (TargetUnit element in targetUnit.Values) {
                 Unit unit = element.unit;
@@ -223,8 +232,8 @@ public class SkillEffect : MonoBehaviour
         }
         yield return null;
     }
-    public IEnumerator Debuff(TargetType targetType) {
-        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetType);
+    public IEnumerator Debuff() {
+        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetUnitType);
         List<int> targetUnitIndex = new List<int>(targetUnit.Keys);
         for (int i = 0; i < actingUnit.currentSkill.extraEffect && targetUnit.Count > 0; i++) {
             int index = targetUnitIndex[Random.Range(0, targetUnitIndex.Count)];
@@ -237,8 +246,8 @@ public class SkillEffect : MonoBehaviour
         }
         yield return null;
     }
-    public IEnumerator AOE_Debuff(TargetType targetType) {
-        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetType);
+    public IEnumerator AOE_Debuff() {
+        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetUnitType);
         for (int i = 0; i < actingUnit.currentSkill.extraEffect && targetUnit.Count > 0; i++) {
             foreach (TargetUnit element in targetUnit.Values) {
                 Unit unit = element.unit;
@@ -250,12 +259,12 @@ public class SkillEffect : MonoBehaviour
         }
         yield return null;
     }
-    public IEnumerator Dodge(TargetType targetType) {
+    public IEnumerator Dodge() {
         actingUnit.unit.EnableDodge(actingUnit.transform, actingUnit.currentSkill);
         yield return new WaitForSeconds(2.5f);
     }
-    public IEnumerator AOE_Dodge(TargetType targetType) {
-        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetType);
+    public IEnumerator AOE_Dodge() {
+        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetUnitType);
         for (int i = 0; i < actingUnit.currentSkill.extraEffect && targetUnit.Count > 0; i++) {
             foreach (TargetUnit element in targetUnit.Values) {
                 Unit unit = element.unit;
@@ -267,8 +276,8 @@ public class SkillEffect : MonoBehaviour
         }
         yield return null;
     }
-    public IEnumerator Heal(TargetType targetType) {
-        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetType);
+    public IEnumerator Heal() {
+        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetUnitType);
         List<int> targetUnitIndex = new List<int>(targetUnit.Keys);
         for (int i = 0; i < actingUnit.currentSkill.extraEffect && targetUnit.Count > 0; i++) {
             int index = targetUnitIndex[Random.Range(0, targetUnitIndex.Count)];
@@ -281,8 +290,8 @@ public class SkillEffect : MonoBehaviour
         }
         yield return null;
     }
-    public IEnumerator AOE_Heal(TargetType targetType) {
-        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetType);
+    public IEnumerator AOE_Heal() {
+        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetUnitType);
         for (int i = 0; i < actingUnit.currentSkill.extraEffect && targetUnit.Count > 0; i++) {
             foreach (TargetUnit element in targetUnit.Values) {
                 Unit unit = element.unit;
@@ -294,8 +303,8 @@ public class SkillEffect : MonoBehaviour
         }
         yield return null;
     }
-    public IEnumerator Protection(TargetType targetType) {
-        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetType);
+    public IEnumerator Protection() {
+        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetUnitType);
         List<int> targetUnitIndex = new List<int>(targetUnit.Keys);
         for (int i = 0; i < actingUnit.currentSkill.extraEffect && targetUnit.Count > 0; i++) {
             int index = targetUnitIndex[Random.Range(0, targetUnitIndex.Count)];
@@ -308,8 +317,8 @@ public class SkillEffect : MonoBehaviour
         }
         yield return null;
     }
-    public IEnumerator AOE_Protection(TargetType targetType) {
-        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetType);
+    public IEnumerator AOE_Protection() {
+        Dictionary<int, TargetUnit> targetUnit = GetPotentialTargets(targetUnitType);
         for (int i = 0; i < actingUnit.currentSkill.extraEffect && targetUnit.Count > 0; i++) {
             foreach (TargetUnit element in targetUnit.Values) {
                 Unit unit = element.unit;

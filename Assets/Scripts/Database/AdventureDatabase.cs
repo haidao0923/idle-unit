@@ -5,7 +5,7 @@ using UnityEngine;
 public class AdventureDatabase : MonoBehaviour
 {
     public Sprite[] sprites = new Sprite[15];
-    public Adventure[] adventures = new Adventure[15];
+    public static Adventure[] adventures = new Adventure[15];
 
     void Awake()
     {

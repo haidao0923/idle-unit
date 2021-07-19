@@ -217,7 +217,8 @@ public class TravelingMerchant : MonoBehaviour
                 capDatabaseIndex = 3;
                 break;
         }
-        consumableToGain.Add(new ConsumableToGain("Cap", capDatabaseIndex, 1));
+        int quantityToGain = player.inventory[lossUnitIndex[0]].capsAbsorbed + 1;
+        consumableToGain.Add(new ConsumableToGain("Cap", capDatabaseIndex, quantityToGain));
     }
     void MerchantTwo() {
         int quantityGained;

@@ -70,6 +70,32 @@ public class SaveAndLoad : MonoBehaviour
             ConsumableDatabase.consumables[consumable.key][consumable.index].quantity = consumable.quantity;
         }
     }
+    public void SaveAdventure() {
+        for (int i = 0; i < AdventureDatabase.adventures.Length; i++) {
+            if (AdventureDatabase.adventures[i] == null) {
+                break;
+            }
+            if (savedData.adventureList[i] == null) {
+                savedData.adventureList[i] = new SavedAdventureData();
+            }
+            savedData.adventureList[i].currentPoint = AdventureDatabase.adventures[i].currentPoint;
+        }
+        savedData.clearedAdventures = Adventure.clearedAdventures;
+        Save();
+    }
+    public void LoadAdventure(SavedData loadedData) {
+        for (int i = 0; i < loadedData.adventureList.Length; i++) {
+            AdventureDatabase.adventures[i].currentPoint = loadedData.adventureList[i].currentPoint;
+        }
+        Adventure.clearedAdventures = loadedData.clearedAdventures;
+    }
+    public void SaveCooldownTimer() {
+        savedData.lastRevivedTime = ConsumableDatabase.lastRevivedTime;
+        Save();
+    }
+    public void LoadCooldownTimer(SavedData loadedData) {
+        ConsumableDatabase.lastRevivedTime = loadedData.lastRevivedTime;
+    }
     public void Save() {
         string json = JsonUtility.ToJson(savedData);
         SecureHelper.SaveHash(json);
@@ -98,6 +124,8 @@ public class SaveAndLoad : MonoBehaviour
 
             LoadInventoryAndFormation(data);
             LoadConsumable(data);
+            LoadAdventure(data);
+            LoadCooldownTimer(data);
         }
         isLoading = false;
     }
@@ -129,10 +157,22 @@ public class SavedConsumableData {
         this.quantity = quantity;
     }
 }
+[Serializable]
+public class SavedAdventureData {
+    public int currentPoint;
+
+    public SavedAdventureData() {
+        // Nothing to add for now
+    }
+}
 
 [Serializable]
 public class SavedData {
     public List<SavedUnitData> inventory = new List<SavedUnitData>();
     public int[] formation = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
     public List<SavedConsumableData> consumables = new List<SavedConsumableData>();
+    public SavedAdventureData[] adventureList = new SavedAdventureData[2];
+    public System.DateTime lastRevivedTime;
+    public int clearedAdventures;
+
 }

@@ -6,10 +6,10 @@ public class AdventureStats : MonoBehaviour
 {
     public void OpenMenu(Adventure adventure, int currentWave, int minionWaveCount, int restWaveCount, int eliteWaveCount, int bossWaveCount) {
         transform.Find("Border/Title").GetChild(0).GetComponent<Text>().text = adventure.name;
-        int minionPoint = 50 * minionWaveCount;
-        int restPoint = 25 * restWaveCount;
-        int elitePoint = 150 * eliteWaveCount;
-        int bossPoint = 250 * bossWaveCount;
+        int minionPoint = (int) WaveTypePoint.MINION * minionWaveCount;
+        int restPoint = (int) WaveTypePoint.REST * restWaveCount;
+        int elitePoint = (int) WaveTypePoint.ELITE * eliteWaveCount;
+        int bossPoint = (int) WaveTypePoint.BOSS * bossWaveCount;
         int subtotalPoint = minionPoint + restPoint + elitePoint + bossPoint;
         int victoryBonus = 0;
         if (currentWave > adventure.waveCount) {
@@ -26,7 +26,9 @@ public class AdventureStats : MonoBehaviour
         string.Format("Minion Victories: 50 x {0} = {1}\n\nRest Visited: 25 x {2} = {3}\n\nElite Victories: 150 x {4} = {5}\n\nBoss Victories: 250 x {6} = {7}\n\nSubtotal Point: {8}\n\nVictory Bonus: {9}%\n\nTotal Point: {10}",
         minionWaveCount, minionPoint, restWaveCount, restPoint, eliteWaveCount, elitePoint, bossWaveCount, bossPoint, subtotalPoint, victoryBonus, totalScore);
 
-        adventure.currentPoint += totalScore;
+        int pointToGain = (int) (subtotalPoint * victoryBonus / 100f);
+        adventure.currentPoint += pointToGain;
+
         transform.Find("Border/Background/Menu/Point").GetChild(0).GetComponent<Text>().text = "Current Point: " + adventure.currentPoint;
         transform.Find("Border/Background/Get Reward").gameObject.SetActive(false);
         Text rewardText = transform.Find("Border/Background/Get Reward").GetChild(1).GetComponent<Text>();
@@ -44,4 +46,11 @@ public class AdventureStats : MonoBehaviour
     void OnDisable() {
         GameObject.Find("Canvas/FormationScreen/FormationBackground/Traveling Merchant").SetActive(true);
     }
+}
+
+public enum WaveTypePoint {
+    MINION = 50, REST = 25, ELITE = 100, BOSS = 150
+}
+public enum WaveTypeExp {
+    MINION = 10, REST = 5, ELITE = 20, BOSS = 30
 }

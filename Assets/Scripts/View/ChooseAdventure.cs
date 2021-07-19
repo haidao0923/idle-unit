@@ -3,12 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ChooseAdventure : MonoBehaviour
 {
-    Adventure[] adventures;
     Transform slots, menu;
     public int currentPage, maxPage;
     void Awake()
     {
-        adventures = GameObject.FindGameObjectWithTag("GameController").GetComponent<AdventureDatabase>().adventures;
         slots = transform.Find("Border/Background/Slots");
         menu = transform.Find("Border/Background/Menu");
     }
@@ -21,9 +19,9 @@ public class ChooseAdventure : MonoBehaviour
     void UpdateDisplay() {
         UpdateNavigation();
         int i = 0;
-        for (int j = (currentPage - 1) * 15; i < slots.childCount && adventures[j] != null; i++, j++) {
+        for (int j = (currentPage - 1) * 15; i < slots.childCount && AdventureDatabase.adventures[j] != null; i++, j++) {
             Transform currentSlot = slots.GetChild(i);
-            Adventure currentAdventure = adventures[j];
+            Adventure currentAdventure = AdventureDatabase.adventures[j];
             UpdateSlot(currentSlot, currentAdventure, j);
         }
         for ( ; i < slots.childCount; i++) {
@@ -62,7 +60,7 @@ public class ChooseAdventure : MonoBehaviour
     public void OnSlotClick(int siblingIndex) {
         int adventureIndex = (currentPage - 1) * 15 + siblingIndex;
         GameObject adventureDetails = transform.parent.Find("Adventure Details").gameObject;
-        adventureDetails.GetComponent<AdventureDetails>().adventure = adventures[adventureIndex];
+        adventureDetails.GetComponent<AdventureDetails>().adventure = AdventureDatabase.adventures[adventureIndex];
         adventureDetails.SetActive(true);
     }
 

@@ -11,7 +11,7 @@ public class BattleScreen : MonoBehaviour
     public SideSpecificStatus playerSide, enemySide;
     public bool isActing, isSummoning;
     public ActingUnit actingUnit;
-    Transform skillDisplay, advanceBanner;
+    Transform skillDisplay, advanceBanner, adventureStats;
 
     public static class BattleStatus {
         public static int highestAgility;
@@ -24,6 +24,7 @@ public class BattleScreen : MonoBehaviour
         skillEffect = GetComponent<SkillEffect>();
         skillDisplay = transform.Find("Skill Display");
         advanceBanner = transform.Find("Advance Banner");
+        adventureStats = transform.Find("Adventure Stats");
         waveDisplay = transform.Find("Wave Display").GetComponent<Text>();
         playerSide = new SideSpecificStatus(UnitType.PLAYER);
         enemySide = new SideSpecificStatus(UnitType.ENEMY);
@@ -64,7 +65,7 @@ public class BattleScreen : MonoBehaviour
         // Enable/Disable WatchAd/UsePhoenixFeather Buttons
         Transform buttons = reviveMenu.Find("Border/Background/Menu");
         ConsumableDatabase.currentReviveTime = System.DateTime.Now;
-        if ((ConsumableDatabase.currentReviveTime - ConsumableDatabase.lastRevivedTime).TotalHours >= 1) {
+        if ((ConsumableDatabase.currentReviveTime - ConsumableDatabase.lastRevivedTime).TotalHours >= 4) {
             buttons.GetChild(0).GetComponent<Button>().interactable = true;
             buttons.GetChild(0).GetChild(0).GetComponent<Text>().text = "Watch Ad";
         } else {
@@ -83,6 +84,7 @@ public class BattleScreen : MonoBehaviour
         ConsumableDatabase.lastRevivedTime = System.DateTime.Now;
         ConsumableDatabase.currentReviveTime = ConsumableDatabase.lastRevivedTime;
         ReviveUnit();
+        SaveAndLoad.data.SaveCooldownTimer();
     }
     public void UsePhoenixFeather() {
         ConsumableDatabase.consumables["Misc"][2].quantity -= 1;
@@ -105,7 +107,6 @@ public class BattleScreen : MonoBehaviour
     void EndBattleScreen() {
         isActing = true;
         StopAllCoroutines();
-        Transform adventureStats = transform.Find("Adventure Stats");
         adventureStats.gameObject.SetActive(true);
         adventureStats.GetComponent<AdventureStats>().OpenMenu(currentAdventure, currentWave, minionWaveCount, restWaveCount, eliteWaveCount, bossWaveCount);
         CopyExperienceGained();
@@ -215,20 +216,24 @@ public class BattleScreen : MonoBehaviour
             int expGained = 0;
             switch (waveType) {
                 case WaveType.Minion:
-                    expGained = 10;
+                    expGained = (int) WaveTypeExp.MINION;
                     minionWaveCount++;
+                    currentAdventure.currentPoint += (int) WaveTypePoint.MINION;
                     break;
                 case WaveType.Rest:
-                    expGained = 5;
+                    expGained = (int) WaveTypeExp.REST;
                     restWaveCount++;
+                    currentAdventure.currentPoint += (int) WaveTypePoint.REST;
                     break;
                 case WaveType.Elite:
-                    expGained = 30;
+                    expGained = (int) WaveTypeExp.ELITE;
                     eliteWaveCount++;
+                    currentAdventure.currentPoint += (int) WaveTypePoint.ELITE;
                     break;
                 case WaveType.Boss:
-                    expGained = 50;
+                    expGained = (int) WaveTypeExp.BOSS;
                     bossWaveCount++;
+                    currentAdventure.currentPoint += (int) WaveTypePoint.BOSS;
                     break;
             }
             for (int j = 0; j < playerSide.formation.Length; j++) {
@@ -276,11 +281,13 @@ public class BattleScreen : MonoBehaviour
         } else if (currentWave == currentAdventure.waveCount) {
             waveType = WaveType.Boss;
         } else {
-            int random = Random.Range(0, 4);
-            if (random == 3) {
+            int random = Random.Range(0, 100);
+            if (random >= 90) {
                 waveType = WaveType.Elite;
-            } else {
+            } else if (random >= 75) {
                 waveType = WaveType.Rest;
+            } else {
+                waveType = WaveType.Minion;
             }
         }
         waveDisplay.text = "Wave\n" + currentWave + "/" + currentAdventure.waveCount + "\n" + waveType.ToString();
