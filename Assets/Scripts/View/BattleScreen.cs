@@ -249,6 +249,7 @@ public class BattleScreen : MonoBehaviour
                         }
                     }
                     playerSide.formation[j].ResetAgility();
+                    playerSide.formation[j].stat.dodgePercent = 0;
                 }
             }
             CopyExperienceGained();

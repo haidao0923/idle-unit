@@ -296,42 +296,42 @@ public class Unit
         if (status == "") {
             return;
         }
-        if (status.ToLower().Contains("burn") && !this.stat.StatusContains("burn") && (Random.Range(0, 4) == 0)) {
+        if (status.ToLower().Contains("burn") && !this.stat.StatusContains("burn") && (Random.Range(0, 5) == 0)) {
             unitTransform.Find("Image").GetComponent<Image>().color = new Color32(255,122,0,255);
             this.stat.status += "burn, ";
             this.stat.statusDamage += damage;
         }
-        if (status.ToLower().Contains("poison") && !this.stat.StatusContains("poison") && (Random.Range(0, 4) == 0)) {
+        if (status.ToLower().Contains("poison") && !this.stat.StatusContains("poison") && (Random.Range(0, 5) == 0)) {
             unitTransform.Find("Image").GetComponent<Image>().color = new Color32(29,186,58,255);
             this.stat.status += "poison, ";
             this.stat.statusDamage += damage;
         }
-        if (status.ToLower().Contains("freeze") && !this.stat.StatusContains("freeze") && (Random.Range(0, 4) == 0)) {
+        if (status.ToLower().Contains("freeze") && !this.stat.StatusContains("freeze") && (Random.Range(0, 5) == 0)) {
             unitTransform.Find("Image").GetComponent<Image>().color = new Color32(0,190,255,255);
             this.stat.status += "freeze, ";
             this.stat.currentAgility = 0;
         }
-        if (status.ToLower().Contains("stun") && !this.stat.StatusContains("stun") && (Random.Range(0, 4) == 0)) {
+        if (status.ToLower().Contains("stun") && !this.stat.StatusContains("stun") && (Random.Range(0, 5) == 0)) {
             unitTransform.Find("Image").GetComponent<Image>().color = new Color32(255,255,0,255);
             this.stat.status += "stun, ";
             this.stat.currentAgility /= 3;
             this.stat.agilityModifier -= (int)(this.stat.agility * 2/3f);
         }
-        if (status.ToLower().Contains("vulnerable") && !this.stat.StatusContains("vulnerable") && (Random.Range(0,4) == 0)) {
+        if (status.ToLower().Contains("vulnerable") && !this.stat.StatusContains("vulnerable") && (Random.Range(0, 5) == 0)) {
             unitTransform.Find("Image").GetComponent<Image>().color = new Color32(255,0,0,255);
             this.stat.status += "vulnerable, ";
             this.stat.isVulnerable = true;
         }
-        if (status.ToLower().Contains("weaken") && !this.stat.StatusContains("weaken") && (Random.Range(0,4) == 0)) {
+        if (status.ToLower().Contains("weaken") && !this.stat.StatusContains("weaken") && (Random.Range(0, 5) == 0)) {
             unitTransform.Find("Image").GetComponent<Image>().color = new Color32(155,0,255,255);
             this.stat.status += "weaken, ";
             this.stat.isWeaken = true;
         }
-        if (status.ToLower().Contains("charm") && !this.stat.StatusContains("charm") && (Random.Range(0,4) == 0)) {
+        if (status.ToLower().Contains("charm") && !this.stat.StatusContains("charm") && (Random.Range(0, 5) == 0)) {
             unitTransform.Find("Image").GetComponent<Image>().color = new Color32(255,117,234,255);
             this.stat.status += "charm, ";
         }
-        if (status.ToLower().Contains("silence") && !this.stat.StatusContains("silence") && (Random.Range(0,4) == 0)) {
+        if (status.ToLower().Contains("silence") && !this.stat.StatusContains("silence") && (Random.Range(0, 5) == 0)) {
             unitTransform.Find("Image").GetComponent<Image>().color = new Color32(104,104,104,255);
             this.stat.status += "silence, ";
         }
@@ -342,6 +342,8 @@ public class Unit
             if (this.stat.StatusContains("stun")) {
                 this.stat.currentAgility *= 3;
             }
+            this.stat.isVulnerable = false;
+            this.stat.isWeaken = false;
             ResetCurrentStat();
             ClearStatus(unitTransform);
         }

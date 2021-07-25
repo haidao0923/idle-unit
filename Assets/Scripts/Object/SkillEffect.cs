@@ -190,7 +190,7 @@ public class SkillEffect : MonoBehaviour
         yield return null;
     }
     public void Attack_Effect(Unit unit, Transform transform, int speedMultiplier = 1) {
-        if (actingUnit.currentSkill.status.ToLower().Contains("purge") && (Random.Range(0, 10) == 0)) {
+        if (actingUnit.currentSkill.status.ToLower().Contains("purge") && (Random.Range(0, 5) == 0)) {
             unit.stat.dodgePercent = 0;
             unit.stat.protectionCount = 1;
             unit.TriggerProtection(transform);
