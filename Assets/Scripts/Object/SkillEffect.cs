@@ -68,7 +68,7 @@ public class SkillEffect : MonoBehaviour
         }
         return false;
     }
-    public void StartSkillAction(SkillType skillType, ActingUnit parameterUnit, SideSpecificStatus playerSide, SideSpecificStatus enemySide) {
+    public IEnumerator StartSkillAction(SkillType skillType, ActingUnit parameterUnit, SideSpecificStatus playerSide, SideSpecificStatus enemySide) {
         actingUnit = parameterUnit;
         this.playerSide = playerSide;
         this.enemySide = enemySide;
@@ -83,47 +83,47 @@ public class SkillEffect : MonoBehaviour
         }
         switch (actingUnit.currentSkill.skillType) {
             case SkillType.ATTACK:
-                StartCoroutine(Attack());
+                yield return Attack();
                 break;
             case SkillType.ATTACK_ADJACENT:
-                StartCoroutine(Attack_Adjacent());
+                yield return Attack_Adjacent();
                 break;
             case SkillType.AOE_ATTACK:
-                StartCoroutine(AOE_Attack());
+                yield return AOE_Attack();
                 break;
             case SkillType.BOOST:
                 if (actingUnit.currentSkill.extraEffect == 1) {
-                    StartCoroutine(Boost());
+                    yield return Boost();
                 } else {
-                    StartCoroutine(Boost());
+                    yield return Boost();
                 }
                 break;
             case SkillType.AOE_BOOST:
-                StartCoroutine(AOE_Boost());
+                yield return AOE_Boost();
                 break;
             case SkillType.DEBUFF:
-                StartCoroutine(Debuff());
+                yield return Debuff();
                 break;
             case SkillType.AOE_DEBUFF:
-                StartCoroutine(AOE_Debuff());
+                yield return AOE_Debuff();
                 break;
             case SkillType.DODGE:
-                StartCoroutine(Dodge());
+                yield return Dodge();
                 break;
             case SkillType.AOE_DODGE:
-                StartCoroutine(AOE_Dodge());
+                yield return AOE_Dodge();
                 break;
             case SkillType.HEAL:
-                StartCoroutine(Heal());
+                yield return Heal();
                 break;
             case SkillType.AOE_HEAL:
-                StartCoroutine(AOE_Heal());
+                yield return AOE_Heal();
                 break;
             case SkillType.PROTECTION:
-                StartCoroutine(Protection());
+                yield return Protection();
                 break;
             case SkillType.AOE_PROTECTION:
-                StartCoroutine(AOE_Protection());
+                yield return AOE_Protection();
                 break;
         }
     }
@@ -135,9 +135,7 @@ public class SkillEffect : MonoBehaviour
             int index = targetUnitIndex[Random.Range(0, targetUnitIndex.Count)];
             Unit unit = targetUnit[index].unit;
             Transform transform = targetUnit[index].transform;
-
             Attack_Effect(unit, transform);
-
             yield return new WaitForSeconds(2.5f / actingUnit.currentSkill.extraEffect);
             RemoveDeadUnit(index, targetUnit, targetUnitIndex);
         }
@@ -189,7 +187,7 @@ public class SkillEffect : MonoBehaviour
         }
         yield return null;
     }
-    public void Attack_Effect(Unit unit, Transform transform, int speedMultiplier = 1) {
+    public void Attack_Effect(Unit unit, Transform transform, float speedMultiplier = 1) {
         if (actingUnit.currentSkill.status.ToLower().Contains("purge") && (Random.Range(0, 5) == 0)) {
             unit.stat.dodgePercent = 0;
             unit.stat.protectionCount = 1;

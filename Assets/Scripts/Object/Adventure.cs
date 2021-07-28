@@ -65,6 +65,9 @@ public class Reward {
             case RewardType.COIN:
                 description = rewardAmount + " Coins";
                 break;
+            case RewardType.CAP:
+                description = rewardAmount + " " + ConsumableDatabase.consumables["Cap"][extraInfo].name;
+                break;
         }
     }
 
@@ -73,10 +76,13 @@ public class Reward {
             case RewardType.COIN:
                 ConsumableDatabase.consumables["Misc"][0].quantity += rewardAmount;
                 break;
+            case RewardType.CAP:
+                ConsumableDatabase.consumables["Cap"][extraInfo].quantity += rewardAmount;
+                break;
         }
     }
 }
 
 public enum RewardType {
-    COIN,
+    COIN, CAP
 }

@@ -13,7 +13,7 @@ public class UnitDatabase : MonoBehaviour
         units[0].setSkill(2, new Skill("Rock Smash", SkillType.ATTACK, StatType.STR, 210));
 
         units[1] = new Unit(1, "Defender", Rarity.COMMON, Element.EARTH, new Unit.Stat(1162,1020,836,1185,967), sprites[1]);
-        units[1].setSkill(2, new Skill("Shield", SkillType.BOOST, StatType.STR, 50, status: "DEF"));
+        units[1].setSkill(2, new Skill("Shield", SkillType.BOOST, StatType.STR, 60, status: "DEF"));
 
         units[2] = new Unit(2, "Thief", Rarity.COMMON, Element.EARTH, new Unit.Stat(985,1120,890,865,1183), sprites[2]);
         units[2].setSkill(2, new Skill("Double Strike", SkillType.ATTACK, StatType.AGI, 100, 2));
@@ -43,7 +43,7 @@ public class UnitDatabase : MonoBehaviour
         units[10].setSkill(2, new Skill("Slip", SkillType.DEBUFF, StatType.MAG, 15, 3, status: "AGI"));
 
         units[11] = new Unit(11, "Goblin Raider", Rarity.COMMON, Element.WATER, new Unit.Stat(1145,1093,982,999,1163), sprites[11]);
-        units[11].setSkill(2, new Skill("Rush", SkillType.BOOST, StatType.AGI, 60, status: "AGI"));
+        units[11].setSkill(2, new Skill("Rush", SkillType.BOOST, StatType.AGI, 75, status: "AGI"));
 
         units[12] = new Unit(12, "Lancer", Rarity.COMMON, Element.THUNDER, new Unit.Stat(1040,1130,1099,1103,1017), sprites[12]);
         units[12].setSkill(2, new Skill("Thunder Lance", SkillType.ATTACK, StatType.STR, 150, status: "stun"));
@@ -93,7 +93,7 @@ public class UnitDatabase : MonoBehaviour
         units[24].setSkill(2, new Skill("Heroic Code", SkillType.PROTECTION, extraEffect: 3));
 
         units[25] = new Unit(25, "Proud Bird", Rarity.RARE, Element.WIND, new Unit.Stat(1244,1186,1111,1211,1087), sprites[25]);
-        units[25].setSkill(2, new Skill("Enhance Defense", SkillType.BOOST, StatType.DEF, 60, status: "DEF"));
+        units[25].setSkill(2, new Skill("Protect", SkillType.PROTECTION, extraEffect: 2));
         units[25].setSkill(3, new Skill("Alliance", SkillType.AOE_BOOST, StatType.AGI, 20, status: "DEF"));
 
         units[26] = new Unit(26, "Saw Girl", Rarity.RARE, Element.WIND, new Unit.Stat(1100,1222,1257,1111,1099), sprites[26]);
@@ -187,13 +187,13 @@ public class UnitDatabase : MonoBehaviour
 
         units[47] = new Unit(47, "Ant Sentinel", Rarity.EPIC, Element.EARTH, new Unit.Stat(1199,1076,863,1183,1067), sprites[47]);
         units[47].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 120));
-        units[47].setSkill(2, new Skill("Protect", SkillType.PROTECTION, extraEffect: 4));
-        units[47].setSkill(3, new Skill("Hard Shell", SkillType.BOOST, StatType.STR, 65, status: "DEF"));
+        units[47].setSkill(2, new Skill("Hard Shell", SkillType.BOOST, StatType.STR, 65, status: "DEF"));
+        units[47].setSkill(3, new Skill("Protect", SkillType.PROTECTION, extraEffect: 4));
 
         units[48] = new Unit(48, "Dryad Warrior", Rarity.EPIC, Element.EARTH, new Unit.Stat(982,1192,877,1064,1172), sprites[48]);
         units[48].setSkill(1, new Skill("Double Attack", SkillType.ATTACK, StatType.STR, 60, 2));
         units[48].setSkill(2, new Skill("Quadruple Attack", SkillType.ATTACK, StatType.STR, 85, 4));
-        units[48].setSkill(3, new Skill("Wind-up", SkillType.BOOST, StatType.MAG, 70, status: "AGI"));
+        units[48].setSkill(3, new Skill("Wind-up", SkillType.BOOST, StatType.MAG, 95, status: "AGI"));
 
         units[49] = new Unit(49, "Earth Lion", Rarity.EPIC, Element.EARTH, new Unit.Stat(1113,1126,999,1087,1121), sprites[49]);
         units[49].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 120));
@@ -227,7 +227,7 @@ public class UnitDatabase : MonoBehaviour
 
         units[55] = new Unit(55, "Book Magician", Rarity.EPIC, Element.WIND, new Unit.Stat(1087,999,1107,877,1143), sprites[55]);
         units[55].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.AGI, 130));
-        units[55].setSkill(2, new Skill("Book of Wisdom", SkillType.AOE_BOOST, StatType.MAG, 45, status: "MAG"));
+        units[55].setSkill(2, new Skill("Book of Wisdom", SkillType.AOE_BOOST, StatType.MAG, 40, status: "MAG"));
         units[55].setSkill(3, new Skill("Levitation", SkillType.AOE_DODGE, skillPower: 5));
 
         units[56] = new Unit(56, "Dryad Archer", Rarity.EPIC, Element.WIND, new Unit.Stat(982,1145,1088,1086,1179), sprites[56]);
@@ -248,7 +248,7 @@ public class UnitDatabase : MonoBehaviour
         units[59] = new Unit(59, "Isis", Rarity.EPIC, Element.WIND, new Unit.Stat(1029,1108,1133,966,1074), sprites[59]);
         units[59].setSkill(1, new Skill("Wing Flap", SkillType.ATTACK, StatType.STR, 25, 4));
         units[59].setSkill(2, new Skill("Charm", SkillType.ATTACK, StatType.MAG, 270, status: "charm"));
-        units[59].setSkill(3, new Skill("Blessing", SkillType.AOE_HEAL, StatType.MAG, 30));
+        units[59].setSkill(3, new Skill("Blessing", SkillType.AOE_HEAL, StatType.MAG, 35));
 
         units[60] = new Unit(60, "Reaper", Rarity.EPIC, Element.WIND, new Unit.Stat(1013,1188,1097,962,1117), sprites[60]);
         units[60].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 120));
@@ -293,7 +293,7 @@ public class UnitDatabase : MonoBehaviour
         units[68] = new Unit(68, "Flaming Armor", Rarity.EPIC, Element.FIRE, new Unit.Stat(1162,855,1178,1192,923), sprites[68]);
         units[68].setSkill(1, new Skill("Burn", SkillType.ATTACK, StatType.MAG, 100, status: "burn"));
         units[68].setSkill(2, new Skill("Flame Strike", SkillType.ATTACK, StatType.MAG, 115, 3, "burn"));
-        units[68].setSkill(3, new Skill("Harden Armor", SkillType.BOOST, StatType.MAG, 60, status: "DEF"));
+        units[68].setSkill(3, new Skill("Harden Armor", SkillType.BOOST, StatType.MAG, 65, status: "DEF"));
 
         units[69] = new Unit(69, "Red Angel", Rarity.EPIC, Element.FIRE, new Unit.Stat(1077,1055,1129,1086,1133), sprites[69]);
         units[69].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.MAG, 140));
@@ -336,9 +336,9 @@ public class UnitDatabase : MonoBehaviour
         units[76].setSkill(3, new Skill("Frostbite", SkillType.ATTACK, StatType.STR, 55, 5, "poison, freeze"));
 
         units[77] = new Unit(77, "Lightning Tigras", Rarity.EPIC, Element.THUNDER, new Unit.Stat(963,1142,1025,987,1186), sprites[77]);
-        units[77].setSkill(1, new Skill("Quick Attack", SkillType.ATTACK, StatType.AGI, 35, 3, "stun"));
+        units[77].setSkill(1, new Skill("Quick Attack", SkillType.ATTACK, StatType.AGI, 40, 3, "stun"));
         units[77].setSkill(2, new Skill("Stunning Speed", SkillType.ATTACK, StatType.AGI, 65, 4, "stun"));
-        units[77].setSkill(3, new Skill("Adrenaline", SkillType.ATTACK, StatType.STR, 80, status: "AGI"));
+        units[77].setSkill(3, new Skill("Adrenaline", SkillType.BOOST, StatType.STR, 105, status: "AGI"));
 
         units[78] = new Unit(78, "Abomination", Rarity.EPIC, Element.THUNDER, new Unit.Stat(1015,1133,1165,1109,1123), sprites[78]);
         units[78].setSkill(1, new Skill("Fear Attack", SkillType.ATTACK, StatType.STR, 110, status: "silence"));
@@ -366,7 +366,7 @@ public class UnitDatabase : MonoBehaviour
         units[82].setSkill(3, new Skill("Great Attack", SkillType.ATTACK, StatType.STR, 310, status: "vulnerable, weaken, stun"));
 
         units[83] = new Unit(83, "Rider", Rarity.EPIC, Element.THUNDER, new Unit.Stat(1177,899,1115,1102,1183), sprites[83]);
-        units[83].setSkill(1, new Skill("Gallop", SkillType.BOOST, StatType.STR, 60, status: "AGI"));
+        units[83].setSkill(1, new Skill("Gallop", SkillType.BOOST, StatType.STR, 80, status: "AGI"));
         units[83].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 90, 3, "stun"));
         units[83].setSkill(3, new Skill("Cleave", SkillType.AOE_ATTACK, StatType.STR, 105));
 
@@ -503,7 +503,7 @@ public class UnitDatabase : MonoBehaviour
         units[110] = new Unit(110, "Zeus", Rarity.LEGENDARY, Element.THUNDER, new Unit.Stat(1285,1089,1217,1193,1211), sprites[110]);
         units[110].setSkill(1, new Skill("Thunder Bolt", SkillType.ATTACK, StatType.STR, 70, 2, "stun"));
         units[110].setSkill(2, new Skill("Thunderstorm", SkillType.AOE_ATTACK, StatType.MAG, 90, status: "stun"));
-        units[110].setSkill(3, new Skill("Greater Thunderstorm", SkillType.ATTACK, StatType.MAG, 55, 2, "stun"));
+        units[110].setSkill(3, new Skill("Greater Thunderstorm", SkillType.AOE_ATTACK, StatType.MAG, 55, 2, "stun"));
 
         units[111] = new Unit(111, "The End", Rarity.LEGENDARY, Element.VOID, new Unit.Stat(1299,1248,1226,1237,988), sprites[111]);
         units[111].setSkill(1, new Skill("Silence All", SkillType.AOE_ATTACK, StatType.STR, 40, status: "silence"));

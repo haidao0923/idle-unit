@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    GameObject formationObject;
+    public GameObject formationObject;
+    public GameObject selectHero;
     public List<Unit> inventory = new List<Unit>();
     public int[] formation = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
     void Awake()
     {
-        formationObject = GameObject.Find("Canvas/FormationScreen/FormationBackground");
         if (inventory.Count == 0) {
-            AddToInventory(4,4,11,11);
+            selectHero.SetActive(true);
             ConsumableDatabase.consumables["Stone"][0].quantity = 10;
             ConsumableDatabase.consumables["Stone"][1].quantity = 10;
             ConsumableDatabase.consumables["Stone"][2].quantity = 10;
@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
             ConsumableDatabase.consumables["Cap"][0].quantity = 10;
             ConsumableDatabase.consumables["Potion"][0].quantity = 10;
         }
+        ConsumableDatabase.consumables["Stone"][0].quantity = 10;
+        ConsumableDatabase.consumables["Stone"][1].quantity = 10;
+        ConsumableDatabase.consumables["Stone"][2].quantity = 10;
         for (int i = 0; i < formation.Length; i++) {
             Debug.Log(formation[i]);
         }

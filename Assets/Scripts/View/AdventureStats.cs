@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class AdventureStats : MonoBehaviour
 {
+    public int victoryBonus;
     public void OpenMenu(Adventure adventure, int currentWave, int minionWaveCount, int restWaveCount, int eliteWaveCount, int bossWaveCount) {
         transform.Find("Border/Title").GetChild(0).GetComponent<Text>().text = adventure.name;
         int minionPoint = (int) WaveTypePoint.MINION * minionWaveCount;
@@ -11,7 +12,7 @@ public class AdventureStats : MonoBehaviour
         int elitePoint = (int) WaveTypePoint.ELITE * eliteWaveCount;
         int bossPoint = (int) WaveTypePoint.BOSS * bossWaveCount;
         int subtotalPoint = minionPoint + restPoint + elitePoint + bossPoint;
-        int victoryBonus = 0;
+        victoryBonus = 0;
         if (currentWave > adventure.waveCount) {
             transform.Find("Border/Background/End Message").GetChild(0).GetComponent<Text>().text = "You Win";
             transform.Find("Border/Background/End Message").GetChild(1).GetComponent<Text>().text = "After a long adventure, your party gained a large amount of experiences, loots, and points!";
@@ -33,19 +34,23 @@ public class AdventureStats : MonoBehaviour
         transform.Find("Border/Background/Get Reward").gameObject.SetActive(false);
         Text rewardText = transform.Find("Border/Background/Get Reward").GetChild(1).GetComponent<Text>();
         for (int i = 0; i < adventure.rewards.Length; i++) {
-            if (adventure.currentPoint >= Adventure.pointTable[i] && !adventure.rewards[i].received) {
-                adventure.rewards[i].GetReward();
-                adventure.rewards[i].received = true;
-                rewardText.text = "You gained reward for " + Adventure.pointTable[i] + " point:\n" + adventure.rewards[i].description;
+            if (!adventure.rewards[i].received) {
+                if (adventure.currentPoint >= Adventure.pointTable[i]) {
+                    adventure.rewards[i].GetReward();
+                    adventure.rewards[i].received = true;
+                    rewardText.text = "You gained reward for " + Adventure.pointTable[i] + " point:\n" + adventure.rewards[i].description;
+                } else {
+                    break;
+                }
                 transform.Find("Border/Background/Get Reward").gameObject.SetActive(true);
-            } else {
-                break;
             }
         }
     }
 
     void OnDisable() {
-        GameObject.Find("Canvas/FormationScreen/FormationBackground/Traveling Merchant").SetActive(true);
+        if (victoryBonus > 0) {
+            GameObject.Find("Canvas/FormationScreen/FormationBackground/Traveling Merchant").SetActive(true);
+        }
     }
 }
 

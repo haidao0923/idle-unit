@@ -12,9 +12,7 @@ public class Consumable
         set
         {
             _quantity = value;
-            if (!SaveAndLoad.data.isLoading) {
-                SaveAndLoad.data.SaveConsumable();
-            }
+            SaveAndLoad.data.SaveConsumable();
         }
     }
     public int effect;

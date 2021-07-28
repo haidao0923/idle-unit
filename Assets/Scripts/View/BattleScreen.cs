@@ -153,10 +153,8 @@ public class BattleScreen : MonoBehaviour
             DisplayBanner(skillDisplay, actingUnit.currentSkill.name);
             actingUnit.transform.GetComponent<Animator>().Play("Grow");
             //Call Skill Action
-            skillEffect.StartSkillAction(actingUnit.currentSkill.skillType, actingUnit, playerSide, enemySide);
-            yield return new WaitForSeconds(2.5f);
+            yield return skillEffect.StartSkillAction(actingUnit.currentSkill.skillType, actingUnit, playerSide, enemySide);
             RemoveStatusEffectAfterActing();
-            yield return null;
         }
         isActing = false;
     }
@@ -285,7 +283,7 @@ public class BattleScreen : MonoBehaviour
             int random = Random.Range(0, 100);
             if (random >= 90) {
                 waveType = WaveType.Elite;
-            } else if (random >= 75) {
+            } else if (random >= 70) {
                 waveType = WaveType.Rest;
             } else {
                 waveType = WaveType.Minion;
@@ -335,7 +333,7 @@ public class BattleScreen : MonoBehaviour
         int random = Random.Range(0, 6);
         switch(random) {
             case 0:
-                int coinGained = Random.Range(1, 11) * 50;
+                int coinGained = Random.Range(1, 11) * 100;
                 ConsumableDatabase.consumables["Misc"][0].quantity += coinGained;
                 transitionText += "\nYour formation found " + coinGained + " coins";
                 break;

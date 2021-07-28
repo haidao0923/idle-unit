@@ -13,6 +13,7 @@ public class SummonScreen : MonoBehaviour
                       72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89};
     int[] legendaryUnit = {90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111};
 
+    List<int> displayUnitQueue = new List<int>();
     void Awake() {
         player = GameObject.FindGameObjectWithTag("GameController").GetComponent<Player>();
         slots = transform.Find("Border/Background/Slots");
@@ -26,42 +27,48 @@ public class SummonScreen : MonoBehaviour
         UpdateDisplay();
     }
 
-    void SummonUnit(SummonType summonType)
+    void SummonUnit(SummonType summonType, int amount)
     {
+        displayUnitQueue.Clear();
         int random = 0;
-        switch(summonType) {
-            case SummonType.BasicStone:
-                ConsumableDatabase.consumables["Stone"][0].quantity -= 1;
-                random = Random.Range(0, 100);
-                if (random >= 95) {
-                    GetRandomUnit(Rarity.RARE);
-                } else {
-                    GetRandomUnit(Rarity.COMMON);
-                }
-                break;
-            case SummonType.AdvanceStone:
-                ConsumableDatabase.consumables["Stone"][1].quantity -= 1;
-                random = Random.Range(0, 100);
-                if (random >= 95) {
-                    GetRandomUnit(Rarity.EPIC);
-                } else if (random >= 80) {
-                    GetRandomUnit(Rarity.RARE);
-                } else {
-                    GetRandomUnit(Rarity.COMMON);
-                }
-                break;
-            case SummonType.UltimateStone:
-                ConsumableDatabase.consumables["Stone"][2].quantity -= 1;
-                random = Random.Range(0, 100);
-                if (random >= 97) {
-                    GetRandomUnit(Rarity.LEGENDARY);
-                } else if (random >= 82) {
-                    GetRandomUnit(Rarity.EPIC);
-                } else {
-                    GetRandomUnit(Rarity.RARE);
-                }
-                break;
+        for (int i = 0; i < amount; i++) {
+            switch(summonType) {
+                case SummonType.BasicStone:
+                    ConsumableDatabase.consumables["Stone"][0].quantity -= 1;
+                    random = Random.Range(0, 100);
+                    if (random >= 95) {
+                        GetRandomUnit(Rarity.RARE);
+                    } else {
+                        GetRandomUnit(Rarity.COMMON);
+                    }
+                    break;
+                case SummonType.AdvanceStone:
+                    ConsumableDatabase.consumables["Stone"][1].quantity -= 1;
+                    random = Random.Range(0, 100);
+                    if (random >= 95) {
+                        GetRandomUnit(Rarity.EPIC);
+                    } else if (random >= 80) {
+                        GetRandomUnit(Rarity.RARE);
+                    } else {
+                        GetRandomUnit(Rarity.COMMON);
+                    }
+                    break;
+                case SummonType.UltimateStone:
+                    ConsumableDatabase.consumables["Stone"][2].quantity -= 1;
+                    random = Random.Range(0, 100);
+                    if (random >= 97) {
+                        GetRandomUnit(Rarity.LEGENDARY);
+                    } else if (random >= 80) {
+                        GetRandomUnit(Rarity.EPIC);
+                    } else {
+                        GetRandomUnit(Rarity.RARE);
+                    }
+                    break;
+            }
         }
+        UpdateDisplay();
+        player.AddToInventory(displayUnitQueue);
+        StartCoroutine(DisplaySummonedUnit(displayUnitQueue));
     }
 
     void GetRandomUnit(Rarity rarity) {
@@ -80,30 +87,78 @@ public class SummonScreen : MonoBehaviour
                 summonedUnitIndex = legendaryUnit[Random.Range(0, legendaryUnit.Length)];
                 break;
         }
-        player.AddToInventory(summonedUnitIndex);
-        Unit summonedUnit = new Unit(UnitDatabase.units[summonedUnitIndex]);
-        summonDisplay.GetComponent<Image>().color = Unit.GetRarityColor(summonedUnit.rarity);
-        summonDisplay.GetChild(0).GetComponent<Image>().sprite = summonedUnit.sprite;
-        slots.GetComponent<Animation>().Play();
-        UpdateDisplay();
+        displayUnitQueue.Add(summonedUnitIndex);
+    }
+    IEnumerator DisplaySummonedUnit(List<int> displayedUnitQueue) {
+        Transform showSummonTransform = slots.Find("Show Summon");
+        showSummonTransform.gameObject.SetActive(true);
+        for (int i = 0; i < displayedUnitQueue.Count; i++) {
+            Unit summonedUnit = new Unit(UnitDatabase.units[displayedUnitQueue[i]]);
+            summonDisplay.GetComponent<Image>().color = Unit.GetRarityColor(summonedUnit.rarity);
+            summonDisplay.GetChild(0).GetComponent<Image>().sprite = summonedUnit.sprite;
+            slots.GetComponent<Animation>().Play();
+            yield return new WaitForSeconds(1.25f);
+        }
+        showSummonTransform.gameObject.SetActive(false);
     }
 
+
     void CreateListener() {
-        slots.GetChild(0).Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
-        slots.GetChild(1).Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
-        slots.GetChild(2).Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
-        slots.GetChild(0).Find("Button").GetComponent<Button>().onClick.AddListener(() => SummonUnit(SummonType.BasicStone));
-        slots.GetChild(1).Find("Button").GetComponent<Button>().onClick.AddListener(() => SummonUnit(SummonType.AdvanceStone));
-        slots.GetChild(2).Find("Button").GetComponent<Button>().onClick.AddListener(() => SummonUnit(SummonType.UltimateStone));
+        for (int i = 0; i < 3; i++) {
+            int maxAmount = ConsumableDatabase.consumables["Stone"][i].quantity;
+            if (maxAmount <= 0) {
+                continue;
+            }
+            SummonType summonType = SummonType.BasicStone;
+            switch (i) {
+                case 0:
+                    summonType = SummonType.BasicStone;
+                    break;
+                case 1:
+                    summonType = SummonType.AdvanceStone;
+                    break;
+                case 2:
+                    summonType = SummonType.UltimateStone;
+                    break;
+            }
+            slots.GetChild(i).Find("Use Buttons").Find("Use 1").GetComponent<Button>().onClick.RemoveAllListeners();
+            slots.GetChild(i).Find("Use Buttons").Find("Use 10").GetComponent<Button>().onClick.RemoveAllListeners();
+            slots.GetChild(i).Find("Use Buttons").Find("Use 1").GetComponent<Button>().onClick.AddListener(() => SummonUnit(summonType, 1));
+            slots.GetChild(i).Find("Use Buttons").Find("Use 10").GetComponent<Button>().onClick.AddListener(() => SummonUnit(summonType, 10));
+        }
     }
     void UpdateDisplay() {
         for (int i = 0; i < 3; i++) {
-            slots.GetChild(i).Find("Count").GetChild(1).GetComponent<Text>().text = "x" + ConsumableDatabase.consumables["Stone"][i].quantity;
-            if (ConsumableDatabase.consumables["Stone"][i].quantity > 0) {
-                slots.GetChild(i).Find("Button").GetComponent<Button>().interactable = true;
-            } else {
-                slots.GetChild(i).Find("Button").GetComponent<Button>().onClick.RemoveAllListeners();
-                slots.GetChild(i).Find("Button").GetComponent<Button>().interactable = false;
+            SummonType summonType = SummonType.BasicStone;
+            switch (i) {
+                case 0:
+                    summonType = SummonType.BasicStone;
+                    break;
+                case 1:
+                    summonType = SummonType.AdvanceStone;
+                    break;
+                case 2:
+                    summonType = SummonType.UltimateStone;
+                    break;
+            }
+
+            int quantity = ConsumableDatabase.consumables["Stone"][i].quantity;
+            slots.GetChild(i).Find("Count").GetChild(1).GetComponent<Text>().text = "x" + quantity;
+            if (quantity <= 0) {
+                slots.GetChild(i).Find("Use Buttons").Find("Use 1").GetComponent<Button>().interactable = false;
+                slots.GetChild(i).Find("Use Buttons").Find("Use 10").GetComponent<Button>().interactable = false;
+                slots.GetChild(i).Find("Use Buttons").Find("Use All").GetComponent<Button>().interactable = false;
+            }
+            if (quantity > 0) {
+                slots.GetChild(i).Find("Use Buttons").Find("Use 1").GetComponent<Button>().interactable = true;
+                if (quantity >= 10) {
+                    slots.GetChild(i).Find("Use Buttons").Find("Use 10").GetComponent<Button>().interactable = true;
+                } else {
+                    slots.GetChild(i).Find("Use Buttons").Find("Use 10").GetComponent<Button>().interactable = false;
+                }
+                slots.GetChild(i).Find("Use Buttons").Find("Use All").GetComponent<Button>().interactable = true;
+                slots.GetChild(i).Find("Use Buttons").Find("Use All").GetComponent<Button>().onClick.RemoveAllListeners();
+                slots.GetChild(i).Find("Use Buttons").Find("Use All").GetComponent<Button>().onClick.AddListener(() => SummonUnit(summonType, quantity));
             }
         }
     }

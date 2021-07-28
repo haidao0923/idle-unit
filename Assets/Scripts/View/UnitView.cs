@@ -8,6 +8,7 @@ public class UnitView : MonoBehaviour
     Transform slots;
     public int formationIndex;
     public int inventoryIndex;
+    public int selectHeroIndex = -1;
     Unit unit;
     void Awake()
     {
@@ -17,7 +18,11 @@ public class UnitView : MonoBehaviour
     }
 
     void OnEnable() {
-        unit = player.inventory[inventoryIndex];
+        if (selectHeroIndex > 0) {
+            unit = UnitDatabase.GetUnitById(selectHeroIndex);
+        } else {
+            unit = player.inventory[inventoryIndex];
+        }
         UpdateDisplay();
     }
     void UpdateDisplay()
@@ -61,6 +66,19 @@ public class UnitView : MonoBehaviour
         view.GetChild(7).GetChild(3).GetChild(0).GetComponent<Text>().text = "Magic: " + unit.stat.magic;
         view.GetChild(7).GetChild(4).GetChild(0).GetComponent<Text>().text = "Defense: " + unit.stat.defense;
         view.GetChild(7).GetChild(5).GetChild(0).GetComponent<Text>().text = "Agility: " + unit.stat.agility;
+        view.GetChild(9).gameObject.SetActive(false);
+
+        if (selectHeroIndex > 0) {
+            view.GetChild(8).gameObject.SetActive(false);
+            view.GetChild(10).gameObject.SetActive(true);
+            view.GetChild(10).GetComponent<Button>().onClick.RemoveAllListeners();
+            view.GetChild(10).GetComponent<Button>().onClick.AddListener(() => SelectHero(selectHeroIndex));
+            return;
+        } else {
+            view.GetChild(8).gameObject.SetActive(true);
+            view.GetChild(10).gameObject.SetActive(false);
+        }
+
         view.GetChild(8).GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
         if (inventoryIndex == player.formation[formationIndex]) {
             view.GetChild(8).GetChild(0).GetChild(0).GetComponent<Text>().text = "Remove";
@@ -71,7 +89,11 @@ public class UnitView : MonoBehaviour
         }
         view.GetChild(8).GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
         view.GetChild(8).GetChild(1).GetComponent<Button>().onClick.AddListener(() => OpenBoost());
-        view.GetChild(9).gameObject.SetActive(false);
+    }
+    void SelectHero(int selectHeroIndex) {
+        player.AddToInventory(selectHeroIndex, 4, 4, 11, 11);
+        transform.parent.Find("Select Hero").gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void Assign() {

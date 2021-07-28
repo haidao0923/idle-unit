@@ -33,6 +33,9 @@ public class SaveAndLoad : MonoBehaviour
         Load();
     }
     public void SaveInventory() {
+        if (isLoading) {
+            return;
+        }
         savedData.inventory.Clear();
         for (int i = 0; i < player.inventory.Count; i++) {
             Unit unit = player.inventory[i];
@@ -41,6 +44,9 @@ public class SaveAndLoad : MonoBehaviour
         Save();
     }
     public void SaveFormation() {
+        if (isLoading) {
+            return;
+        }
         savedData.formation = player.formation;
         Save();
     }
@@ -57,6 +63,9 @@ public class SaveAndLoad : MonoBehaviour
 
     }
     public void SaveConsumable() {
+        if (isLoading) {
+            return;
+        }
         savedData.consumables.Clear();
         foreach (KeyValuePair<string, Consumable[]> element in ConsumableDatabase.consumables) {
             for (int i = 0; i < element.Value.Count(); i++) {
@@ -71,25 +80,53 @@ public class SaveAndLoad : MonoBehaviour
         }
     }
     public void SaveAdventure() {
-        for (int i = 0; i < AdventureDatabase.adventures.Length; i++) {
-            if (AdventureDatabase.adventures[i] == null) {
-                break;
-            }
-            if (savedData.adventureList[i] == null) {
-                savedData.adventureList[i] = new SavedAdventureData();
-            }
-            savedData.adventureList[i].currentPoint = AdventureDatabase.adventures[i].currentPoint;
+        if (isLoading) {
+            return;
         }
+        SaveAdventureHelper(AdventureDatabase.adventures, savedData.adventureList);
+        SaveAdventureHelper(AdventureDatabase.challengeAdventures, savedData.challengeAdventureList);
+        SaveAdventureHelper(AdventureDatabase.ascendedAdventures, savedData.ascendedAdventureList);
         savedData.clearedAdventures = Adventure.clearedAdventures;
         Save();
     }
-    public void LoadAdventure(SavedData loadedData) {
-        for (int i = 0; i < loadedData.adventureList.Length; i++) {
-            AdventureDatabase.adventures[i].currentPoint = loadedData.adventureList[i].currentPoint;
+    private void SaveAdventureHelper(Adventure[] adventures, SavedAdventureData[] savedAdventureList) {
+        for (int i = 0; i < adventures.Length; i++) {
+            if (adventures[i] == null) {
+                break;
+            }
+            if (savedAdventureList[i] == null) {
+                savedAdventureList[i] = new SavedAdventureData();
+            }
+            savedAdventureList[i].currentPoint = adventures[i].currentPoint;
+            savedAdventureList[i].cleared = adventures[i].cleared;
+            for (int j = 0; j < savedAdventureList[i].receivedReward.Length; j++) {
+                savedAdventureList[i].receivedReward[j] = adventures[i].rewards[j].received;
+            }
         }
+    }
+    public void LoadAdventure(SavedData loadedData) {
+        LoadAdventureHelper(AdventureDatabase.adventures, loadedData.adventureList);
+        LoadAdventureHelper(AdventureDatabase.challengeAdventures, loadedData.challengeAdventureList);
+        LoadAdventureHelper(AdventureDatabase.ascendedAdventures, loadedData.ascendedAdventureList);
+
         Adventure.clearedAdventures = loadedData.clearedAdventures;
     }
+    private void LoadAdventureHelper(Adventure[] adventures, SavedAdventureData[] loadedAdventureList) {
+        for (int i = 0; i < loadedAdventureList.Length; i++) {
+            if (loadedAdventureList[i] == null) {
+                break;
+            }
+            adventures[i].currentPoint = loadedAdventureList[i].currentPoint;
+            adventures[i].cleared = loadedAdventureList[i].cleared;
+            for (int j = 0; j < loadedAdventureList[i].receivedReward.Length; j++) {
+                adventures[i].rewards[j].received = loadedAdventureList[i].receivedReward[j];
+            }
+        }
+    }
     public void SaveCooldownTimer() {
+        if (isLoading) {
+            return;
+        }
         savedData.lastRevivedTime = ConsumableDatabase.lastRevivedTime.ToBinary();
         Save();
     }
@@ -115,12 +152,12 @@ public class SaveAndLoad : MonoBehaviour
             json = SecureHelper.EncryptDecrypt(json, key);
             reader.Close();
 
+            Debug.Log(json);
             SavedData data = new SavedData();
             if (SecureHelper.VerifyHash(json)) {
                 data = JsonUtility.FromJson<SavedData>(json);
             }
             savedData = data;
-            Debug.Log(data.ToString());
 
             LoadInventoryAndFormation(data);
             LoadConsumable(data);
@@ -160,7 +197,8 @@ public class SavedConsumableData {
 [Serializable]
 public class SavedAdventureData {
     public int currentPoint;
-
+    public bool cleared;
+    public bool[] receivedReward = new bool[12];
     public SavedAdventureData() {
         // Nothing to add for now
     }
@@ -171,7 +209,9 @@ public class SavedData {
     public List<SavedUnitData> inventory = new List<SavedUnitData>();
     public int[] formation = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
     public List<SavedConsumableData> consumables = new List<SavedConsumableData>();
-    public SavedAdventureData[] adventureList = new SavedAdventureData[2];
+    public SavedAdventureData[] adventureList = new SavedAdventureData[40];
+    public SavedAdventureData[] challengeAdventureList = new SavedAdventureData[40];
+    public SavedAdventureData[] ascendedAdventureList = new SavedAdventureData[40];
     public long lastRevivedTime;
     public int clearedAdventures;
 
