@@ -31,8 +31,6 @@ public class Adventure
     }
     public static int[] pointTable = {1000, 3000, 6000, 9000, 12000, 16000, 22000, 28000, 35000, 50000, 75000, 100000};
     public Reward[] rewards = new Reward[12];
-    public bool[] receivedRewards = new bool[12];
-
 
     public Adventure(int id, string name, int waveCount, int[] minionsId, int minMinionLevel, int maxMinionLevel,
                      int[] eliteFormation, int[] eliteFormationLevel, int[] bossFormation, int[] bossFormationLevel,
@@ -56,6 +54,7 @@ public class Reward {
     RewardType rewardType;
     int rewardAmount;
     int extraInfo;
+    public bool received;
     public string description;
 
     public Reward(RewardType rewardType, int rewardAmount, int extraInfo = -1) {

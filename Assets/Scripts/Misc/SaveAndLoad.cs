@@ -90,11 +90,11 @@ public class SaveAndLoad : MonoBehaviour
         Adventure.clearedAdventures = loadedData.clearedAdventures;
     }
     public void SaveCooldownTimer() {
-        savedData.lastRevivedTime = ConsumableDatabase.lastRevivedTime;
+        savedData.lastRevivedTime = ConsumableDatabase.lastRevivedTime.ToBinary();
         Save();
     }
     public void LoadCooldownTimer(SavedData loadedData) {
-        ConsumableDatabase.lastRevivedTime = loadedData.lastRevivedTime;
+        ConsumableDatabase.lastRevivedTime = DateTime.FromBinary(loadedData.lastRevivedTime);
     }
     public void Save() {
         string json = JsonUtility.ToJson(savedData);
@@ -172,7 +172,7 @@ public class SavedData {
     public int[] formation = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
     public List<SavedConsumableData> consumables = new List<SavedConsumableData>();
     public SavedAdventureData[] adventureList = new SavedAdventureData[2];
-    public System.DateTime lastRevivedTime;
+    public long lastRevivedTime;
     public int clearedAdventures;
 
 }

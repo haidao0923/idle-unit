@@ -11,8 +11,11 @@ public class Player : MonoBehaviour
     {
         formationObject = GameObject.Find("Canvas/FormationScreen/FormationBackground");
         if (inventory.Count == 0) {
-            AddToInventory(9,7,10,6,0,1,2,2,3,4,5,81,12,12,11,23,2,4,6,8,1,3,6,5,4,12,11,23,2,4,6,8,1,3,6,5,4,2,4);
+            AddToInventory(4,4,11,11);
             ConsumableDatabase.consumables["Stone"][0].quantity = 10;
+            ConsumableDatabase.consumables["Stone"][1].quantity = 10;
+            ConsumableDatabase.consumables["Stone"][2].quantity = 10;
+
             ConsumableDatabase.consumables["Cap"][0].quantity = 10;
             ConsumableDatabase.consumables["Potion"][0].quantity = 10;
         }

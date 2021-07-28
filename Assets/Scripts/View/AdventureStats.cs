@@ -23,7 +23,7 @@ public class AdventureStats : MonoBehaviour
         }
         int totalScore = (int) (subtotalPoint * (1 + victoryBonus / 100f));
         transform.Find("Border/Background/Point Background").GetChild(0).GetComponent<Text>().text =
-        string.Format("Minion Victories: 50 x {0} = {1}\n\nRest Visited: 25 x {2} = {3}\n\nElite Victories: 150 x {4} = {5}\n\nBoss Victories: 250 x {6} = {7}\n\nSubtotal Point: {8}\n\nVictory Bonus: {9}%\n\nTotal Point: {10}",
+        string.Format("Minion Victories: 50 x {0} = {1}\n\nRest Visited: 25 x {2} = {3}\n\nElite Victories: 100 x {4} = {5}\n\nBoss Victories: 150 x {6} = {7}\n\nSubtotal Point: {8}\n\nVictory Bonus: {9}%\n\nTotal Point: {10}",
         minionWaveCount, minionPoint, restWaveCount, restPoint, eliteWaveCount, elitePoint, bossWaveCount, bossPoint, subtotalPoint, victoryBonus, totalScore);
 
         int pointToGain = (int) (subtotalPoint * victoryBonus / 100f);
@@ -32,9 +32,10 @@ public class AdventureStats : MonoBehaviour
         transform.Find("Border/Background/Menu/Point").GetChild(0).GetComponent<Text>().text = "Current Point: " + adventure.currentPoint;
         transform.Find("Border/Background/Get Reward").gameObject.SetActive(false);
         Text rewardText = transform.Find("Border/Background/Get Reward").GetChild(1).GetComponent<Text>();
-        for (int i = 0; i < adventure.receivedRewards.Length; i++) {
-            if (adventure.currentPoint >= Adventure.pointTable[i] && !adventure.receivedRewards[i]) {
+        for (int i = 0; i < adventure.rewards.Length; i++) {
+            if (adventure.currentPoint >= Adventure.pointTable[i] && !adventure.rewards[i].received) {
                 adventure.rewards[i].GetReward();
+                adventure.rewards[i].received = true;
                 rewardText.text = "You gained reward for " + Adventure.pointTable[i] + " point:\n" + adventure.rewards[i].description;
                 transform.Find("Border/Background/Get Reward").gameObject.SetActive(true);
             } else {
