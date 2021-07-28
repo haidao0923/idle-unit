@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class UnitDatabase : MonoBehaviour
 {
-    public Sprite[] sprites = new Sprite[15];
-    public static Unit[] units = new Unit[15];
+    public Sprite[] sprites = new Sprite[112];
+    public static Unit[] units = new Unit[112];
 
     void Awake()
     {
@@ -59,7 +59,7 @@ public class UnitDatabase : MonoBehaviour
         units[15].setSkill(2, new Skill("Dagger Toss", SkillType.ATTACK, StatType.STR, 55, 4, "poison"));
         units[15].setSkill(3, new Skill("Rush", SkillType.BOOST, StatType.STR, 85, 1, "AGI"));
 
-        units[16] = new Unit(16, "Black Knight", Rarity.RARE, Element.EARTH, new Unit.Stat(1199,1290,1020,1100,1043), sprites[16]);
+        units[16] = new Unit(16, "Devil Knight", Rarity.RARE, Element.EARTH, new Unit.Stat(1199,1290,1020,1100,1043), sprites[16]);
         units[16].setSkill(2, new Skill("Heavy Slash", SkillType.ATTACK, StatType.STR, 210, status: "vulnerable"));
 
         units[17] = new Unit(17, "Earth Crocodile", Rarity.RARE, Element.EARTH, new Unit.Stat(1115,1183,985,1076,1266), sprites[17]);
@@ -159,7 +159,7 @@ public class UnitDatabase : MonoBehaviour
 
         units[41] = new Unit(41, "Puppet", Rarity.RARE, Element.THUNDER, new Unit.Stat(1087,925,1299,985,1211), sprites[41]);
         units[41].setSkill(1, new Skill("Shadow Strike", SkillType.ATTACK, StatType.MAG, 90, status: "silence"));
-        units[41].setSkill(2, new Skill("Penetrating Strike", SkillType.ATTACK, StatType.MAG, 50, status: "purge"));
+        units[41].setSkill(2, new Skill("Penetrating Strike", SkillType.ATTACK, StatType.MAG, 190, status: "purge"));
         units[41].setSkill(3, new Skill("Fluid Motion", SkillType.DODGE, skillPower: 20));
 
         units[42] = new Unit(42, "Orbital Dragon", Rarity.RARE, Element.THUNDER, new Unit.Stat(1287,1100,1239,1158,1249), sprites[42]);
@@ -170,44 +170,345 @@ public class UnitDatabase : MonoBehaviour
         units[43].setSkill(2, new Skill("Defend", SkillType.BOOST, StatType.MAG, 60, status: "DEF"));
         units[43].setSkill(3, new Skill("Shield", SkillType.AOE_BOOST, StatType.MAG, 20, status: "DEF"));
 
-        units[44] = new Unit(44, "Bamboo Master Bob", Rarity.EPIC, Element.EARTH, new Unit.Stat(982,892,1188,1002,1067), sprites[44]);
-        units[44].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[44] = new Unit(44, "Bamboo Master Bob", Rarity.EPIC, Element.EARTH, new Unit.Stat(1188,1200,1143,1162,1094), sprites[44]);
+        units[44].setSkill(1, new Skill("Heavy Attack", SkillType.ATTACK, StatType.STR, 150, 2, "vulnerable"));
+        units[44].setSkill(2, new Skill("Lunch Break", SkillType.HEAL, StatType.MAG, 20));
+        units[44].setSkill(3, new Skill("Meditation Class", SkillType.AOE_BOOST, StatType.DEF, 30, status: "DEF"));
 
-        units[45] = new Unit(45, "Robot", Rarity.EPIC, Element.EARTH, new Unit.Stat(982,892,1188,1002,1067), sprites[45]);
-        units[45].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[45] = new Unit(45, "Robot", Rarity.EPIC, Element.EARTH, new Unit.Stat(1104,1100,1162,1123,976), sprites[45]);
+        units[45].setSkill(1, new Skill("Penetrating Strike", SkillType.ATTACK, StatType.STR, 70, status: "purge"));
+        units[45].setSkill(2, new Skill("Steel Armor", SkillType.BOOST, StatType.MAG, 60, status: "DEF"));
+        units[45].setSkill(3, new Skill("Energy Shield", SkillType.AOE_PROTECTION));
 
-        units[46] = new Unit(46, "Ant Queen", Rarity.EPIC, Element.EARTH, new Unit.Stat(982,892,1188,1002,1067), sprites[46]);
-        units[46].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[46] = new Unit(46, "Ant Queen", Rarity.EPIC, Element.EARTH, new Unit.Stat(964,1169,921,1103,1129), sprites[46]);
+        units[46].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 130));
+        units[46].setSkill(2, new Skill("Sting", SkillType.ATTACK, StatType.STR, 160, 2, "burn"));
+        units[46].setSkill(3, new Skill("Alliance", SkillType.AOE_BOOST, StatType.STR, 20, status: "STR,DEF"));
 
-        units[47] = new Unit(47, "Ant Sentinel", Rarity.EPIC, Element.EARTH, new Unit.Stat(982,892,1188,1002,1067), sprites[47]);
-        units[47].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[47] = new Unit(47, "Ant Sentinel", Rarity.EPIC, Element.EARTH, new Unit.Stat(1199,1076,863,1183,1067), sprites[47]);
+        units[47].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 120));
+        units[47].setSkill(2, new Skill("Protect", SkillType.PROTECTION, extraEffect: 4));
+        units[47].setSkill(3, new Skill("Hard Shell", SkillType.BOOST, StatType.STR, 65, status: "DEF"));
 
-        units[48] = new Unit(48, "Dryad Warrior", Rarity.EPIC, Element.EARTH, new Unit.Stat(982,892,1188,1002,1067), sprites[48]);
-        units[48].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[48] = new Unit(48, "Dryad Warrior", Rarity.EPIC, Element.EARTH, new Unit.Stat(982,1192,877,1064,1172), sprites[48]);
+        units[48].setSkill(1, new Skill("Double Attack", SkillType.ATTACK, StatType.STR, 60, 2));
+        units[48].setSkill(2, new Skill("Quadruple Attack", SkillType.ATTACK, StatType.STR, 85, 4));
+        units[48].setSkill(3, new Skill("Wind-up", SkillType.BOOST, StatType.MAG, 70, status: "AGI"));
 
-        units[49] = new Unit(49, "Earth Lion", Rarity.EPIC, Element.EARTH, new Unit.Stat(982,892,1188,1002,1067), sprites[49]);
-        units[49].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[49] = new Unit(49, "Earth Lion", Rarity.EPIC, Element.EARTH, new Unit.Stat(1113,1126,999,1087,1121), sprites[49]);
+        units[49].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 120));
+        units[49].setSkill(2, new Skill("Hunt", SkillType.ATTACK_ADJACENT, StatType.STR, 60, 2));
+        units[49].setSkill(3, new Skill("Pride", SkillType.BOOST, StatType.HLT, 35, 3, "STR"));
 
-        units[50] = new Unit(50, "Hydra", Rarity.EPIC, Element.EARTH, new Unit.Stat(982,892,1188,1002,1067), sprites[50]);
-        units[50].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[50] = new Unit(50, "Hydra", Rarity.EPIC, Element.EARTH, new Unit.Stat(1200,1088,1044,1055,1144), sprites[50]);
+        units[50].setSkill(1, new Skill("Triple Attack", SkillType.ATTACK, StatType.STR, 35, 3));
+        units[50].setSkill(2, new Skill("Tail Whip", SkillType.AOE_ATTACK, StatType.STR, 85));
+        units[50].setSkill(3, new Skill("Regenerate", SkillType.HEAL, StatType.MAG, 40, status: "purify"));
 
-        units[51] = new Unit(51, "Man-eater", Rarity.EPIC, Element.EARTH, new Unit.Stat(982,892,1188,1002,1067), sprites[51]);
-        units[51].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[51] = new Unit(51, "Man-eater", Rarity.EPIC, Element.EARTH, new Unit.Stat(1075,1162,1199,1079,1121), sprites[51]);
+        units[51].setSkill(1, new Skill("Innate Protection", SkillType.PROTECTION));
+        units[51].setSkill(2, new Skill("Poison Attack", SkillType.ATTACK_ADJACENT, StatType.STR, 105, status: "poison"));
+        units[51].setSkill(3, new Skill("Numbing Bite", SkillType.ATTACK, StatType.STR, 340, status: "weaken"));
 
-        units[52] = new Unit(52, "Mineral Bear", Rarity.EPIC, Element.EARTH, new Unit.Stat(982,892,1188,1002,1067), sprites[52]);
-        units[52].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[52] = new Unit(52, "Mineral Bear", Rarity.EPIC, Element.EARTH, new Unit.Stat(1199,1136,1179,1173,1087), sprites[52]);
+        units[52].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 120));
+        units[52].setSkill(2, new Skill("Grapple", SkillType.ATTACK, StatType.STR, 295, status: "vulnerable"));
+        units[52].setSkill(3, new Skill("Mineral Throw", SkillType.ATTACK, StatType.STR, 105, 3, "burn, poison, weaken"));
 
-        units[53] = new Unit(53, "Serpent", Rarity.EPIC, Element.EARTH, new Unit.Stat(982,892,1188,1002,1067), sprites[53]);
-        units[53].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[53] = new Unit(53, "Serpent", Rarity.EPIC, Element.EARTH, new Unit.Stat(1000,1166,1200,1113,1089), sprites[53]);
+        units[53].setSkill(1, new Skill("Poison Attack", SkillType.ATTACK, StatType.STR, 120, status: "poison"));
+        units[53].setSkill(2, new Skill("Spurt Venom", SkillType.ATTACK_ADJACENT, StatType.STR, 95, status: "poison"));
+        units[53].setSkill(3, new Skill("Poison Slash", SkillType.AOE_ATTACK, StatType.STR, 80, status: "poison"));
 
-        units[54] = new Unit(54, "Flying Hero, Wingeno", Rarity.EPIC, Element.WIND, new Unit.Stat(982,892,1188,1002,1067), sprites[54]);
-        units[54].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[54] = new Unit(54, "Flying Hero, Wingeno", Rarity.EPIC, Element.WIND, new Unit.Stat(1082,1198,1144,976,1200), sprites[54]);
+        units[54].setSkill(1, new Skill("Purging Attack", SkillType.ATTACK, StatType.STR, 110, status: "purge"));
+        units[54].setSkill(2, new Skill("Blade Drop", SkillType.ATTACK_ADJACENT, StatType.STR, 70, 2));
+        units[54].setSkill(3, new Skill("Flight", SkillType.DODGE, skillPower: 30));
 
-        units[55] = new Unit(55, "Book Magician", Rarity.EPIC, Element.WIND, new Unit.Stat(982,892,1188,1002,1067), sprites[55]);
-        units[55].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[55] = new Unit(55, "Book Magician", Rarity.EPIC, Element.WIND, new Unit.Stat(1087,999,1107,877,1143), sprites[55]);
+        units[55].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.AGI, 130));
+        units[55].setSkill(2, new Skill("Book of Wisdom", SkillType.AOE_BOOST, StatType.MAG, 45, status: "MAG"));
+        units[55].setSkill(3, new Skill("Levitation", SkillType.AOE_DODGE, skillPower: 5));
 
-        units[56] = new Unit(56, "Dryad Archer", Rarity.EPIC, Element.WIND, new Unit.Stat(982,892,1188,1002,1067), sprites[56]);
-        units[56].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 40, 3, "stun"));
+        units[56] = new Unit(56, "Dryad Archer", Rarity.EPIC, Element.WIND, new Unit.Stat(982,1145,1088,1086,1179), sprites[56]);
+        units[56].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.AGI, 135));
+        units[56].setSkill(2, new Skill("Focused Shot", SkillType.ATTACK, StatType.MAG, 290, status: "burn, poison"));
+        units[56].setSkill(3, new Skill("Trick Shot", SkillType.ATTACK, StatType.STR, 160, 2, "vulnerable, weaken"));
+
+        units[57] = new Unit(57, "Fat Dragon", Rarity.EPIC, Element.WIND, new Unit.Stat(1156,1167,899,1086,1044), sprites[57]);
+        units[57].setSkill(1, new Skill("Strike", SkillType.ATTACK, StatType.STR, 130));
+        units[57].setSkill(2, new Skill("Descent", SkillType.AOE_ATTACK, StatType.STR, 80));
+        units[57].setSkill(3, new Skill("Buff", SkillType.BOOST, StatType.STR, 30, 3, "DEF"));
+
+        units[58] = new Unit(58, "Fylar", Rarity.EPIC, Element.WIND, new Unit.Stat(1114,1088,1163,1067,1103), sprites[58]);
+        units[58].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.MAG, 110));
+        units[58].setSkill(2, new Skill("Hypnotism", SkillType.ATTACK, StatType.MAG, 155, 2, "charm"));
+        units[58].setSkill(3, new Skill("Heal", SkillType.HEAL, StatType.MAG, 35, 3));
+
+        units[59] = new Unit(59, "Isis", Rarity.EPIC, Element.WIND, new Unit.Stat(1029,1108,1133,966,1074), sprites[59]);
+        units[59].setSkill(1, new Skill("Wing Flap", SkillType.ATTACK, StatType.STR, 25, 4));
+        units[59].setSkill(2, new Skill("Charm", SkillType.ATTACK, StatType.MAG, 270, status: "charm"));
+        units[59].setSkill(3, new Skill("Blessing", SkillType.AOE_HEAL, StatType.MAG, 30));
+
+        units[60] = new Unit(60, "Reaper", Rarity.EPIC, Element.WIND, new Unit.Stat(1013,1188,1097,962,1117), sprites[60]);
+        units[60].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 120));
+        units[60].setSkill(2, new Skill("Weaken", SkillType.DEBUFF, StatType.MAG, 10, 3, "STR"));
+        units[60].setSkill(3, new Skill("Great Slash", SkillType.AOE_ATTACK, StatType.STR, 45, 2));
+
+        units[61] = new Unit(61, "Youcan", Rarity.EPIC, Element.WIND, new Unit.Stat(1164,1200,1093,1182,1179), sprites[61]);
+        units[61].setSkill(1, new Skill("Swoop", SkillType.ATTACK, StatType.STR, 140));
+        units[61].setSkill(2, new Skill("Aggression", SkillType.BOOST, StatType.DEF, 100, status: "STR"));
+        units[61].setSkill(3, new Skill("Rush", SkillType.BOOST, StatType.MAG, 130, status: "AGI"));
+
+        units[62] = new Unit(62, "Dragon Queen Tiamat", Rarity.EPIC, Element.FIRE, new Unit.Stat(1008,1182,854,1086,1113), sprites[62]);
+        units[62].setSkill(1, new Skill("Double Slash", SkillType.ATTACK, StatType.STR, 60, 2));
+        units[62].setSkill(2, new Skill("Corrupting Strike", SkillType.ATTACK, StatType.STR, 135, 2, "weaken, silence"));
+        units[62].setSkill(3, new Skill("Great Flame", SkillType.ATTACK, StatType.STR, 330, status: "burn"));
+
+        units[63] = new Unit(63, "Blood Sage", Rarity.EPIC, Element.FIRE, new Unit.Stat(1199,1145,1076,1119,1087), sprites[63]);
+        units[63].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 130));
+        units[63].setSkill(2, new Skill("Blood Strike", SkillType.ATTACK, StatType.HLT, 160, 2));
+        units[63].setSkill(3, new Skill("Blood Rain", SkillType.AOE_ATTACK, StatType.HLT, 95));
+
+        units[64] = new Unit(64, "Candle Knight", Rarity.EPIC, Element.FIRE, new Unit.Stat(1119,1124,1133,1086,989), sprites[64]);
+        units[64].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 120, status: "burn"));
+        units[64].setSkill(2, new Skill("Candlelight", SkillType.HEAL, StatType.MAG, 35, 4, "burn, purify"));
+        units[64].setSkill(3, new Skill("Wax Attack", SkillType.AOE_ATTACK, StatType.MAG, 80, status: "burn"));
+
+        units[65] = new Unit(65, "Charred Demon", Rarity.EPIC, Element.FIRE, new Unit.Stat(1102,866,1193,1111,999), sprites[65]);
+        units[65].setSkill(1, new Skill("Burn All", SkillType.AOE_ATTACK, StatType.MAG, 25, status: "burn"));
+        units[65].setSkill(2, new Skill("Burn More", SkillType.AOE_ATTACK, StatType.MAG, 30, 3, "burn"));
+        units[65].setSkill(3, new Skill("Burnt", SkillType.DODGE, skillPower: 1));
+
+        units[66] = new Unit(66, "Fire Wolf", Rarity.EPIC, Element.FIRE, new Unit.Stat(985,1137,1162,1034,1156), sprites[66]);
+        units[66].setSkill(1, new Skill("Assault", SkillType.ATTACK, StatType.STR, 130, status: "burn"));
+        units[66].setSkill(2, new Skill("Charge", SkillType.BOOST, StatType.MAG, 55, 3, "AGI"));
+        units[66].setSkill(3, new Skill("Wolf Pack", SkillType.AOE_BOOST, StatType.MAG, 30, status: "STR"));
+
+        units[67] = new Unit(67, "Flame Gargoyle", Rarity.EPIC, Element.FIRE, new Unit.Stat(1104,1191,1176,1013,1022), sprites[67]);
+        units[67].setSkill(1, new Skill("Weaken Strike", SkillType.ATTACK, StatType.STR, 100, status: "weaken"));
+        units[67].setSkill(2, new Skill("Piercing Strike", SkillType.ATTACK, StatType.STR, 280, status: "purge"));
+        units[67].setSkill(3, new Skill("Triple Attack", SkillType.ATTACK, StatType.MAG, 105, 3, "burn"));
+
+        units[68] = new Unit(68, "Flaming Armor", Rarity.EPIC, Element.FIRE, new Unit.Stat(1162,855,1178,1192,923), sprites[68]);
+        units[68].setSkill(1, new Skill("Burn", SkillType.ATTACK, StatType.MAG, 100, status: "burn"));
+        units[68].setSkill(2, new Skill("Flame Strike", SkillType.ATTACK, StatType.MAG, 115, 3, "burn"));
+        units[68].setSkill(3, new Skill("Harden Armor", SkillType.BOOST, StatType.MAG, 60, status: "DEF"));
+
+        units[69] = new Unit(69, "Red Angel", Rarity.EPIC, Element.FIRE, new Unit.Stat(1077,1055,1129,1086,1133), sprites[69]);
+        units[69].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.MAG, 140));
+        units[69].setSkill(2, new Skill("Affliction", SkillType.ATTACK, StatType.STR, 95, 3, "vulnerable, weaken"));
+        units[69].setSkill(3, new Skill("Burning Judgement", SkillType.ATTACK_ADJACENT, StatType.MAG, 50, 2, "burn"));
+
+        units[70] = new Unit(70, "Frostia of Unbreakable Ice", Rarity.EPIC, Element.WATER, new Unit.Stat(1100,1008,1200,927,1127), sprites[70]);
+        units[70].setSkill(1, new Skill("Frozen Touch", SkillType.ATTACK, StatType.MAG, 130, status: "freeze"));
+        units[70].setSkill(2, new Skill("Ice Barrier", SkillType.PROTECTION, extraEffect: 3));
+        units[70].setSkill(3, new Skill("Blizzard", SkillType.AOE_ATTACK, StatType.MAG, 80, status: "freeze"));
+
+        units[71] = new Unit(71, "Blax", Rarity.EPIC, Element.WATER, new Unit.Stat(1119,1145,921,1116,1087), sprites[71]);
+        units[71].setSkill(1, new Skill("Freezing Slash", SkillType.ATTACK, StatType.STR, 50, 2, "freeze"));
+        units[71].setSkill(2, new Skill("Great Strike", SkillType.ATTACK, StatType.STR, 310, status: "freeze"));
+        units[71].setSkill(3, new Skill("Defend", SkillType.BOOST, StatType.MAG, 35, 3, "DEF"));
+
+        units[72] = new Unit(72, "Frozen Horn", Rarity.EPIC, Element.WATER, new Unit.Stat(1175,1146,1089,1129,1113), sprites[72]);
+        units[72].setSkill(1, new Skill("Charge", SkillType.ATTACK, StatType.STR, 130, status: "freeze"));
+        units[72].setSkill(2, new Skill("Horn Attack", SkillType.ATTACK, StatType.MAG, 150, 2, "freeze"));
+        units[72].setSkill(3, new Skill("Magic Bull", SkillType.AOE_BOOST, StatType.AGI, 30, status: "MAG"));
+
+        units[73] = new Unit(73, "Nateneci", Rarity.EPIC, Element.WATER, new Unit.Stat(995,1109,1142,1198,1083), sprites[73]);
+        units[73].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 140));
+        units[73].setSkill(2, new Skill("Ice Blast", SkillType.ATTACK, StatType.MAG, 75, 4, "freeze"));
+        units[73].setSkill(3, new Skill("Evasion", SkillType.DODGE, skillPower: 25));
+
+        units[74] = new Unit(74, "Lamia", Rarity.EPIC, Element.WATER, new Unit.Stat(1067,1089,1145,1111,996), sprites[74]);
+        units[74].setSkill(1, new Skill("Poison Attack", SkillType.ATTACK, StatType.MAG, 115, status: "poison"));
+        units[74].setSkill(2, new Skill("Wrap", SkillType.ATTACK, StatType.STR, 95, 3, "poison, freeze, weaken"));
+        units[74].setSkill(3, new Skill("Slithering", SkillType.DEBUFF, StatType.AGI, 15, 4, "DEF"));
+
+        units[75] = new Unit(75, "Poison Mage", Rarity.EPIC, Element.WATER, new Unit.Stat(872,1113,1199,925,979), sprites[75]);
+        units[75].setSkill(1, new Skill("Magic Attack", SkillType.ATTACK, StatType.MAG, 60, status: "burn, poison, vulnerable, weaken"));
+        units[75].setSkill(2, new Skill("Poison Wave", SkillType.AOE_ATTACK, StatType.MAG, 80, status: "poison"));
+        units[75].setSkill(3, new Skill("Spirit Boost", SkillType.AOE_BOOST, StatType.MAG, 20, status: "HLT,MAG"));
+
+        units[76] = new Unit(76, "Water Elemental", Rarity.EPIC, Element.WATER, new Unit.Stat(1173,1132,1164,1098,1017), sprites[76]);
+        units[76].setSkill(1, new Skill("Frozen Grab", SkillType.ATTACK, StatType.MAG, 110, status: "freeze"));
+        units[76].setSkill(2, new Skill("Cold Touch", SkillType.ATTACK, StatType.MAG, 135, 2, "freeze"));
+        units[76].setSkill(3, new Skill("Frostbite", SkillType.ATTACK, StatType.STR, 55, 5, "poison, freeze"));
+
+        units[77] = new Unit(77, "Lightning Tigras", Rarity.EPIC, Element.THUNDER, new Unit.Stat(963,1142,1025,987,1186), sprites[77]);
+        units[77].setSkill(1, new Skill("Quick Attack", SkillType.ATTACK, StatType.AGI, 35, 3, "stun"));
+        units[77].setSkill(2, new Skill("Stunning Speed", SkillType.ATTACK, StatType.AGI, 65, 4, "stun"));
+        units[77].setSkill(3, new Skill("Adrenaline", SkillType.ATTACK, StatType.STR, 80, status: "AGI"));
+
+        units[78] = new Unit(78, "Abomination", Rarity.EPIC, Element.THUNDER, new Unit.Stat(1015,1133,1165,1109,1123), sprites[78]);
+        units[78].setSkill(1, new Skill("Fear Attack", SkillType.ATTACK, StatType.STR, 110, status: "silence"));
+        units[78].setSkill(2, new Skill("Paralysis", SkillType.ATTACK, StatType.MAG, 140, 2, "stun"));
+        units[78].setSkill(3, new Skill("Weird Healing", SkillType.AOE_HEAL, StatType.MAG, 60, status: "stun, purify"));
+
+        units[79] = new Unit(79, "Ancient Priestess", Rarity.EPIC, Element.THUNDER, new Unit.Stat(1139,1175,1000,1086,1162), sprites[79]);
+        units[79].setSkill(1, new Skill("Attack", SkillType.AOE_ATTACK, StatType.STR, 35));
+        units[79].setSkill(2, new Skill("Wrap", SkillType.ATTACK, StatType.STR, 155, 2, "silence"));
+        units[79].setSkill(3, new Skill("Halt", SkillType.ATTACK, StatType.STR, 105, 3, "stun"));
+
+        units[80] = new Unit(80, "Holy Maiden", Rarity.EPIC, Element.THUNDER, new Unit.Stat(1112,888,1133,954,1085), sprites[80]);
+        units[80].setSkill(1, new Skill("Protection", SkillType.PROTECTION, extraEffect: 2));
+        units[80].setSkill(2, new Skill("Light Beam", SkillType.ATTACK_ADJACENT, StatType.MAG, 55, 2));
+        units[80].setSkill(3, new Skill("Judgement", SkillType.ATTACK, StatType.MAG, 350, status: "purge, purify"));
+
+        units[81] = new Unit(81, "Light Dragon", Rarity.EPIC, Element.THUNDER, new Unit.Stat(1100,1169,1089,1117,1125), sprites[81]);
+        units[81].setSkill(1, new Skill("Roar", SkillType.AOE_ATTACK, StatType.STR, 20, status: "stun"));
+        units[81].setSkill(2, new Skill("Dragon Claw", SkillType.ATTACK, StatType.STR, 170, 2));
+        units[81].setSkill(3, new Skill("Healing", SkillType.HEAL, StatType.MAG, 35, 2));
+
+        units[82] = new Unit(82, "Minotaur", Rarity.EPIC, Element.THUNDER, new Unit.Stat(1088,1145,1002,1033,1109), sprites[82]);
+        units[82].setSkill(1, new Skill("Wing Attack", SkillType.ATTACK, StatType.STR, 65, 2));
+        units[82].setSkill(2, new Skill("Distraction", SkillType.DEBUFF, StatType.MAG, 15, 3, "STR, MAG, AGI"));
+        units[82].setSkill(3, new Skill("Great Attack", SkillType.ATTACK, StatType.STR, 310, status: "vulnerable, weaken, stun"));
+
+        units[83] = new Unit(83, "Rider", Rarity.EPIC, Element.THUNDER, new Unit.Stat(1177,899,1115,1102,1183), sprites[83]);
+        units[83].setSkill(1, new Skill("Gallop", SkillType.BOOST, StatType.STR, 60, status: "AGI"));
+        units[83].setSkill(2, new Skill("Thunder Strike", SkillType.ATTACK, StatType.MAG, 90, 3, "stun"));
+        units[83].setSkill(3, new Skill("Cleave", SkillType.AOE_ATTACK, StatType.STR, 105));
+
+        units[84] = new Unit(84, "Triad", Rarity.EPIC, Element.THUNDER, new Unit.Stat(1100,1088,1137,924,1133), sprites[84]);
+        units[84].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 140));
+        units[84].setSkill(2, new Skill("Flash", SkillType.AOE_ATTACK, StatType.MAG, 30, 2, "stun"));
+        units[84].setSkill(3, new Skill("Dodge", SkillType.DODGE, skillPower: 20));
+
+        units[85] = new Unit(85, "Swarm", Rarity.EPIC, Element.VOID, new Unit.Stat(987,1077,1133,1086,1056), sprites[85]);
+        units[85].setSkill(1, new Skill("Grab", SkillType.ATTACK, StatType.STR, 130));
+        units[85].setSkill(2, new Skill("Surround", SkillType.ATTACK, StatType.MAG, 110, 3, "weaken"));
+        units[85].setSkill(3, new Skill("Heal", SkillType.HEAL, StatType.MAG, 50));
+
+        units[86] = new Unit(86, "Beholder", Rarity.EPIC, Element.VOID, new Unit.Stat(1020,1117,1199,945,1111), sprites[86]);
+        units[86].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.MAG, 110));
+        units[86].setSkill(2, new Skill("Cursed Eye", SkillType.ATTACK, StatType.MAG, 265, status: "vulnerable, weaken, silence"));
+        units[86].setSkill(3, new Skill("Cursed Eye 2", SkillType.ATTACK, StatType.MAG, 165, 2, "burn, poison, freeze, stun"));
+
+        units[87] = new Unit(87, "Mecha Scorpion", Rarity.EPIC, Element.VOID, new Unit.Stat(1178,1135,1095,1127,988), sprites[87]);
+        units[87].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.STR, 130));
+        units[87].setSkill(2, new Skill("Sting", SkillType.ATTACK, StatType.STR, 155, 2, "poison"));
+        units[87].setSkill(3, new Skill("Laser Beam", SkillType.AOE_ATTACK, StatType.STR, 80, status: "silence"));
+
+        units[88] = new Unit(88, "Exterminator", Rarity.EPIC, Element.VOID, new Unit.Stat(1082,1197,1146,1101,998), sprites[88]);
+        units[88].setSkill(1, new Skill("Great Slash", SkillType.ATTACK, StatType.STR, 35, 3));
+        units[88].setSkill(2, new Skill("Burning Strike", SkillType.ATTACK, StatType.MAG, 340, status: "burn"));
+        units[88].setSkill(3, new Skill("Enhance", SkillType.BOOST, StatType.MAG, 30, 3, "STR"));
+
+        units[89] = new Unit(89, "End Spawn", Rarity.EPIC, Element.VOID, new Unit.Stat(982,1021,1182,1174,1063), sprites[89]);
+        units[89].setSkill(1, new Skill("Attack", SkillType.ATTACK, StatType.MAG, 130));
+        units[89].setSkill(2, new Skill("Mind Control", SkillType.ATTACK, StatType.MAG, 90, 3, "charm"));
+        units[89].setSkill(3, new Skill("Slippery", SkillType.AOE_DODGE, skillPower: 10));
+
+        units[90] = new Unit(90, "Grappl", Rarity.LEGENDARY, Element.EARTH, new Unit.Stat(1276,1243,1258,1109,1176), sprites[90]);
+        units[90].setSkill(1, new Skill("Grab", SkillType.ATTACK, StatType.STR, 120, 2));
+        units[90].setSkill(2, new Skill("Nature's Charm", SkillType.ATTACK, StatType.MAG, 130, 3, "charm"));
+        units[90].setSkill(3, new Skill("Nature's Protection", SkillType.AOE_PROTECTION));
+
+        units[91] = new Unit(91, "Itca", Rarity.LEGENDARY, Element.EARTH, new Unit.Stat(1110,1267,1123,1211,1088), sprites[91]);
+        units[91].setSkill(1, new Skill("Dry Attack", SkillType.ATTACK, StatType.STR, 65, 3, "burn"));
+        units[91].setSkill(2, new Skill("Heat Wave", SkillType.AOE_ATTACK, StatType.STR, 115, status: "burn"));
+        units[91].setSkill(3, new Skill("Protective Spike", SkillType.PROTECTION, extraEffect: 5));
+
+        units[92] = new Unit(92, "Rach", Rarity.LEGENDARY, Element.EARTH, new Unit.Stat(1214,1233,1088,1112,1166), sprites[92]);
+        units[92].setSkill(1, new Skill("Multi-Attack", SkillType.ATTACK, StatType.STR, 40, 6));
+        units[92].setSkill(2, new Skill("Bind", SkillType.ATTACK, StatType.STR, 130, 3, "silence"));
+        units[92].setSkill(3, new Skill("Sixth Sense", SkillType.AOE_BOOST, StatType.MAG, 10, status: "HLT, STR, MAG, DEF, AGI"));
+
+        units[93] = new Unit(93, "Taurus", Rarity.LEGENDARY, Element.EARTH, new Unit.Stat(1277,1255,1102,1234,1178), sprites[93]);
+        units[93].setSkill(1, new Skill("Charge", SkillType.ATTACK, StatType.STR, 260));
+        units[93].setSkill(2, new Skill("Buff", SkillType.BOOST, StatType.STR, 30, 3, "STR,DEF"));
+        units[93].setSkill(3, new Skill("Nature's Defender", SkillType.PROTECTION, extraEffect: 6));
+
+        units[94] = new Unit(94, "Verde", Rarity.LEGENDARY, Element.EARTH, new Unit.Stat(1020,1285,985,1079,1066), sprites[94]);
+        units[94].setSkill(1, new Skill("Poison Slash", SkillType.ATTACK, StatType.STR, 45, 4, "poison"));
+        units[94].setSkill(2, new Skill("Large Strike", SkillType.ATTACK_ADJACENT, StatType.STR, 55, 3));
+        units[94].setSkill(3, new Skill("Grow", SkillType.BOOST, StatType.MAG, 75, status: "STR"));
+
+        units[95] = new Unit(95, "Alicorn", Rarity.LEGENDARY, Element.WIND, new Unit.Stat(1233,1135,1211,1199,1267), sprites[95]);
+        units[95].setSkill(1, new Skill("Blessing", SkillType.PROTECTION, extraEffect: 3));
+        units[95].setSkill(2, new Skill("Holy Gallop", SkillType.ATTACK, StatType.MAG, 260, 2, "purify"));
+        units[95].setSkill(3, new Skill("Striking Horn", SkillType.ATTACK, StatType.STR, 550, status: "stun"));
+
+        units[96] = new Unit(96, "Grea", Rarity.LEGENDARY, Element.WIND, new Unit.Stat(1217,1195,1243,1077,1288), sprites[96]);
+        units[96].setSkill(1, new Skill("Enchanting Aura", SkillType.AOE_BOOST, StatType.MAG, 20, status: "STR,MAG"));
+        units[96].setSkill(2, new Skill("Dive", SkillType.ATTACK_ADJACENT, StatType.STR, 160));
+        units[96].setSkill(3, new Skill("Heavenly Scream", SkillType.AOE_ATTACK, StatType.MAG, 45, 2, "burn, poison, weaken"));
+
+        units[97] = new Unit(97, "Ishar", Rarity.LEGENDARY, Element.WIND, new Unit.Stat(1183,1279,934,1127,1000), sprites[97]);
+        units[97].setSkill(1, new Skill("Minor Quake", SkillType.ATTACK_ADJACENT, StatType.STR, 65));
+        units[97].setSkill(2, new Skill("Valiant Assault", SkillType.ATTACK, StatType.STR, 75, 6));
+        units[97].setSkill(3, new Skill("Sky Speed", SkillType.BOOST, StatType.STR, 40, 4, "AGI"));
+
+        units[98] = new Unit(98, "Ventoss", Rarity.LEGENDARY, Element.WIND, new Unit.Stat(922,1088,1233,1100,1286), sprites[98]);
+        units[98].setSkill(1, new Skill("Triple Shot", SkillType.ATTACK, StatType.AGI, 60, 3, "purge"));
+        units[98].setSkill(2, new Skill("Surging Shot", SkillType.AOE_ATTACK, StatType.MAG, 95, status: "stun"));
+        units[98].setSkill(3, new Skill("Agile", SkillType.AOE_DODGE, skillPower: 10));
+
+        units[99] = new Unit(99, "Cerberus", Rarity.LEGENDARY, Element.FIRE, new Unit.Stat(1245,1233,1216,1246,1089), sprites[99]);
+        units[99].setSkill(1, new Skill("Swipe", SkillType.AOE_ATTACK, StatType.STR, 50));
+        units[99].setSkill(2, new Skill("Fireball", SkillType.ATTACK, StatType.MAG, 135, 3, "burn"));
+        units[99].setSkill(3, new Skill("Guard Dog", SkillType.BOOST, StatType.STR, 40, 3, "DEF"));
+
+        units[100] = new Unit(100, "Hell Frog", Rarity.LEGENDARY, Element.FIRE, new Unit.Stat(1116,1089,1300,1214,1093), sprites[100]);
+        units[100].setSkill(1, new Skill("Leap", SkillType.ATTACK_ADJACENT, StatType.MAG, 66));
+        units[100].setSkill(2, new Skill("Hell Healing", SkillType.HEAL, StatType.MAG, 33, 3, "burn"));
+        units[100].setSkill(3, new Skill("Hell Inferno", SkillType.ATTACK, StatType.MAG, 666, status: "burn, poison, charm"));
+
+        units[101] = new Unit(101, "Ignis", Rarity.LEGENDARY, Element.FIRE, new Unit.Stat(1100,1214,1235,1112,1089), sprites[101]);
+        units[101].setSkill(1, new Skill("Fire Attack", SkillType.ATTACK, StatType.STR, 200, status: "burn"));
+        units[101].setSkill(2, new Skill("Fire Slash", SkillType.ATTACK, StatType.MAG, 110, 4, "burn"));
+        units[101].setSkill(3, new Skill("Flame Barrier", SkillType.PROTECTION, extraEffect: 6));
+
+        units[102] = new Unit(102, "Illnoct", Rarity.LEGENDARY, Element.FIRE, new Unit.Stat(1267,1055,1266,1234,1278), sprites[102]);
+        units[102].setSkill(1, new Skill("Guard", SkillType.BOOST, StatType.STR, 60, status: "DEF"));
+        units[102].setSkill(2, new Skill("Silence", SkillType.ATTACK, StatType.MAG, 230, status: "silence"));
+        units[102].setSkill(3, new Skill("Ruin", SkillType.DEBUFF, StatType.MAG, 10, 6, "DEF"));
+
+        units[103] = new Unit(103, "Aquarius", Rarity.LEGENDARY, Element.WATER, new Unit.Stat(960,1088,1235,980,1213), sprites[103]);
+        units[103].setSkill(1, new Skill("Water Surge", SkillType.AOE_ATTACK, StatType.MAG, 35, status: "freeze"));
+        units[103].setSkill(2, new Skill("Great Protection", SkillType.PROTECTION, extraEffect: 7));
+        units[103].setSkill(3, new Skill("Magic Water", SkillType.AOE_BOOST, StatType.AGI, 20, 2, "MAG"));
+
+        units[104] = new Unit(104, "Cancer", Rarity.LEGENDARY, Element.WATER, new Unit.Stat(1231,1266,922,1243,1149), sprites[104]);
+        units[104].setSkill(1, new Skill("Pinch", SkillType.ATTACK, StatType.STR, 115, 2));
+        units[104].setSkill(2, new Skill("Greater Pinch", SkillType.ATTACK, StatType.STR, 230, 2, "weaken"));
+        units[104].setSkill(3, new Skill("Huge Pinch", SkillType.ATTACK, StatType.STR, 260, 2, "vulnerable, weaken"));
+
+        units[105] = new Unit(105, "Death", Rarity.LEGENDARY, Element.WATER, new Unit.Stat(1174,1023,1288,1127,1163), sprites[105]);
+        units[105].setSkill(1, new Skill("Frozen Attack", SkillType.ATTACK, StatType.MAG, 150, status: "freeze"));
+        units[105].setSkill(2, new Skill("Silent Death", SkillType.AOE_ATTACK, StatType.MAG, 45, 2, "silence"));
+        units[105].setSkill(3, new Skill("Fading Death", SkillType.DODGE, skillPower: 30));
+
+        units[106] = new Unit(106, "King Fish", Rarity.LEGENDARY, Element.WATER, new Unit.Stat(1100,1238,988,1089,1123), sprites[106]);
+        units[106].setSkill(1, new Skill("Dive", SkillType.ATTACK, StatType.STR, 130, 2));
+        units[106].setSkill(2, new Skill("Splash", SkillType.ATTACK_ADJACENT, StatType.STR, 75, 2));
+        units[106].setSkill(3, new Skill("Weakening Wave", SkillType.AOE_DEBUFF, StatType.STR, 15, status: "STR, MAG, AGI"));
+
+        units[107] = new Unit(107, "Dynamo", Rarity.LEGENDARY, Element.THUNDER, new Unit.Stat(1247,1108,1195,1217,1144), sprites[107]);
+        units[107].setSkill(1, new Skill("Lightning Bolt", SkillType.ATTACK, StatType.MAG, 140, status: "stun"));
+        units[107].setSkill(2, new Skill("Snap", SkillType.AOE_ATTACK, StatType.MAG, 95, status: "burn, stun"));
+        units[107].setSkill(3, new Skill("Magic Up", SkillType.AOE_BOOST, StatType.STR, 35, status: "MAG"));
+
+        units[108] = new Unit(108, "Kronos", Rarity.LEGENDARY, Element.THUNDER, new Unit.Stat(982,1109,1207,1214,1300), sprites[108]);
+        units[108].setSkill(1, new Skill("Regression", SkillType.AOE_BOOST, StatType.MAG, 30, status: "AGI"));
+        units[108].setSkill(2, new Skill("Focused Shot", SkillType.AOE_DEBUFF, StatType.MAG, 20, status: "AGI"));
+        units[108].setSkill(3, new Skill("Regression", SkillType.DEBUFF, StatType.AGI, 35, status: "HLT, STR, MAG"));
+
+        units[109] = new Unit(109, "Nine-tailed Fox", Rarity.LEGENDARY, Element.THUNDER, new Unit.Stat(1045,1289,1088,1174,1003), sprites[109]);
+        units[109].setSkill(1, new Skill("Petal Strike", SkillType.AOE_ATTACK, StatType.STR, 45));
+        units[109].setSkill(2, new Skill("Tail Attack", SkillType.ATTACK, StatType.STR, 50, 9, "vulnerable"));
+        units[109].setSkill(3, new Skill("Haste", SkillType.AOE_BOOST, StatType.MAG, 30, status: "AGI"));
+
+        units[110] = new Unit(110, "Zeus", Rarity.LEGENDARY, Element.THUNDER, new Unit.Stat(1285,1089,1217,1193,1211), sprites[110]);
+        units[110].setSkill(1, new Skill("Thunder Bolt", SkillType.ATTACK, StatType.STR, 70, 2, "stun"));
+        units[110].setSkill(2, new Skill("Thunderstorm", SkillType.AOE_ATTACK, StatType.MAG, 90, status: "stun"));
+        units[110].setSkill(3, new Skill("Greater Thunderstorm", SkillType.ATTACK, StatType.MAG, 55, 2, "stun"));
+
+        units[111] = new Unit(111, "The End", Rarity.LEGENDARY, Element.VOID, new Unit.Stat(1299,1248,1226,1237,988), sprites[111]);
+        units[111].setSkill(1, new Skill("Silence All", SkillType.AOE_ATTACK, StatType.STR, 40, status: "silence"));
+        units[111].setSkill(2, new Skill("Mass Drain", SkillType.AOE_ATTACK, StatType.MAG, 105, status: "vulnerable, weaken"));
+        units[111].setSkill(3, new Skill("Devour", SkillType.ATTACK, StatType.STR, 600, status: "purge"));
 
 
     }

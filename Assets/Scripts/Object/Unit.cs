@@ -146,7 +146,7 @@ public class Unit
         level = amount;
         levelCap = (int) rarity * (capsAbsorbed + 1);
         AdjustCurrentStat();
-        if (transform != null) {
+        if (transform != null && stat.currentHealth > 0) {
             ResetCurrentStat();
             ClearStatus(transform);
             transform.Find("Health Bar").GetComponent<Slider>().value = (float) this.stat.currentHealth / this.stat.health;
@@ -260,7 +260,7 @@ public class Unit
                 damage = attackingUnit.stat.currentDefense * skill.skillPower / 100f;
                 break;
             case StatType.AGI:
-                damage = attackingUnit.stat.currentAgility * skill.skillPower / 100f;
+                damage = (attackingUnit.stat.agility + attackingUnit.stat.agilityModifier) * skill.skillPower / 100f;
                 break;
         }
         if (attackingUnit.HasElementalAdvantage(this)) {
@@ -271,7 +271,7 @@ public class Unit
         if (skill.statType == StatType.MAG) {
             damage *= 1 - ((this.stat.currentDefense - attackingUnit.stat.currentMagic / 10f) / (1000f + (this.stat.currentDefense - attackingUnit.stat.currentMagic / 10f)));
         } else {
-            damage *= 1 - (this.stat.currentDefense / (1000f + this.stat.currentDefense));
+            damage *= 1 - (this.stat.currentDefense / (1000f + Mathf.Abs(this.stat.currentDefense)));
         }
         damage += Random.Range(-100, 101);
         if (damage <= 0) {

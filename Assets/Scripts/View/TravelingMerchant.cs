@@ -290,11 +290,11 @@ public class TravelingMerchant : MonoBehaviour
             case Rarity.COMMON:
                 return 100 + unit.level * 10;
             case Rarity.RARE:
-                return 250 + unit.level * 15;
+                return 250 + unit.level * 10;
             case Rarity.EPIC:
-                return 1500 + unit.level * 20;
+                return 1500 + unit.level * 10;
             case Rarity.LEGENDARY:
-                return 10000 + unit.level * 25;
+                return 10000 + unit.level * 10;
         }
         return -1;
     }
