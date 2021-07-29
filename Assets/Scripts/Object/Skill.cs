@@ -23,7 +23,7 @@ public class Skill
                 if (extraEffect == 1) {
                     description = string.Format("Deal damage to 1 enemy\n({0} pow: {1}", statType.ToString(), skillPower);
                 } else {
-                    description = string.Format("Deal damage to {2} enemies\n({0} pow: {1} ", statType.ToString(), skillPower, extraEffect);
+                    description = string.Format("Deal damage to {2} enemies\n({0} pow: {1}", statType.ToString(), skillPower, extraEffect);
                 }
                 if (status != "") {
                     description += ", " + status + ")";
@@ -34,9 +34,9 @@ public class Skill
             case SkillType.ATTACK_ADJACENT:
                 targetType = TargetType.ENEMY;
                 if (extraEffect == 1) {
-                    description = string.Format("Deal damage to 1 enemy and any adjacent\n({0} pow: {1} ", statType.ToString(), skillPower);
+                    description = string.Format("Deal damage to 1 enemy and any adjacent\n({0} pow: {1}", statType.ToString(), skillPower);
                 } else {
-                    description = string.Format("Deal damage to {2} enemies and any adjacent\n({0} pow: {1} ", statType.ToString(), skillPower, extraEffect);
+                    description = string.Format("Deal damage to {2} enemies and any adjacent\n({0} pow: {1}", statType.ToString(), skillPower, extraEffect);
                 }
                 if (status != "") {
                     description += ", " + status + ")";
@@ -47,9 +47,9 @@ public class Skill
             case SkillType.AOE_ATTACK:
                 targetType = TargetType.ENEMY;
                 if (extraEffect == 1) {
-                    description = string.Format("Deal damage to all enemies\n({0} pow: {1} ", statType.ToString(), skillPower);
+                    description = string.Format("Deal damage to all enemies\n({0} pow: {1}", statType.ToString(), skillPower);
                 } else {
-                    description = string.Format("Deal damage to all enemies x{2}\n({0} pow: {1} ", statType.ToString(), skillPower, extraEffect);
+                    description = string.Format("Deal damage to all enemies x{2}\n({0} pow: {1}", statType.ToString(), skillPower, extraEffect);
                 }
                 if (status != "") {
                     description += ", " + status + ")";
@@ -92,45 +92,53 @@ public class Skill
                 break;
             case SkillType.DODGE:
                 targetType = TargetType.SELF;
-                description = string.Format("Enable dodge ({0}%)", skillPower);
+                description = string.Format("Enable dodge ({0}%)\n", skillPower);
                 break;
             case SkillType.AOE_DODGE:
                 targetType = TargetType.ALLY;
-                description = string.Format("Enable dodge all allies ({0}%)", skillPower);
+                description = string.Format("Enable dodge all allies ({0}%)\n", skillPower);
                 break;
             case SkillType.HEAL:
                 if (extraEffect == 1) {
                     targetType = TargetType.SELF;
-                    description = string.Format("Heal Self\n({0} pow: {1} ", statType.ToString(), skillPower);
+                    description = string.Format("Heal Self\n({0} pow: {1}", statType.ToString(), skillPower);
                 } else {
                     targetType = TargetType.ALLY;
-                    description = string.Format("Heal {2} allies\n({0} pow: {1} ", statType.ToString(), skillPower, extraEffect);
+                    description = string.Format("Heal {2} allies\n({0} pow: {1}", statType.ToString(), skillPower, extraEffect);
                 }
-                description += status + ")";
+                if (status != "") {
+                    description += ", " + status + ")";
+                } else {
+                    description += ")";
+                }
                 break;
             case SkillType.AOE_HEAL:
                 targetType = TargetType.ALLY;
                 if (extraEffect == 1) {
-                    description = string.Format("Heal all allies\n({0} pow: {1} ", statType.ToString(), skillPower);
+                    description = string.Format("Heal all allies\n({0} pow: {1}", statType.ToString(), skillPower);
                 } else {
-                    description = string.Format("Heal all allies x{2}\n({0} pow: {1} ", statType.ToString(), skillPower, extraEffect);
+                    description = string.Format("Heal all allies x{2}\n({0} pow: {1}", statType.ToString(), skillPower, extraEffect);
                 }
-                description += status + ")";
+                if (status != "") {
+                    description += ", " + status + ")";
+                } else {
+                    description += ")";
+                }
                 break;
             case SkillType.PROTECTION:
                 targetType = TargetType.ALLY;
                 if (extraEffect == 1) {
-                    description = string.Format("Grant protection to 1 ally");
+                    description = string.Format("Grant protection to 1 ally\n");
                 } else {
-                    description = string.Format("Grant protection to {0} allies", extraEffect);
+                    description = string.Format("Grant protection to {0} allies\n", extraEffect);
                 }
                 break;
             case SkillType.AOE_PROTECTION:
                 targetType = TargetType.ALLY;
                 if (extraEffect == 1) {
-                    description = string.Format("Grant protection to all allies");
+                    description = string.Format("Grant protection to all allies\n");
                 } else {
-                    description = string.Format("Grant protection to all allies x{0}", extraEffect);
+                    description = string.Format("Grant protection to all allies x{0}\n", extraEffect);
                 }
                 break;
         }

@@ -113,7 +113,7 @@ public class SaveAndLoad : MonoBehaviour
     }
     private void LoadAdventureHelper(Adventure[] adventures, SavedAdventureData[] loadedAdventureList) {
         for (int i = 0; i < loadedAdventureList.Length; i++) {
-            if (loadedAdventureList[i] == null) {
+            if (adventures[i] == null) {
                 break;
             }
             adventures[i].currentPoint = loadedAdventureList[i].currentPoint;

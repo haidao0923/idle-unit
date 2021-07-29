@@ -246,8 +246,11 @@ public class TravelingMerchant : MonoBehaviour
     }
     void MerchantFour() {
         int quantityGained;
-        if ((quantityGained = GainedConsumable(3500, true)) > 0) {
+        if ((quantityGained = GainedConsumable(3500)) > 0) {
             consumableToGain.Add(new ConsumableToGain("Misc", 1, quantityGained));
+        }
+        if ((quantityGained = GainedConsumable(450, true)) > 0) {
+            consumableToGain.Add(new ConsumableToGain("Misc", 2, quantityGained));
         }
         consumableToGain.Add(new ConsumableToGain("Misc", 0, points * 5));
         points = 0;

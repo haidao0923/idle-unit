@@ -65,8 +65,20 @@ public class Reward {
             case RewardType.COIN:
                 description = rewardAmount + " Coins";
                 break;
+            case RewardType.MISC:
+                description = ConsumableDatabase.consumables["Misc"][extraInfo].name + " x" + rewardAmount;
+                break;
+            case RewardType.STONE:
+                description = ConsumableDatabase.consumables["Stone"][extraInfo].name + " x" + rewardAmount;
+                break;
             case RewardType.CAP:
-                description = rewardAmount + " " + ConsumableDatabase.consumables["Cap"][extraInfo].name;
+                description = ConsumableDatabase.consumables["Cap"][extraInfo].name + " x" + rewardAmount;
+                break;
+            case RewardType.POTION:
+                description = ConsumableDatabase.consumables["Potion"][extraInfo].name + " x" + rewardAmount;
+                break;
+            case RewardType.CARD:
+                description = UnitDatabase.units[extraInfo].name + " x" + rewardAmount;
                 break;
         }
     }
@@ -76,13 +88,27 @@ public class Reward {
             case RewardType.COIN:
                 ConsumableDatabase.consumables["Misc"][0].quantity += rewardAmount;
                 break;
+            case RewardType.MISC:
+                ConsumableDatabase.consumables["Misc"][extraInfo].quantity += rewardAmount;
+                break;
+            case RewardType.STONE:
+                ConsumableDatabase.consumables["Stone"][extraInfo].quantity += rewardAmount;
+                break;
             case RewardType.CAP:
                 ConsumableDatabase.consumables["Cap"][extraInfo].quantity += rewardAmount;
+                break;
+            case RewardType.POTION:
+                ConsumableDatabase.consumables["Potion"][extraInfo].quantity += rewardAmount;
+                break;
+            case RewardType.CARD:
+                for (int i = 0; i < rewardAmount; i++) {
+                    GameObject.FindGameObjectWithTag("GameController").GetComponent<Player>().AddToInventory(extraInfo);
+                }
                 break;
         }
     }
 }
 
 public enum RewardType {
-    COIN, CAP
+    COIN, MISC, STONE, CAP, POTION, CARD
 }
