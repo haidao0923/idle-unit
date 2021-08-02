@@ -171,7 +171,7 @@ public class UnitDatabase : MonoBehaviour
         units[43].setSkill(3, new Skill("Shield", SkillType.AOE_BOOST, StatType.MAG, 25, status: "DEF"));
 
         units[44] = new Unit(44, "Bamboo Master Bob", Rarity.EPIC, Element.EARTH, new Unit.Stat(1188,1200,1143,1162,1094), sprites[44]);
-        units[44].setSkill(1, new Skill("Heavy Attack", SkillType.ATTACK, StatType.STR, 150, 2, "vulnerable"));
+        units[44].setSkill(1, new Skill("Bamboo Blitz", SkillType.ATTACK, StatType.STR, 100, 3, "vulnerable"));
         units[44].setSkill(2, new Skill("Lunch Break", SkillType.HEAL, StatType.MAG, 220));
         units[44].setSkill(3, new Skill("Meditation Class", SkillType.AOE_BOOST, StatType.DEF, 40, status: "DEF"));
 

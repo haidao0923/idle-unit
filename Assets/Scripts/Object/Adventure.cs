@@ -9,8 +9,10 @@ public class Adventure
     public int waveCount;
     public int[] minionsId;
     public int minMinionLevel, maxMinionLevel;
-    public int[] eliteFormation, eliteFormationLevel;
-    public int[] bossFormation, bossFormationLevel;
+    public int[] eliteFormation;
+    public LevelAdvantage eliteLevelAdvantage;
+    public int[] bossFormation;
+    public LevelAdvantage bossLevelAdvantage;
     public Sprite sprite;
     private int _currentPoint;
     public int currentPoint {
@@ -29,11 +31,11 @@ public class Adventure
             SaveAndLoad.data.SaveAdventure();
         }
     }
-    public static int[] pointTable = {1000, 3000, 6000, 9000, 12000, 16000, 22000, 28000, 35000, 50000, 75000, 100000};
+    public static int[] pointTable = {1000, 2000, 5000, 8000, 12000, 16000, 20000, 25000, 35000, 50000, 75000, 100000};
     public Reward[] rewards = new Reward[12];
 
     public Adventure(int id, string name, int waveCount, int[] minionsId, int minMinionLevel, int maxMinionLevel,
-                     int[] eliteFormation, int[] eliteFormationLevel, int[] bossFormation, int[] bossFormationLevel,
+                     int[] eliteFormation, LevelAdvantage eliteLevelAdvantage, int[] bossFormation, LevelAdvantage bossLevelAdvantage,
                     Sprite sprite, Reward[] rewards = null) {
         this.id = id;
         this.name = name;
@@ -42,9 +44,9 @@ public class Adventure
         this.minMinionLevel = minMinionLevel;
         this.maxMinionLevel = maxMinionLevel;
         this.eliteFormation = eliteFormation;
-        this.eliteFormationLevel = eliteFormationLevel;
+        this.eliteLevelAdvantage = eliteLevelAdvantage;
         this.bossFormation = bossFormation;
-        this.bossFormationLevel = bossFormationLevel;
+        this.bossLevelAdvantage = bossLevelAdvantage;
         this.sprite = sprite;
         this.rewards = rewards;
     }
@@ -111,4 +113,8 @@ public class Reward {
 
 public enum RewardType {
     COIN, MISC, STONE, CAP, POTION, CARD
+}
+
+public enum LevelAdvantage {
+    ALL, BOSS
 }

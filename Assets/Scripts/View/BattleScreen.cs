@@ -313,7 +313,11 @@ public class BattleScreen : MonoBehaviour
                     if (currentAdventure.eliteFormation[i] == -1) {
                         enemySide.formation[i] = null;
                     } else {
-                        enemySide.formation[i] = new Unit(UnitDatabase.units[currentAdventure.eliteFormation[i]], currentAdventure.eliteFormationLevel[i]);
+                        if (currentAdventure.eliteLevelAdvantage == LevelAdvantage.ALL || i == 2 || i == 7) {
+                            enemySide.formation[i] = new Unit(UnitDatabase.units[currentAdventure.eliteFormation[i]], Random.Range(currentAdventure.minMinionLevel + 4, currentAdventure.maxMinionLevel + 7));
+                        } else {
+                            enemySide.formation[i] = new Unit(UnitDatabase.units[currentAdventure.eliteFormation[i]], Random.Range(currentAdventure.minMinionLevel + 2, currentAdventure.maxMinionLevel + 4));
+                        }
                     }
                 }
                 break;
@@ -322,7 +326,11 @@ public class BattleScreen : MonoBehaviour
                     if (currentAdventure.bossFormation[i] == -1) {
                         enemySide.formation[i] = null;
                     } else {
-                        enemySide.formation[i] = new Unit(UnitDatabase.units[currentAdventure.bossFormation[i]], currentAdventure.bossFormationLevel[i]);
+                        if (currentAdventure.bossLevelAdvantage == LevelAdvantage.ALL || i == 2 || i == 7) {
+                            enemySide.formation[i] = new Unit(UnitDatabase.units[currentAdventure.bossFormation[i]], Random.Range(currentAdventure.minMinionLevel + 6, currentAdventure.maxMinionLevel + 9));
+                        } else {
+                            enemySide.formation[i] = new Unit(UnitDatabase.units[currentAdventure.bossFormation[i]], Random.Range(currentAdventure.minMinionLevel + 4, currentAdventure.maxMinionLevel + 6));
+                        }
                     }
                 }
                 break;
