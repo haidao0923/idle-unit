@@ -95,8 +95,12 @@ public class TravelingMerchant : MonoBehaviour
         buttons.GetChild(1).GetComponent<Button>().interactable = true;
         buttons.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
         buttons.GetChild(1).GetComponent<Button>().onClick.AddListener(() => AcceptOfferButton());
-        negotiationCost = negotiatedCount * 1000 + 1000;
-        buttons.GetChild(2).GetChild(0).GetComponent<Text>().text = "Negotiate\nCost: " + negotiationCost;
+        negotiationCost = negotiatedCount * 250;
+        if (negotiationCost > 0) {
+            buttons.GetChild(2).GetChild(0).GetComponent<Text>().text = "Negotiate\nCost: " + negotiationCost;
+        } else {
+            buttons.GetChild(2).GetChild(0).GetComponent<Text>().text = "Negotiate\nCost: FREE";
+        }
         if (ConsumableDatabase.consumables["Misc"][0].quantity >= negotiationCost) {
             buttons.GetChild(2).GetComponent<Button>().interactable = true;
             buttons.GetChild(2).GetComponent<Button>().onClick.RemoveAllListeners();

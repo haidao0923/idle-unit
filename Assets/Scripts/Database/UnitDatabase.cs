@@ -406,8 +406,8 @@ public class UnitDatabase : MonoBehaviour
         units[90].setSkill(3, new Skill("Nature's Protection", SkillType.AOE_PROTECTION));
 
         units[91] = new Unit(91, "Itca", Rarity.LEGENDARY, Element.EARTH, new Unit.Stat(1110,1267,1123,1211,1088), sprites[91]);
-        units[91].setSkill(1, new Skill("Dry Attack", SkillType.ATTACK, StatType.STR, 80, 3, "burn"));
-        units[91].setSkill(2, new Skill("Heat Wave", SkillType.AOE_ATTACK, StatType.STR, 120, status: "burn"));
+        units[91].setSkill(1, new Skill("Dry Attack", SkillType.ATTACK, StatType.MAG, 80, 3, "burn"));
+        units[91].setSkill(2, new Skill("Heat Wave", SkillType.AOE_ATTACK, StatType.MAG, 120, status: "burn"));
         units[91].setSkill(3, new Skill("Protective Spike", SkillType.PROTECTION, extraEffect: 5));
 
         units[92] = new Unit(92, "Rach", Rarity.LEGENDARY, Element.EARTH, new Unit.Stat(1214,1233,1088,1112,1166), sprites[92]);

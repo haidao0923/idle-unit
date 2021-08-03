@@ -34,14 +34,14 @@ public class AdventureDatabase : MonoBehaviour
 
         adventures[2] = new Adventure(2, "Haunted Forest 3", 20, new int[] {0,3,13}, -3, -1,
         new int[] {8,0,8,0,8,-1,8,-1,8,-1}, LevelAdvantage.BOSS, new int[] {3,13,25,13,3}, LevelAdvantage.BOSS, sprites[2],
-        new Reward[] {new Reward(RewardType.CAP, 3, 0), new Reward(RewardType.STONE, 2, 1), new Reward(RewardType.COIN, 8000),
+        new Reward[] {new Reward(RewardType.COIN, 3000), new Reward(RewardType.CARD, 5, 8), new Reward(RewardType.COIN, 8000),
         new Reward(RewardType.POTION, 3, 0), new Reward(RewardType.MISC, 5, 2), new Reward(RewardType.STONE, 8, 0),
         new Reward(RewardType.CARD, 1, 15), new Reward(RewardType.COIN, 40000), new Reward(RewardType.CARD, 1, 15),
         new Reward(RewardType.STONE, 1, 2), new Reward(RewardType.CARD, 2, 15), new Reward(RewardType.COIN, 100000)});
 
         adventures[3] = new Adventure(3, "Haunted Forest 4", 25, new int[] {0,3,8}, -4, -2,
         new int[] {0,0,25,0,0}, LevelAdvantage.BOSS, new int[] {3,25,18,25,3}, LevelAdvantage.BOSS, sprites[3],
-        new Reward[] {new Reward(RewardType.CAP, 3, 0), new Reward(RewardType.STONE, 2, 1), new Reward(RewardType.COIN, 8000),
+        new Reward[] {new Reward(RewardType.COIN, 3000), new Reward(RewardType.STONE, 2, 1), new Reward(RewardType.STONE, 5, 0),
         new Reward(RewardType.POTION, 3, 0), new Reward(RewardType.MISC, 5, 2), new Reward(RewardType.STONE, 8, 0),
         new Reward(RewardType.CARD, 1, 15), new Reward(RewardType.COIN, 40000), new Reward(RewardType.CARD, 1, 15),
         new Reward(RewardType.STONE, 1, 2), new Reward(RewardType.CARD, 2, 15), new Reward(RewardType.COIN, 100000)});
