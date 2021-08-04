@@ -208,16 +208,16 @@ public class TravelingMerchant : MonoBehaviour
     void MerchantOne() {
         int capDatabaseIndex = 0;
         switch (player.inventory[lossUnitIndex[0]].rarity) {
-            case Rarity.COMMON:
+            case Rarity.Common:
                 capDatabaseIndex = 0;
                 break;
-            case Rarity.RARE:
+            case Rarity.Rare:
                 capDatabaseIndex = 1;
                 break;
-            case Rarity.EPIC:
+            case Rarity.Epic:
                 capDatabaseIndex = 2;
                 break;
-            case Rarity.LEGENDARY:
+            case Rarity.Legendary:
                 capDatabaseIndex = 3;
                 break;
         }
@@ -294,13 +294,13 @@ public class TravelingMerchant : MonoBehaviour
     }
     int ConvertRarityToPoint(Unit unit) {
         switch (unit.rarity) {
-            case Rarity.COMMON:
+            case Rarity.Common:
                 return 100 + unit.level * 10;
-            case Rarity.RARE:
+            case Rarity.Rare:
                 return 250 + unit.level * 10;
-            case Rarity.EPIC:
+            case Rarity.Epic:
                 return 1500 + unit.level * 10;
-            case Rarity.LEGENDARY:
+            case Rarity.Legendary:
                 return 10000 + unit.level * 10;
         }
         return -1;

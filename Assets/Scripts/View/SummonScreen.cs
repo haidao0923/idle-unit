@@ -37,31 +37,31 @@ public class SummonScreen : MonoBehaviour
                     ConsumableDatabase.consumables["Stone"][0].quantity -= 1;
                     random = Random.Range(0, 100);
                     if (random >= 95) {
-                        GetRandomUnit(Rarity.RARE);
+                        GetRandomUnit(Rarity.Rare);
                     } else {
-                        GetRandomUnit(Rarity.COMMON);
+                        GetRandomUnit(Rarity.Common);
                     }
                     break;
                 case SummonType.AdvanceStone:
                     ConsumableDatabase.consumables["Stone"][1].quantity -= 1;
                     random = Random.Range(0, 100);
                     if (random >= 95) {
-                        GetRandomUnit(Rarity.EPIC);
+                        GetRandomUnit(Rarity.Epic);
                     } else if (random >= 80) {
-                        GetRandomUnit(Rarity.RARE);
+                        GetRandomUnit(Rarity.Rare);
                     } else {
-                        GetRandomUnit(Rarity.COMMON);
+                        GetRandomUnit(Rarity.Common);
                     }
                     break;
                 case SummonType.UltimateStone:
                     ConsumableDatabase.consumables["Stone"][2].quantity -= 1;
                     random = Random.Range(0, 100);
                     if (random >= 97) {
-                        GetRandomUnit(Rarity.LEGENDARY);
+                        GetRandomUnit(Rarity.Legendary);
                     } else if (random >= 80) {
-                        GetRandomUnit(Rarity.EPIC);
+                        GetRandomUnit(Rarity.Epic);
                     } else {
-                        GetRandomUnit(Rarity.RARE);
+                        GetRandomUnit(Rarity.Rare);
                     }
                     break;
             }
@@ -74,16 +74,16 @@ public class SummonScreen : MonoBehaviour
     void GetRandomUnit(Rarity rarity) {
         int summonedUnitIndex = 0;
         switch (rarity) {
-            case Rarity.COMMON:
+            case Rarity.Common:
                 summonedUnitIndex = commonUnit[Random.Range(0, commonUnit.Length)];
                 break;
-            case Rarity.RARE:
+            case Rarity.Rare:
                 summonedUnitIndex = rareUnit[Random.Range(0, rareUnit.Length)];
                 break;
-            case Rarity.EPIC:
+            case Rarity.Epic:
                 summonedUnitIndex = epicUnit[Random.Range(0, epicUnit.Length)];
                 break;
-            case Rarity.LEGENDARY:
+            case Rarity.Legendary:
                 summonedUnitIndex = legendaryUnit[Random.Range(0, legendaryUnit.Length)];
                 break;
         }

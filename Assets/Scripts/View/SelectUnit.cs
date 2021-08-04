@@ -64,28 +64,28 @@ public class SelectUnit : MonoBehaviour
                 break;
             case DisplayType.COMMON:
                 for (int i = 0; i < player.inventory.Count; i++) {
-                    if (player.inventory[i].rarity == Rarity.COMMON) {
+                    if (player.inventory[i].rarity == Rarity.Common) {
                         displayedUnit.Add(player.inventory[i]);
                     }
                 }
                 break;
             case DisplayType.RARE:
                 for (int i = 0; i < player.inventory.Count; i++) {
-                    if (player.inventory[i].rarity == Rarity.RARE) {
+                    if (player.inventory[i].rarity == Rarity.Rare) {
                         displayedUnit.Add(player.inventory[i]);
                     }
                 }
                 break;
             case DisplayType.EPIC:
                 for (int i = 0; i < player.inventory.Count; i++) {
-                    if (player.inventory[i].rarity == Rarity.EPIC) {
+                    if (player.inventory[i].rarity == Rarity.Epic) {
                         displayedUnit.Add(player.inventory[i]);
                     }
                 }
                 break;
             case DisplayType.LEGENDARY:
                 for (int i = 0; i < player.inventory.Count; i++) {
-                    if (player.inventory[i].rarity == Rarity.LEGENDARY) {
+                    if (player.inventory[i].rarity == Rarity.Legendary) {
                         displayedUnit.Add(player.inventory[i]);
                     }
                 }

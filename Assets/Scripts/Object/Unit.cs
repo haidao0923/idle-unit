@@ -67,13 +67,13 @@ public class Unit
 
     public static string GetRarityAcronym(Rarity rarity) {
         switch (rarity) {
-            case Rarity.COMMON:
+            case Rarity.Common:
                 return "C";
-            case Rarity.RARE:
+            case Rarity.Rare:
                 return "R";
-            case Rarity.EPIC:
+            case Rarity.Epic:
                 return "E";
-            case Rarity.LEGENDARY:
+            case Rarity.Legendary:
                 return "L";
             default:
                 return "";
@@ -81,13 +81,13 @@ public class Unit
     }
     public static Color GetRarityColor(Rarity rarity) {
         switch (rarity) {
-            case Rarity.COMMON:
+            case Rarity.Common:
                 return new Color32(128,128,128,255);
-            case Rarity.RARE:
+            case Rarity.Rare:
                 return new Color32(13,115,13,255);
-            case Rarity.EPIC:
+            case Rarity.Epic:
                 return new Color32(90,14,115,255);
-            case Rarity.LEGENDARY:
+            case Rarity.Legendary:
                 return new Color32(243,143,0,255);
             default:
                 return new Color32(0,0,0,255);
@@ -96,17 +96,17 @@ public class Unit
     public Sprite GetElementSprite() {
         AuraSprite auraSprite = GameObject.FindGameObjectWithTag("GameController").GetComponent<AuraSprite>();
         switch (element) {
-            case Element.FIRE:
+            case Element.Fire:
                 return auraSprite.fireAura;
-            case Element.WIND:
+            case Element.Wind:
                 return auraSprite.windAura;
-            case Element.EARTH:
+            case Element.Earth:
                 return auraSprite.earthAura;
-            case Element.THUNDER:
+            case Element.Thunder:
                 return auraSprite.thunderAura;
-            case Element.WATER:
+            case Element.Water:
                 return auraSprite.waterAura;
-            case Element.VOID:
+            case Element.Void:
                 return auraSprite.voidAura;
             default:
                 return null;
@@ -114,28 +114,28 @@ public class Unit
     }
     public bool HasElementalAdvantage(Unit other) {
         switch (element) {
-            case Element.FIRE:
-                if (other.element == Element.WIND) {
+            case Element.Fire:
+                if (other.element == Element.Wind) {
                     return true;
                 }
                 break;
-            case Element.WIND:
-                if (other.element == Element.EARTH) {
+            case Element.Wind:
+                if (other.element == Element.Earth) {
                     return true;
                 }
                 break;
-            case Element.EARTH:
-                if (other.element == Element.THUNDER) {
+            case Element.Earth:
+                if (other.element == Element.Thunder) {
                     return true;
                 }
                 break;
-            case Element.THUNDER:
-                if (other.element == Element.WATER) {
+            case Element.Thunder:
+                if (other.element == Element.Water) {
                     return true;
                 }
                 break;
-            case Element.WATER:
-                if (other.element == Element.FIRE) {
+            case Element.Water:
+                if (other.element == Element.Fire) {
                     return true;
                 }
                 break;
@@ -509,10 +509,10 @@ public class Unit
 }
 
 public enum Rarity {
-    COMMON = 5, RARE = 10, EPIC = 25, LEGENDARY = 50
+    Common = 5, Rare = 10, Epic = 25, Legendary = 50
 }
 public enum Element {
-    FIRE, WIND, EARTH, THUNDER, WATER, VOID
+    Fire, Wind, Earth, Thunder, Water, Void
 }
 
 public enum UnitType {

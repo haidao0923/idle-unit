@@ -118,16 +118,16 @@ public class UnitView : MonoBehaviour
 
         int rarityIndex = 0;
         switch (unit.rarity) {
-            case Rarity.COMMON:
+            case Rarity.Common:
                 rarityIndex = 0;
                 break;
-            case Rarity.RARE:
+            case Rarity.Rare:
                 rarityIndex = 1;
                 break;
-            case Rarity.EPIC:
+            case Rarity.Epic:
                 rarityIndex = 2;
                 break;
-            case Rarity.LEGENDARY:
+            case Rarity.Legendary:
                 rarityIndex = 3;
                 break;
         }
