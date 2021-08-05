@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class BattleScreen : MonoBehaviour
 {
-    Player player; SkillEffect skillEffect;
+    SkillEffect skillEffect;
     Adventure currentAdventure;
     int currentWave; WaveType waveType; Text waveDisplay;
     int minionWaveCount, restWaveCount, eliteWaveCount, bossWaveCount;
@@ -20,7 +20,6 @@ public class BattleScreen : MonoBehaviour
 
     void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("GameController").GetComponent<Player>();
         skillEffect = GetComponent<SkillEffect>();
         skillDisplay = transform.Find("Skill Display");
         advanceBanner = transform.Find("Advance Banner");
@@ -200,10 +199,10 @@ public class BattleScreen : MonoBehaviour
     }
     void InitializePlayerUnit() {
         for (int i = 0; i < 10; i++) {
-            if (player.formation[i] == -1) {
+            if (Player.formation[i] == -1) {
                 playerSide.formation[i] = null;
             } else {
-                playerSide.formation[i] = new Unit(player.inventory[player.formation[i]]);
+                playerSide.formation[i] = new Unit(Player.inventory[Player.formation[i]]);
             }
         }
     }
@@ -256,8 +255,8 @@ public class BattleScreen : MonoBehaviour
     void CopyExperienceGained() {
         for (int i = 0; i < 10; i++) {
             if (playerSide.formation[i] != null) {
-                player.inventory[player.formation[i]].SetLevel(playerSide.formation[i].level);
-                player.inventory[player.formation[i]].exp = playerSide.formation[i].exp;
+                Player.inventory[Player.formation[i]].SetLevel(playerSide.formation[i].level);
+                Player.inventory[Player.formation[i]].exp = playerSide.formation[i].exp;
             }
         }
         SaveAndLoad.data.SaveInventory();

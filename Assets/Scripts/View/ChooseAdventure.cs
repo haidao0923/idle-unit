@@ -68,18 +68,21 @@ public class ChooseAdventure : MonoBehaviour
     }
 
     void OnSlotClick(int adventureIndex, AdventureMode adventureMode) {
-        GameObject adventureDetails = transform.parent.Find("Adventure Details").gameObject;
+        Adventure tempAdventure = null;
         switch (adventureMode) {
             case AdventureMode.NORMAL:
-                adventureDetails.GetComponent<AdventureDetails>().adventure = AdventureDatabase.adventures[adventureIndex];
+                tempAdventure = AdventureDatabase.adventures[adventureIndex];
                 break;
             case AdventureMode.CHALLENGE:
-                adventureDetails.GetComponent<AdventureDetails>().adventure = AdventureDatabase.challengeAdventures[adventureIndex];
+                tempAdventure = AdventureDatabase.challengeAdventures[adventureIndex];
                 break;
             case AdventureMode.ASCENDED:
-                adventureDetails.GetComponent<AdventureDetails>().adventure = AdventureDatabase.ascendedAdventures[adventureIndex];
+                tempAdventure = AdventureDatabase.ascendedAdventures[adventureIndex];
                 break;
         }
+
+        GameObject adventureDetails = transform.parent.Find("Adventure Details").gameObject;
+        adventureDetails.GetComponent<AdventureDetails>().adventure = tempAdventure;
         adventureDetails.SetActive(true);
     }
 

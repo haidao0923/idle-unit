@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 public class SelectUnit : MonoBehaviour
 {
-    Player player;
     Transform slots, menu;
     public int formationIndex;
     public int inventoryIndex;
@@ -12,7 +11,6 @@ public class SelectUnit : MonoBehaviour
     List<Unit> displayedUnit = new List<Unit>();
     void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("GameController").GetComponent<Player>();
         slots = transform.Find("Border/Background/Slots");
         menu = transform.Find("Border/Background/Menu");
     }
@@ -49,7 +47,7 @@ public class SelectUnit : MonoBehaviour
         slot.GetChild(2).GetComponent<Image>().color = Unit.GetRarityColor(unit.rarity);
         slot.GetChild(2).GetChild(0).GetComponent<Text>().text = Unit.GetRarityAcronym(unit.rarity);
         slot.GetChild(3).GetChild(0).GetComponent<Image>().sprite = unit.GetElementSprite();
-        if (player.IndexInFormation((currentPage - 1) * 20 + slot.GetSiblingIndex()) != -1) {
+        if (Player.IndexInFormation((currentPage - 1) * 20 + slot.GetSiblingIndex()) != -1) {
             slot.GetChild(4).gameObject.SetActive(true);
         } else {
             slot.GetChild(4).gameObject.SetActive(false);
@@ -60,33 +58,33 @@ public class SelectUnit : MonoBehaviour
         displayedUnit = new List<Unit>();
         switch (displayType) {
             case DisplayType.ALL:
-                displayedUnit = player.inventory;
+                displayedUnit = Player.inventory;
                 break;
             case DisplayType.COMMON:
-                for (int i = 0; i < player.inventory.Count; i++) {
-                    if (player.inventory[i].rarity == Rarity.Common) {
-                        displayedUnit.Add(player.inventory[i]);
+                for (int i = 0; i < Player.inventory.Count; i++) {
+                    if (Player.inventory[i].rarity == Rarity.Common) {
+                        displayedUnit.Add(Player.inventory[i]);
                     }
                 }
                 break;
             case DisplayType.RARE:
-                for (int i = 0; i < player.inventory.Count; i++) {
-                    if (player.inventory[i].rarity == Rarity.Rare) {
-                        displayedUnit.Add(player.inventory[i]);
+                for (int i = 0; i < Player.inventory.Count; i++) {
+                    if (Player.inventory[i].rarity == Rarity.Rare) {
+                        displayedUnit.Add(Player.inventory[i]);
                     }
                 }
                 break;
             case DisplayType.EPIC:
-                for (int i = 0; i < player.inventory.Count; i++) {
-                    if (player.inventory[i].rarity == Rarity.Epic) {
-                        displayedUnit.Add(player.inventory[i]);
+                for (int i = 0; i < Player.inventory.Count; i++) {
+                    if (Player.inventory[i].rarity == Rarity.Epic) {
+                        displayedUnit.Add(Player.inventory[i]);
                     }
                 }
                 break;
             case DisplayType.LEGENDARY:
-                for (int i = 0; i < player.inventory.Count; i++) {
-                    if (player.inventory[i].rarity == Rarity.Legendary) {
-                        displayedUnit.Add(player.inventory[i]);
+                for (int i = 0; i < Player.inventory.Count; i++) {
+                    if (Player.inventory[i].rarity == Rarity.Legendary) {
+                        displayedUnit.Add(Player.inventory[i]);
                     }
                 }
                 break;

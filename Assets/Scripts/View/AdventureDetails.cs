@@ -1,11 +1,16 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class AdventureDetails : MonoBehaviour
 {
     public Adventure adventure;
-    // Start is called before the first frame update
+    [SerializeField] GameObject battleScreen;
+    [SerializeField] Text currentPointText;
+    [SerializeField] GameObject requirementPanel;
+    [SerializeField] Text[] requirementTexts;
+    [SerializeField] Text challengeTicketText;
+    [SerializeField] Button requirementStartButton;
 
     void OnEnable() {
         transform.Find("Border/Title").GetChild(0).GetComponent<Text>().text = adventure.name;
@@ -18,13 +23,28 @@ public class AdventureDetails : MonoBehaviour
             }
             slots.GetChild(i).GetChild(1).GetChild(0).GetComponent<Text>().text = adventure.rewards[i].description;
         }
-        transform.Find("Border/Background/Menu/Point").GetChild(0).GetComponent<Text>().text = "Current Point: " + adventure.currentPoint;
-        transform.Find("Border/Background/Menu/Start Button").GetComponent<Button>().onClick.RemoveAllListeners();
-        transform.Find("Border/Background/Menu/Start Button").GetComponent<Button>().onClick.AddListener(() => StartAdventure());
+        currentPointText.text = "Current Point: " + adventure.currentPoint;
+        requirementPanel.SetActive(false);
     }
-
-    void StartAdventure() {
-        Debug.Log(1);
+    public void CheckRequirement() {
+        if (!adventure.MeetRequirement(requirementTexts)) {
+            DisplayRequirement();
+            return;
+        }
+        StartAdventure();
+    }
+    public void StartAdventure() {
         GameObject.Find("Canvas/BattleScreen").GetComponent<BattleScreen>().StartAdventure(adventure);
+        this.gameObject.SetActive(false);
+        requirementPanel.SetActive(false);
+        battleScreen.SetActive(true);
+    }
+    void DisplayRequirement() {
+        requirementPanel.SetActive(true);
+        int challengeTicketAmount = ConsumableDatabase.consumables["Misc"][3].quantity;
+        challengeTicketText.text = "Challenge Ticket: " + challengeTicketAmount;
+        if (challengeTicketAmount > 0) {
+            requirementStartButton.interactable = true;
+        }
     }
 }

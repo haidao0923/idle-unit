@@ -21,7 +21,7 @@ public class UnitView : MonoBehaviour
         if (selectHeroIndex > 0) {
             unit = UnitDatabase.GetUnitById(selectHeroIndex);
         } else {
-            unit = player.inventory[inventoryIndex];
+            unit = Player.inventory[inventoryIndex];
         }
         UpdateDisplay();
     }
@@ -80,7 +80,7 @@ public class UnitView : MonoBehaviour
         }
 
         view.GetChild(8).GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
-        if (inventoryIndex == player.formation[formationIndex]) {
+        if (inventoryIndex == Player.formation[formationIndex]) {
             view.GetChild(8).GetChild(0).GetChild(0).GetComponent<Text>().text = "Remove";
             view.GetChild(8).GetChild(0).GetComponent<Button>().onClick.AddListener(() => Remove());
         } else {
@@ -97,8 +97,8 @@ public class UnitView : MonoBehaviour
     }
 
     public void Assign() {
-        for (int i = 0; i < player.formation.Length; i++) {
-            if (player.formation[i] == inventoryIndex) {
+        for (int i = 0; i < Player.formation.Length; i++) {
+            if (Player.formation[i] == inventoryIndex) {
                 player.RemoveFromFormation(i);
                 break;
             }

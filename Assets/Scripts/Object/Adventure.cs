@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Adventure
 {
@@ -49,6 +50,9 @@ public class Adventure
         this.bossLevelAdvantage = bossLevelAdvantage;
         this.sprite = sprite;
         this.rewards = rewards;
+    }
+    public virtual bool MeetRequirement(Text[] texts) {
+        return true;
     }
 }
 
@@ -103,9 +107,11 @@ public class Reward {
                 ConsumableDatabase.consumables["Potion"][extraInfo].quantity += rewardAmount;
                 break;
             case RewardType.CARD:
+                int[] indexArray = new int[rewardAmount];
                 for (int i = 0; i < rewardAmount; i++) {
-                    GameObject.FindGameObjectWithTag("GameController").GetComponent<Player>().AddToInventory(extraInfo);
+                    indexArray[i] = extraInfo;
                 }
+                GameObject.FindGameObjectWithTag("GameController").GetComponent<Player>().AddToInventory(indexArray);
                 break;
         }
     }

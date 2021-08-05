@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 public class FormationCircle : MonoBehaviour
 {
-    Player player;
     ViewController viewController;
     AuraSprite auraSprite;
     Unit currentUnit;
@@ -14,7 +13,6 @@ public class FormationCircle : MonoBehaviour
     void Start()
     {
         GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
-        player = gameController.GetComponent<Player>();
         viewController = gameController.GetComponent<ViewController>();
         auraSprite = gameController.GetComponent<AuraSprite>();
         UpdateUnitDisplay();
@@ -28,7 +26,7 @@ public class FormationCircle : MonoBehaviour
     }
 
     public void OnClick() {
-        int inventoryIndex = player.formation[formationIndex];
+        int inventoryIndex = Player.formation[formationIndex];
         if (inventoryIndex == -1) {
             viewController.OpenSelectUnit(formationIndex);
         } else {
@@ -37,9 +35,9 @@ public class FormationCircle : MonoBehaviour
     }
 
     public void UpdateUnitDisplay() {
-        if (player.formation[formationIndex] != -1) {
-            int inventoryIndex = player.formation[formationIndex];
-            Unit unit = player.inventory[inventoryIndex];
+        if (Player.formation[formationIndex] != -1) {
+            int inventoryIndex = Player.formation[formationIndex];
+            Unit unit = Player.inventory[inventoryIndex];
             for (int i = 0; i < transform.childCount - 1; i++) {
                 transform.GetChild(i).gameObject.SetActive(true);
             }

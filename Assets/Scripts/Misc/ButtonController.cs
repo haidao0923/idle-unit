@@ -13,7 +13,6 @@ public class ButtonController : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("GameController").GetComponent<Player>();
         buttons = transform.Find("Buttons");
         summonButton = buttons.Find("Summon Button").GetComponent<Button>();
         shopButton = buttons.Find("Shop Button").GetComponent<Button>();
@@ -25,8 +24,8 @@ public class ButtonController : MonoBehaviour
     void Update()
     {
         bool formationIsEmpty = true;
-        for (int i = 0; i < player.formation.Length; i++) {
-            if (player.formation[i] != -1) {
+        for (int i = 0; i < Player.formation.Length; i++) {
+            if (Player.formation[i] != -1) {
                 formationIsEmpty = false;
                 break;
             }

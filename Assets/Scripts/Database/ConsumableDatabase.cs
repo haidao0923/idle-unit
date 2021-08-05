@@ -7,7 +7,7 @@ public class ConsumableDatabase : MonoBehaviour
     public Sprite[] stoneSprites = new Sprite[3];
     public Sprite[] capSprites = new Sprite[4];
     public Sprite[] expPotionSprites = new Sprite[3];
-    public Sprite[] miscSprites = new Sprite[3];
+    public Sprite[] miscSprites = new Sprite[5];
     public static Dictionary<string, Consumable[]> consumables = new Dictionary<string, Consumable[]>();
     public static System.DateTime lastRevivedTime, currentReviveTime;
 
@@ -33,6 +33,8 @@ public class ConsumableDatabase : MonoBehaviour
             new Consumable("Coin", miscSprites[0]),
             new Consumable("Store Credit", miscSprites[1]),
             new Consumable("Phoenix's Feather", miscSprites[2]),
+            new Consumable("Challenge Ticket", miscSprites[3]),
+            new Consumable("Ascension Ticket", miscSprites[4]),
         });
     }
 

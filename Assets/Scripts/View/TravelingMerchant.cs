@@ -47,7 +47,7 @@ public class TravelingMerchant : MonoBehaviour
             closedShopTransform.gameObject.SetActive(true);
             closedShopTransform.GetChild(1).GetComponent<Text>().text = "Complete " + merchantUnlock[merchantIndex] + " different adventures to unlock the next merchant.";
             return;
-        } else if (player.inventory.Count <= 10) {
+        } else if (Player.inventory.Count <= 10) {
             closedShopTransform.gameObject.SetActive(true);
             closedShopTransform.GetChild(1).GetComponent<Text>().text = "You must have more than 10 units in your inventory for merchants to be interested in you.";
             return;
@@ -129,10 +129,10 @@ public class TravelingMerchant : MonoBehaviour
             Transform currentSlot = youLose.GetChild(i);
             int unitIndex;
             do {
-                unitIndex = Random.Range(0, player.inventory.Count);
+                unitIndex = Random.Range(0, Player.inventory.Count);
             } while (lossUnitIndex.Contains(unitIndex));
             lossUnitIndex.Add(unitIndex);
-            Unit currentUnit = player.inventory[lossUnitIndex[i]]; //Random Unit
+            Unit currentUnit = Player.inventory[lossUnitIndex[i]]; //Random Unit
             points += ConvertRarityToPoint(currentUnit);
             UpdateUnitSlot(currentSlot, currentUnit, unitIndex);
         }
@@ -153,8 +153,8 @@ public class TravelingMerchant : MonoBehaviour
         slot.GetChild(2).GetComponent<Image>().color = Unit.GetRarityColor(unit.rarity);
         slot.GetChild(2).GetChild(0).GetComponent<Text>().text = Unit.GetRarityAcronym(unit.rarity);
         slot.GetChild(3).GetChild(0).GetComponent<Image>().sprite = unit.GetElementSprite();
-        for (int i = 0, j = 0; i < player.formation.Length; i++) {
-            if (unitIndex == player.formation[i]) {
+        for (int i = 0, j = 0; i < Player.formation.Length; i++) {
+            if (unitIndex == Player.formation[i]) {
                 slot.GetChild(4).gameObject.SetActive(true);
                 j++;
                 break;
@@ -207,7 +207,7 @@ public class TravelingMerchant : MonoBehaviour
     }
     void MerchantOne() {
         int capDatabaseIndex = 0;
-        switch (player.inventory[lossUnitIndex[0]].rarity) {
+        switch (Player.inventory[lossUnitIndex[0]].rarity) {
             case Rarity.Common:
                 capDatabaseIndex = 0;
                 break;
@@ -221,7 +221,7 @@ public class TravelingMerchant : MonoBehaviour
                 capDatabaseIndex = 3;
                 break;
         }
-        int quantityToGain = player.inventory[lossUnitIndex[0]].capsAbsorbed + 1;
+        int quantityToGain = Player.inventory[lossUnitIndex[0]].capsAbsorbed + 1;
         consumableToGain.Add(new ConsumableToGain("Cap", capDatabaseIndex, quantityToGain));
     }
     void MerchantTwo() {

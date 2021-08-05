@@ -6,8 +6,8 @@ public class Player : MonoBehaviour
 {
     public GameObject formationObject;
     public GameObject selectHero;
-    public List<Unit> inventory = new List<Unit>();
-    public int[] formation = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+    public static List<Unit> inventory = new List<Unit>();
+    public static int[] formation = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
     void Awake()
     {
         if (inventory.Count == 0) {
@@ -26,11 +26,6 @@ public class Player : MonoBehaviour
             Debug.Log(formation[i]);
         }
         UpdateFormationDisplay();
-    }
-
-    void Update()
-    {
-
     }
 
     public void AddToInventory(params int[] units) {
@@ -87,7 +82,7 @@ public class Player : MonoBehaviour
             formationObject.transform.Find("Reserve").GetChild(i).GetComponent<FormationCircle>().needUpdate = true;
         }
     }
-    public int IndexInFormation(int index, bool toRemove = false) {
+    public static int IndexInFormation(int index, bool toRemove = false) {
         int returnedValue = -1;
         for (int i = 0; i < formation.Length; i++) {
             if (formation[i] == index) {
@@ -102,7 +97,7 @@ public class Player : MonoBehaviour
         return returnedValue;
     }
 
-    public List<int> GetInventoryIndexOfUnitsWithRarity(Rarity rarity) {
+    public static List<int> GetInventoryIndexOfUnitsWithRarity(Rarity rarity) {
         List<int> tempList = new List<int>();
         for (int i = 0; i < inventory.Count; i++) {
             if (inventory[i].rarity == rarity) {
@@ -111,7 +106,7 @@ public class Player : MonoBehaviour
         }
         return tempList;
     }
-    public List<int> GetInventoryIndexOfUnitsWithElement(Element element) {
+    public static List<int> GetInventoryIndexOfUnitsWithElement(Element element) {
         List<int> tempList = new List<int>();
         for (int i = 0; i < inventory.Count; i++) {
             if (inventory[i].element == element) {
@@ -119,5 +114,41 @@ public class Player : MonoBehaviour
             }
         }
         return tempList;
+    }
+
+    public static int UnitAmountInFormation() {
+        int unitAmountInFormation = 0;
+        for (int i = 0; i < formation.Length; i++) {
+            if (formation[i] != -1) {
+                unitAmountInFormation += 1;
+            }
+        }
+        return unitAmountInFormation;
+    }
+    public static int UnitAmountWithElementInFormation(Element[] element) {
+        int unitAmountInFormation = 0;
+        for (int i = 0; i < formation.Length; i++) {
+            if (formation[i] == -1) continue;
+            for (int j = 0; j < element.Length; j++) {
+                if (inventory[formation[i]].element == element[j]) {
+                    unitAmountInFormation += 1;
+                    break;
+                }
+            }
+        }
+        return unitAmountInFormation;
+    }
+    public static int UnitAmountWithRarityInFormation(Rarity[] rarity) {
+        int unitAmountInFormation = 0;
+        for (int i = 0; i < formation.Length; i++) {
+            if (formation[i] == -1) continue;
+            for (int j = 0; j < rarity.Length; j++) {
+                if (inventory[formation[i]].rarity == rarity[j]) {
+                    unitAmountInFormation += 1;
+                    break;
+                }
+            }
+        }
+        return unitAmountInFormation;
     }
 }

@@ -11,7 +11,6 @@ public class SaveAndLoad : MonoBehaviour
 {
     public static SaveAndLoad data;
     public bool isLoading;
-    public Player player;
     private int key = 369;
     string persistentDataPath;
     public SavedData savedData = new SavedData();
@@ -37,8 +36,8 @@ public class SaveAndLoad : MonoBehaviour
             return;
         }
         savedData.inventory.Clear();
-        for (int i = 0; i < player.inventory.Count; i++) {
-            Unit unit = player.inventory[i];
+        for (int i = 0; i < Player.inventory.Count; i++) {
+            Unit unit = Player.inventory[i];
             savedData.inventory.Add(new SavedUnitData(unit.id, unit.level, unit.capsAbsorbed, unit.exp));
         }
         Save();
@@ -47,7 +46,7 @@ public class SaveAndLoad : MonoBehaviour
         if (isLoading) {
             return;
         }
-        savedData.formation = player.formation;
+        savedData.formation = Player.formation;
         Save();
     }
     public void LoadInventoryAndFormation(SavedData loadedData) {
@@ -57,9 +56,9 @@ public class SaveAndLoad : MonoBehaviour
             unit.capsAbsorbed = loadedUnit.capsAbsorbed;
             unit.SetLevel(loadedUnit.level);
             unit.exp = loadedUnit.exp;
-            player.inventory.Add(unit);
+            Player.inventory.Add(unit);
         }
-        player.formation = loadedData.formation;
+        Player.formation = loadedData.formation;
 
     }
     public void SaveConsumable() {
