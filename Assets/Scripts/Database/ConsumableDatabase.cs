@@ -34,7 +34,8 @@ public class ConsumableDatabase : MonoBehaviour
             new Consumable("Store Credit", miscSprites[1]),
             new Consumable("Phoenix's Feather", miscSprites[2]),
             new Consumable("Challenge Ticket", miscSprites[3]),
-            new Consumable("Ascension Ticket", miscSprites[4]),
+            new Consumable("Ascended Ticket", miscSprites[4]),
+            new Consumable("Battle Credit", miscSprites[5]),
         });
     }
 

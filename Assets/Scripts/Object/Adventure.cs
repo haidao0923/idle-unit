@@ -34,10 +34,11 @@ public class Adventure
     }
     public static int[] pointTable = {1000, 2000, 5000, 8000, 12000, 16000, 20000, 25000, 35000, 50000, 75000, 100000};
     public Reward[] rewards = new Reward[12];
+    public string lore;
 
     public Adventure(int id, string name, int waveCount, int[] minionsId, int minMinionLevel, int maxMinionLevel,
                      int[] eliteFormation, LevelAdvantage eliteLevelAdvantage, int[] bossFormation, LevelAdvantage bossLevelAdvantage,
-                    Sprite sprite, Reward[] rewards = null) {
+                    Sprite sprite, Reward[] rewards, string lore) {
         this.id = id;
         this.name = name;
         this.waveCount = waveCount;
@@ -50,6 +51,7 @@ public class Adventure
         this.bossLevelAdvantage = bossLevelAdvantage;
         this.sprite = sprite;
         this.rewards = rewards;
+        this.lore = lore;
     }
     public virtual bool MeetRequirement(Text[] texts) {
         return true;

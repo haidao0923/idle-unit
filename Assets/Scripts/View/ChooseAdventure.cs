@@ -3,13 +3,13 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ChooseAdventure : MonoBehaviour
 {
-    Transform slots, menu;
+    [SerializeField] GameObject adventureDetail;
+    [SerializeField] Transform[] slots, menu;
+    [SerializeField] Image[] images;
+    [SerializeField] Text[] nameTexts, pointTexts;
+    [SerializeField] GameObject[] lockPanels;
+    [SerializeField] Button[] selectAdventureButtons, helpButtons;
     public int currentPage, maxPage;
-    void Awake()
-    {
-        slots = transform.Find("Border/Background/Slots");
-        menu = transform.Find("Border/Background/Menu");
-    }
 
     void OnEnable() {
         currentPage = 1;
@@ -18,53 +18,61 @@ public class ChooseAdventure : MonoBehaviour
 
     void UpdateDisplay() {
         UpdateNavigation();
-        int i = 0;
-        for (int j = (currentPage - 1) * 5; i < 5 && AdventureDatabase.adventures[j] != null; i++, j++) {
-            UpdateSlot(slots.GetChild(i), AdventureDatabase.adventures[j], j);
-            UpdateSlot(slots.GetChild(i + 5), AdventureDatabase.challengeAdventures[j], j, AdventureMode.CHALLENGE);
-            UpdateSlot(slots.GetChild(i + 10), AdventureDatabase.ascendedAdventures[j], j, AdventureMode.ASCENDED);
+        foreach (Button button in helpButtons) {
+            button.onClick.RemoveAllListeners();
         }
-        for ( ; i < 5; i++) {
-            Transform currentSlot = slots.GetChild(i);
-            for (int j = 0; j < currentSlot.childCount; j++) {
-                currentSlot.GetChild(j).gameObject.SetActive(false);
-            }
-            currentSlot = slots.GetChild(i + 5);
-            for (int j = 0; j < currentSlot.childCount; j++) {
-                currentSlot.GetChild(j).gameObject.SetActive(false);
-            }
-            currentSlot = slots.GetChild(i + 10);
-            for (int j = 0; j < currentSlot.childCount; j++) {
-                currentSlot.GetChild(j).gameObject.SetActive(false);
-            }
-        }
+        UpdateSlot(AdventureMode.NORMAL);
+        UpdateSlot(AdventureMode.CHALLENGE);
+        UpdateSlot(AdventureMode.ASCENDED);
     }
-    void UpdateSlot(Transform slot, Adventure adventure, int index, AdventureMode adventureMode = AdventureMode.NORMAL) {
-        for (int i = 0; i < slot.childCount; i++) {
-            slot.GetChild(i).gameObject.SetActive(true);
+    void UpdateSlot(AdventureMode adventureMode) {
+        int i = 0;
+        int adventureIndex = (currentPage - 1) * 5;
+        switch (adventureMode) {
+            case AdventureMode.NORMAL:
+                i = 0;
+                break;
+            case AdventureMode.CHALLENGE:
+                i = 5;
+                break;
+            case AdventureMode.ASCENDED:
+                i = 10;
+                break;
         }
-        slot.GetChild(0).GetComponent<Image>().sprite = adventure.sprite;
-        slot.GetChild(1).GetChild(0).GetComponent<Text>().text = adventure.name;
-        slot.GetChild(2).GetChild(0).GetComponent<Text>().text = adventure.currentPoint.ToString();
-        if ((adventureMode == AdventureMode.NORMAL && Adventure.clearedAdventures >= index)
-            || (adventureMode == AdventureMode.CHALLENGE && Adventure.clearedAdventures > index)
-            || (adventureMode == AdventureMode.ASCENDED && Adventure.clearedAdventures > index)) {
-            slot.GetChild(3).gameObject.SetActive(false);
-            slot.GetComponent<Button>().onClick.RemoveAllListeners();
-            slot.GetComponent<Button>().onClick.AddListener(() => OnSlotClick(index, adventureMode));
-        } else {
-            slot.GetChild(3).gameObject.SetActive(true);
-            slot.GetComponent<Button>().onClick.RemoveAllListeners();
+        int j = 0;
+        for ( ; j < 5 && AdventureDatabase.adventures[adventureIndex] != null; i++, adventureIndex++, j++) {
+            foreach (Transform child in slots[i]) {
+                child.gameObject.SetActive(true);
+            }
+            Adventure adventure = AdventureDatabase.adventures[adventureIndex];
+            images[i].sprite = adventure.sprite;
+            nameTexts[i].text = adventure.name;
+            pointTexts[i].text = adventure.currentPoint.ToString();
+            helpButtons[i].onClick.AddListener(() => OnHelpClick(adventureMode, adventureIndex));
+            if ((adventureMode == AdventureMode.NORMAL && Adventure.clearedAdventures >= adventureIndex)
+                || (adventureMode == AdventureMode.CHALLENGE && Adventure.clearedAdventures > adventureIndex)
+                || (adventureMode == AdventureMode.ASCENDED && Adventure.clearedAdventures > adventureIndex)) {
+                lockPanels[i].SetActive(false);
+                selectAdventureButtons[i].onClick.RemoveAllListeners();
+                selectAdventureButtons[i].onClick.AddListener(() => OnSlotClick(adventureIndex, adventureMode));
+            } else {
+                lockPanels[i].SetActive(true);
+            }
+        }
+        for ( ; j < 5; i++, j++) {
+            foreach (Transform child in slots[i]) {
+                child.gameObject.SetActive(false);
+            }
         }
     }
 
     void UpdateNavigation() {
-        maxPage = 1;
-        menu.GetChild(0).GetComponent<Text>().text = currentPage + "/" + maxPage;
-        menu.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
-        menu.GetChild(2).GetComponent<Button>().onClick.RemoveAllListeners();
-        menu.GetChild(1).GetComponent<Button>().onClick.AddListener(() => OnArrowClick(0));
-        menu.GetChild(2).GetComponent<Button>().onClick.AddListener(() => OnArrowClick(1));
+        maxPage = 8;
+        menu[0].GetComponent<Text>().text = currentPage + "/" + maxPage;
+        menu[1].GetComponent<Button>().onClick.RemoveAllListeners();
+        menu[2].GetComponent<Button>().onClick.RemoveAllListeners();
+        menu[1].GetComponent<Button>().onClick.AddListener(() => OnArrowClick(0));
+        menu[2].GetComponent<Button>().onClick.AddListener(() => OnArrowClick(1));
     }
 
     void OnSlotClick(int adventureIndex, AdventureMode adventureMode) {
@@ -80,12 +88,31 @@ public class ChooseAdventure : MonoBehaviour
                 tempAdventure = AdventureDatabase.ascendedAdventures[adventureIndex];
                 break;
         }
-
-        GameObject adventureDetails = transform.parent.Find("Adventure Details").gameObject;
-        adventureDetails.GetComponent<AdventureDetails>().adventure = tempAdventure;
-        adventureDetails.SetActive(true);
+        OpenAdventureDetail(tempAdventure);
     }
+    void OnHelpClick(AdventureMode adventureMode, int adventureIndex) {
+        OnSlotClick(adventureIndex, adventureMode);
+        switch (adventureMode) {
+            case AdventureMode.NORMAL:
+                OnShowLoreClick(adventureIndex);
+                break;
+            case AdventureMode.CHALLENGE:
+                OnViewChallengeClick(adventureIndex);
+                break;
+            case AdventureMode.ASCENDED:
+                OnViewAscendedDetailClick(adventureIndex);
+                break;
+        }
+    }
+    void OnViewChallengeClick(int adventureIndex) {
+        adventureDetail.GetComponent<AdventureDetails>().DisplayRequirement();
+    }
+    void OnShowLoreClick(int adventureIndex) {
+        adventureDetail.GetComponent<AdventureDetails>().DisplayLore();
+    }
+    void OnViewAscendedDetailClick(int adventureIndex) {
 
+    }
     public void OnArrowClick(int direction) {
         if (direction == 0 && currentPage > 1) { // 0 = Up
             currentPage -= 1;
@@ -96,7 +123,10 @@ public class ChooseAdventure : MonoBehaviour
         }
         UpdateDisplay();
     }
-
+    public void OpenAdventureDetail(Adventure adventure) {
+        adventureDetail.GetComponent<AdventureDetails>().adventure = adventure;
+        adventureDetail.SetActive(true);
+    }
     enum AdventureMode {
         NORMAL, CHALLENGE, ASCENDED
     }

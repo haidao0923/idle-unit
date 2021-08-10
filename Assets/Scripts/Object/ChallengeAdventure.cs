@@ -7,8 +7,8 @@ public class ChallengeAdventure : Adventure
     public Challenge[] challenges;
     public ChallengeAdventure(int id, string name, int waveCount, int[] minionsId, int minMinionLevel, int maxMinionLevel,
             int[] eliteFormation, LevelAdvantage eliteLevelAdvantage, int[] bossFormation, LevelAdvantage bossLevelAdvantage,
-            Sprite sprite, Reward[] rewards, Challenge[] challenges = null) : base(id, name, waveCount, minionsId, minMinionLevel, maxMinionLevel,
-            eliteFormation, eliteLevelAdvantage, bossFormation, bossLevelAdvantage, sprite, rewards) {
+            Sprite sprite, Reward[] rewards, Challenge[] challenges, string lore) : base(id, name, waveCount, minionsId, minMinionLevel, maxMinionLevel,
+            eliteFormation, eliteLevelAdvantage, bossFormation, bossLevelAdvantage, sprite, rewards, lore) {
         this.challenges = challenges;
     }
     public override bool MeetRequirement(Text[] texts) {
