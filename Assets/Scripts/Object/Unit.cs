@@ -11,6 +11,7 @@ public class Unit
     public Sprite sprite;
     public int level, levelCap, capsAbsorbed;
     public int exp, maxExp;
+    public int ascensionLevel = 1;
     const int EXP_SCALE = 20; // exp to next level = level * EXP_SCALE
     public Skill firstSkill;
     public Skill secondSkill;

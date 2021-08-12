@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class SelectHero : MonoBehaviour
 {
-    public ViewController viewController;
+    [SerializeField] UnitView unitViewScript;
     public void SelectHero1()
     {
         OpenHeroView(62);
@@ -26,6 +26,6 @@ public class SelectHero : MonoBehaviour
     }
     void OpenHeroView(int heroIndex)
     {
-        viewController.OpenUnitView(selectHeroIndex: heroIndex);
+        unitViewScript.OpenPanel(selectHeroIndex: heroIndex);
     }
 }

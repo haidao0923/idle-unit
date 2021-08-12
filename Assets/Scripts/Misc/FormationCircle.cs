@@ -4,16 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 public class FormationCircle : MonoBehaviour
 {
-    ViewController viewController;
+    [SerializeField] SelectUnit selectUnitScript;
+    [SerializeField] UnitView unitViewScript;
     AuraSprite auraSprite;
-    Unit currentUnit;
     public bool needUpdate;
 
-    public int formationIndex;
+    [SerializeField] int formationIndex;
     void Start()
     {
         GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
-        viewController = gameController.GetComponent<ViewController>();
         auraSprite = gameController.GetComponent<AuraSprite>();
         UpdateUnitDisplay();
     }
@@ -28,9 +27,9 @@ public class FormationCircle : MonoBehaviour
     public void OnClick() {
         int inventoryIndex = Player.formation[formationIndex];
         if (inventoryIndex == -1) {
-            viewController.OpenSelectUnit(formationIndex);
+            selectUnitScript.OpenPanel(formationIndex);
         } else {
-            viewController.OpenUnitView(formationIndex, inventoryIndex);
+            unitViewScript.OpenPanel(formationIndex, inventoryIndex);
         }
     }
 

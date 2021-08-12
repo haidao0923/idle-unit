@@ -38,7 +38,7 @@ public class SaveAndLoad : MonoBehaviour
         savedData.inventory.Clear();
         for (int i = 0; i < Player.inventory.Count; i++) {
             Unit unit = Player.inventory[i];
-            savedData.inventory.Add(new SavedUnitData(unit.id, unit.level, unit.capsAbsorbed, unit.exp));
+            savedData.inventory.Add(new SavedUnitData(unit.id, unit.level, unit.capsAbsorbed, unit.exp, unit.ascensionLevel));
         }
         Save();
     }
@@ -172,12 +172,14 @@ public class SavedUnitData {
     public int id;
     public int level, capsAbsorbed;
     public int exp;
+    public int ascensionLevel;
 
-    public SavedUnitData(int id, int level, int capsAbsorbed, int exp) {
+    public SavedUnitData(int id, int level, int capsAbsorbed, int exp, int ascensionLevel) {
         this.id = id;
         this.level = level;
         this.capsAbsorbed = capsAbsorbed;
         this.exp = exp;
+        this.ascensionLevel = ascensionLevel;
     }
 }
 

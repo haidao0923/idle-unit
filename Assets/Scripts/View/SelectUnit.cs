@@ -3,54 +3,61 @@ using UnityEngine;
 using UnityEngine.UI;
 public class SelectUnit : MonoBehaviour
 {
-    Transform slots, menu;
-    public int formationIndex;
-    public int inventoryIndex;
-    public int currentPage, maxPage;
+    [SerializeField] UnitView unitViewScript;
+    [SerializeField] Text pageNumberText;
+    [SerializeField] Button[] navigationButton;
+    [SerializeField] Transform[] slots, stars;
+    [SerializeField] Button[] slotButtons;
+    [SerializeField] Image[] images, rarityBackgrounds, elementSprite;
+    [SerializeField] Text[] levelText, rarityText;
+    [SerializeField] GameObject[] equippedGameObject;
+    int formationIndex;
+    int currentPage, maxPage;
     DisplayType displayType;
     List<Unit> displayedUnit = new List<Unit>();
-    void Awake()
-    {
-        slots = transform.Find("Border/Background/Slots");
-        menu = transform.Find("Border/Background/Menu");
-    }
 
-    void OnEnable() {
+    public void OpenPanel(int formationIndex) {
+        gameObject.SetActive(true);
+        this.formationIndex = formationIndex;
         displayType = DisplayType.ALL;
         currentPage = 1;
         UpdateDisplay();
     }
-
     void UpdateDisplay() {
         UpdateNavigation();
         int i = 0;
-        for (int j = (currentPage - 1) * 20; i < slots.childCount && j < displayedUnit.Count; i++, j++) {
-            Transform currentSlot = slots.GetChild(i);
+        for (int j = (currentPage - 1) * 20; i < slots.Length && j < displayedUnit.Count; i++, j++) {
             Unit currentUnit = displayedUnit[j];
-            UpdateSlot(currentSlot, currentUnit);
+            UpdateSlot(i, currentUnit);
         }
-        for ( ; i < slots.childCount; i++) {
-            Transform currentSlot = slots.GetChild(i);
-            for (int j = 0; j < currentSlot.childCount; j++) {
-                currentSlot.GetChild(j).gameObject.SetActive(false);
+        for ( ; i < slots.Length; i++) {
+            for (int j = 0; j < slots[i].childCount; j++) {
+                slots[i].GetChild(j).gameObject.SetActive(false);
             }
         }
     }
-    void UpdateSlot(Transform slot, Unit unit) {
-        slot.GetComponent<Button>().onClick.RemoveAllListeners();
-        slot.GetComponent<Button>().onClick.AddListener(() => OnSlotClick(slot.GetSiblingIndex()));
-        for (int i = 0; i < slot.childCount; i++) {
-            slot.GetChild(i).gameObject.SetActive(true);
+    void UpdateSlot(int index, Unit unit) {
+        slotButtons[index].onClick.RemoveAllListeners();
+        slotButtons[index].onClick.AddListener(() => OnSlotClick(index));
+        for (int i = 0; i < slots[index].childCount; i++) {
+            slots[index].GetChild(i).gameObject.SetActive(true);
         }
-        slot.GetChild(0).GetComponent<Image>().sprite = unit.sprite;
-        slot.GetChild(1).GetChild(0).GetComponent<Text>().text = "Lv " + unit.level;
-        slot.GetChild(2).GetComponent<Image>().color = Unit.GetRarityColor(unit.rarity);
-        slot.GetChild(2).GetChild(0).GetComponent<Text>().text = Unit.GetRarityAcronym(unit.rarity);
-        slot.GetChild(3).GetChild(0).GetComponent<Image>().sprite = unit.GetElementSprite();
-        if (Player.IndexInFormation((currentPage - 1) * 20 + slot.GetSiblingIndex()) != -1) {
-            slot.GetChild(4).gameObject.SetActive(true);
+        images[index].sprite = unit.sprite;
+        levelText[index].text = "Lv " + unit.level;
+        rarityBackgrounds[index].color = Unit.GetRarityColor(unit.rarity);
+        rarityText[index].text = Unit.GetRarityAcronym(unit.rarity);
+        elementSprite[index].sprite = unit.GetElementSprite();
+        for (int i = 0; i < 5; i++) {
+            if (unit.ascensionLevel > i) {
+                stars[index].GetChild(i).gameObject.SetActive(true);
+            } else {
+                stars[index].GetChild(i).gameObject.SetActive(false);
+            }
+        }
+        if (Player.IndexInFormation((currentPage - 1) * 20 + index) != -1) {
+            equippedGameObject[index].SetActive(true);
         } else {
-            slot.GetChild(4).gameObject.SetActive(false);
+            equippedGameObject[index].SetActive(false);
         }
     }
 
@@ -93,16 +100,16 @@ public class SelectUnit : MonoBehaviour
         if (maxPage == 0) {
             maxPage = 1;
         }
-        menu.GetChild(0).GetComponent<Text>().text = currentPage + "/" + maxPage;
-        menu.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
-        menu.GetChild(2).GetComponent<Button>().onClick.RemoveAllListeners();
-        menu.GetChild(1).GetComponent<Button>().onClick.AddListener(() => OnArrowClick(0));
-        menu.GetChild(2).GetComponent<Button>().onClick.AddListener(() => OnArrowClick(1));
+        pageNumberText.text = currentPage + "/" + maxPage;
+        navigationButton[0].onClick.RemoveAllListeners();
+        navigationButton[1].onClick.RemoveAllListeners();
+        navigationButton[0].onClick.AddListener(() => OnArrowClick(0));
+        navigationButton[1].onClick.AddListener(() => OnArrowClick(1));
     }
 
     public void OnSlotClick(int siblingIndex) {
         int inventoryIndex = (currentPage - 1) * 20 + siblingIndex;
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<ViewController>().OpenUnitView(formationIndex, inventoryIndex);
+        unitViewScript.OpenPanel(formationIndex, inventoryIndex);
     }
 
     public void OnArrowClick(int direction) {

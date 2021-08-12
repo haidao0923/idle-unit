@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
             ConsumableDatabase.consumables["Cap"][0].quantity = 10;
             ConsumableDatabase.consumables["Potion"][0].quantity = 10;
         }
+        ConsumableDatabase.consumables["Cap"][2].quantity = 10;
         ConsumableDatabase.consumables["Stone"][0].quantity = 10;
         ConsumableDatabase.consumables["Stone"][1].quantity = 10;
         ConsumableDatabase.consumables["Stone"][2].quantity = 10;

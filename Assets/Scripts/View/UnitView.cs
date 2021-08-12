@@ -3,21 +3,30 @@ using UnityEngine.UI;
 
 public class UnitView : MonoBehaviour
 {
-    Player player;
-    Transform view;
-    Transform slots;
-    public int formationIndex;
-    public int inventoryIndex;
-    public int selectHeroIndex = -1;
+    [SerializeField] Player player;
+    [SerializeField] Transform view;
+    [SerializeField] Transform ascensionStar;
+    [SerializeField] Text levelText, rarityText, nameText, expText;
+    [SerializeField] Image image, rarityBackground, elementSprite;
+    [SerializeField] GameObject[] skillGameObjects;
+    [SerializeField] Text[] skillNames, skillDescriptions, statTexts;
+    [SerializeField] Button[] buttons;
+    [SerializeField] Text[] buttonTexts;
+    [SerializeField] Button selectHeroButton;
+    [SerializeField] GameObject selectUnitPanel, selectHeroPanel, boostPanel, ascendPanel;
+    int formationIndex, inventoryIndex, selectHeroIndex;
     Unit unit;
+    private Transform slots;
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("GameController").GetComponent<Player>();
         view = transform.Find("Border/Background");
         slots = view.GetChild(9).Find("Border/Background/Slots");
     }
-
-    void OnEnable() {
+    public void OpenPanel(int formationIndex = -1, int inventoryIndex = -1, int selectHeroIndex = -1) {
+        this.formationIndex = formationIndex;
+        this.inventoryIndex = inventoryIndex;
+        this.selectHeroIndex = selectHeroIndex;
         if (selectHeroIndex > 0) {
             unit = UnitDatabase.GetUnitById(selectHeroIndex);
         } else {
@@ -27,72 +36,71 @@ public class UnitView : MonoBehaviour
     }
     void UpdateDisplay()
     {
-        view.GetChild(0).GetComponent<Image>().sprite = unit.sprite;
-        view.GetChild(1).GetChild(0).GetComponent<Text>().text = "Lv\n" + unit.level + "/" + unit.levelCap;
-        view.GetChild(2).GetComponent<Image>().color = Unit.GetRarityColor(unit.rarity);
-        view.GetChild(2).GetChild(0).GetComponent<Text>().text = Unit.GetRarityAcronym(unit.rarity);
-        view.GetChild(3).GetChild(0).GetComponent<Image>().sprite = unit.GetElementSprite();
-        view.GetChild(4).GetComponent<Text>().text = unit.name;
-        view.GetChild(5).GetChild(0).GetComponent<Text>().text = "XP: " + unit.exp + "/" + unit.maxExp;
+        image.sprite = unit.sprite;
+        levelText.text = "Lv\n" + unit.level + "/" + unit.levelCap;
+        rarityBackground.color = Unit.GetRarityColor(unit.rarity);
+        rarityText.text = Unit.GetRarityAcronym(unit.rarity);
+        elementSprite.sprite = unit.GetElementSprite();
+        nameText.text = unit.name;
+        expText.text = "XP: " + unit.exp + "/" + unit.maxExp;
         if (unit.firstSkill != null) {
-            view.GetChild(6).GetChild(1).gameObject.SetActive(true);
-            view.GetChild(6).GetChild(2).gameObject.SetActive(true);
-            view.GetChild(6).GetChild(1).GetChild(0).GetComponent<Text>().text = unit.firstSkill.name;
-            view.GetChild(6).GetChild(2).GetChild(0).GetComponent<Text>().text = unit.firstSkill.description;
+            skillGameObjects[0].SetActive(true);
+            skillNames[0].text = unit.firstSkill.name;
+            skillDescriptions[0].text = unit.firstSkill.description;
         } else {
-            view.GetChild(6).GetChild(1).gameObject.SetActive(false);
-            view.GetChild(6).GetChild(2).gameObject.SetActive(false);
+            skillGameObjects[0].SetActive(false);
         }
         if (unit.secondSkill != null) {
-            view.GetChild(6).GetChild(3).gameObject.SetActive(true);
-            view.GetChild(6).GetChild(4).gameObject.SetActive(true);
-            view.GetChild(6).GetChild(3).GetChild(0).GetComponent<Text>().text = unit.secondSkill.name;
-            view.GetChild(6).GetChild(4).GetChild(0).GetComponent<Text>().text = unit.secondSkill.description;
+            skillGameObjects[1].SetActive(true);
+            skillNames[1].text = unit.secondSkill.name;
+            skillDescriptions[1].text = unit.secondSkill.description;
         } else {
-            view.GetChild(6).GetChild(3).gameObject.SetActive(false);
-            view.GetChild(6).GetChild(4).gameObject.SetActive(false);
+            skillGameObjects[1].SetActive(false);
         }
         if (unit.thirdSkill != null) {
-            view.GetChild(6).GetChild(5).gameObject.SetActive(true);
-            view.GetChild(6).GetChild(6).gameObject.SetActive(true);
-            view.GetChild(6).GetChild(5).GetChild(0).GetComponent<Text>().text = unit.thirdSkill.name;
-            view.GetChild(6).GetChild(6).GetChild(0).GetComponent<Text>().text = unit.thirdSkill.description;
+            skillGameObjects[2].SetActive(true);
+            skillNames[2].text = unit.thirdSkill.name;
+            skillDescriptions[2].text = unit.thirdSkill.description;
         } else {
-            view.GetChild(6).GetChild(5).gameObject.SetActive(false);
-            view.GetChild(6).GetChild(6).gameObject.SetActive(false);
+            skillGameObjects[2].SetActive(false);
         }
-        view.GetChild(7).GetChild(1).GetChild(0).GetComponent<Text>().text = "Health: " + unit.stat.health;
-        view.GetChild(7).GetChild(2).GetChild(0).GetComponent<Text>().text = "Strength: " + unit.stat.strength;
-        view.GetChild(7).GetChild(3).GetChild(0).GetComponent<Text>().text = "Magic: " + unit.stat.magic;
-        view.GetChild(7).GetChild(4).GetChild(0).GetComponent<Text>().text = "Defense: " + unit.stat.defense;
-        view.GetChild(7).GetChild(5).GetChild(0).GetComponent<Text>().text = "Agility: " + unit.stat.agility;
-        view.GetChild(9).gameObject.SetActive(false);
+        statTexts[0].text = "Health: " + unit.stat.health;
+        statTexts[1].text = "Strength: " + unit.stat.strength;
+        statTexts[2].text = "Magic: " + unit.stat.magic;
+        statTexts[3].text = "Defense: " + unit.stat.defense;
+        statTexts[4].text = "Agility: " + unit.stat.agility;
+
+        boostPanel.SetActive(false);
 
         if (selectHeroIndex > 0) {
-            view.GetChild(8).gameObject.SetActive(false);
-            view.GetChild(10).gameObject.SetActive(true);
-            view.GetChild(10).GetComponent<Button>().onClick.RemoveAllListeners();
-            view.GetChild(10).GetComponent<Button>().onClick.AddListener(() => SelectHero(selectHeroIndex));
+            foreach (Button button in buttons) {
+                button.gameObject.SetActive(false);
+            }
+            selectHeroButton.gameObject.SetActive(true);
+            selectHeroButton.onClick.RemoveAllListeners();
+            selectHeroButton.onClick.AddListener(() => SelectHero(selectHeroIndex));
             return;
         } else {
-            view.GetChild(8).gameObject.SetActive(true);
-            view.GetChild(10).gameObject.SetActive(false);
+            foreach (Button button in buttons) {
+                button.gameObject.SetActive(true);
+            }
+            selectHeroButton.gameObject.SetActive(false);
         }
 
-        view.GetChild(8).GetChild(0).GetComponent<Button>().onClick.RemoveAllListeners();
+        buttons[0].onClick.RemoveAllListeners();
         if (inventoryIndex == Player.formation[formationIndex]) {
-            view.GetChild(8).GetChild(0).GetChild(0).GetComponent<Text>().text = "Remove";
-            view.GetChild(8).GetChild(0).GetComponent<Button>().onClick.AddListener(() => Remove());
+            buttonTexts[0].text = "Remove";
+            buttons[0].onClick.AddListener(() => Remove());
         } else {
-            view.GetChild(8).GetChild(0).GetChild(0).GetComponent<Text>().text = "Assign";
-            view.GetChild(8).GetChild(0).GetComponent<Button>().onClick.AddListener(() => Assign());
+            buttonTexts[0].text = "Assign";
+            buttons[0].onClick.AddListener(() => Assign());
         }
-        view.GetChild(8).GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
-        view.GetChild(8).GetChild(1).GetComponent<Button>().onClick.AddListener(() => OpenBoost());
+        buttons[1].onClick.RemoveAllListeners();
+        buttons[1].onClick.AddListener(() => OpenBoost());
     }
     void SelectHero(int selectHeroIndex) {
         player.AddToInventory(selectHeroIndex, 4, 4, 11, 11);
-        transform.parent.Find("Select Hero").gameObject.SetActive(false);
+        selectHeroPanel.SetActive(false);
         gameObject.SetActive(false);
     }
 
@@ -104,12 +112,12 @@ public class UnitView : MonoBehaviour
             }
         }
         player.AddToFormation(formationIndex, inventoryIndex);
-        transform.parent.Find("Select Unit").gameObject.SetActive(false);
+        selectUnitPanel.SetActive(false);
         gameObject.SetActive(false);
     }
     public void Remove() {
         player.RemoveFromFormation(formationIndex);
-        transform.parent.Find("Select Unit").gameObject.SetActive(false);
+        selectUnitPanel.SetActive(false);
         gameObject.SetActive(false);
     }
 
@@ -152,7 +160,7 @@ public class UnitView : MonoBehaviour
 
     void UpdateCapDisplay(int capIndex) {
         slots.GetChild(0).GetChild(3).GetChild(0).GetComponent<Text>().text = "Quantity: " + ConsumableDatabase.consumables["Cap"][capIndex].quantity;
-        if (unit.levelCap >= 100) {
+        if (unit.levelCap >= 100 * unit.ascensionLevel) {
             slots.GetChild(0).GetChild(2).GetChild(0).GetComponent<Text>().text = "Max Reached!";
             slots.GetChild(0).GetChild(0).GetComponent<Button>().interactable = false;
         } else if (ConsumableDatabase.consumables["Cap"][capIndex].quantity <= 0) {

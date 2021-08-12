@@ -48,13 +48,14 @@ public class ChooseAdventure : MonoBehaviour
             images[i].sprite = adventure.sprite;
             nameTexts[i].text = adventure.name;
             pointTexts[i].text = adventure.currentPoint.ToString();
-            helpButtons[i].onClick.AddListener(() => OnHelpClick(adventureMode, adventureIndex));
+            int tempAdventureIndex = adventureIndex;
+            helpButtons[i].onClick.AddListener(() => OnHelpClick(adventureMode, tempAdventureIndex));
             if ((adventureMode == AdventureMode.NORMAL && Adventure.clearedAdventures >= adventureIndex)
                 || (adventureMode == AdventureMode.CHALLENGE && Adventure.clearedAdventures > adventureIndex)
                 || (adventureMode == AdventureMode.ASCENDED && Adventure.clearedAdventures > adventureIndex)) {
                 lockPanels[i].SetActive(false);
                 selectAdventureButtons[i].onClick.RemoveAllListeners();
-                selectAdventureButtons[i].onClick.AddListener(() => OnSlotClick(adventureIndex, adventureMode));
+                selectAdventureButtons[i].onClick.AddListener(() => OnSlotClick(tempAdventureIndex, adventureMode));
             } else {
                 lockPanels[i].SetActive(true);
             }
